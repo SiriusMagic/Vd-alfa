@@ -27,7 +27,10 @@ import {
   ArrowUp,
   ArrowDown,
   Compass,
-  Target
+  Target,
+  Brain,
+  Snowflake,
+  Heart
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
@@ -35,14 +38,32 @@ import SuspensionControl from './SuspensionControl';
 import SituationalAwareness from './SituationalAwareness'; 
 import VirtualTransmission from './VirtualTransmission';
 import AdvancedDiagnostics from './AdvancedDiagnostics';
+import PowerControlSystem from './PowerControlSystem';
+import BionicCooling from './BionicCooling';
 
 const VehicleInterface = () => {
   const [vehicleData, setVehicleData] = useState(mockData);
   const [driveMode, setDriveMode] = useState('AWD');
+  const [powerControlMode, setPowerControlMode] = useState('axle'); // 'axle', 'individual', 'ai'
   const [powerDistribution, setPowerDistribution] = useState([60, 40]);
   const [motorControls, setMotorControls] = useState({
     rear: { voltage: 400, amperage: 150 },
     front: { voltage: 380, amperage: 120 }
+  });
+  const [individualMotorControls, setIndividualMotorControls] = useState({
+    rearLeft: { voltage: 400, amperage: 150 },
+    rearRight: { voltage: 400, amperage: 150 },
+    frontLeft: { voltage: 380, amperage: 120 },
+    frontRight: { voltage: 380, amperage: 120 }
+  });
+  const [aiPowerActive, setAiPowerActive] = useState(false);
+  const [bionicCooling, setBionicCooling] = useState({
+    active: true,
+    temperature: -15, // °C
+    pulseRate: 72, // BPM equivalent
+    arterialPressure: 85, // %
+    venousReturn: 92, // %
+    cryoFluidLevel: 94 // %
   });
   const [savedConfigs, setSavedConfigs] = useState(presetConfigs);
   const [activeConfig, setActiveConfig] = useState('Custom');
@@ -60,8 +81,12 @@ const VehicleInterface = () => {
         setVehicleData(prev => ({
           ...prev,
           speed: Math.max(0, prev.speed + (Math.random() - 0.5) * 3),
-          batteryTemp: prev.batteryTemp + (Math.random() - 0.5) * 0.8,
-          torque: motorControls.rear.amperage + motorControls.front.amperage + (Math.random() - 0.5) * 15,
+          batteryTemp: bionicCooling.active ? 
+            Math.max(15, prev.batteryTemp + (Math.random() - 0.8) * 0.5) : 
+            prev.batteryTemp + (Math.random() - 0.5) * 0.8,
+          torque: powerControlMode === 'ai' && aiPowerActive ? 
+            450 + (Math.random() - 0.5) * 50 :
+            (motorControls.rear.amperage + motorControls.front.amperage) + (Math.random() - 0.5) * 15,
           gForce: {
             x: (Math.random() - 0.5) * 2,
             y: (Math.random() - 0.5) * 1.5,
@@ -76,11 +101,65 @@ const VehicleInterface = () => {
             rr: 33 + (Math.random() - 0.5) * 2
           }
         }));
+
+        // Update bionic cooling system
+        setBionicCooling(prev => ({
+          ...prev,
+          temperature: prev.active ? -15 + (Math.random() - 0.5) * 3 : prev.temperature + 1,
+          pulseRate: 72 + (Math.random() - 0.5) * 10,
+          arterialPressure: 85 + (Math.random() - 0.5) * 10,
+          venousReturn: 92 + (Math.random() - 0.5) * 5,
+          cryoFluidLevel: Math.max(50, prev.cryoFluidLevel - 0.01)
+        }));
       }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [motorControls, hibernationMode]);
+  }, [motorControls, hibernationMode, bionicCooling.active, powerControlMode, aiPowerActive]);
+
+  const handlePowerControlModeChange = (mode) => {
+    setPowerControlMode(mode);
+    setActiveConfig('Custom');
+    
+    let description = '';
+    switch(mode) {
+      case 'axle':
+        description = 'Control por ejes delantero y trasero';
+        break;
+      case 'individual':
+        description = 'Control independiente de cada motor';
+        break;
+      case 'ai':
+        description = 'IA gestiona la potencia automáticamente';
+        break;
+    }
+    
+    toast({
+      title: `Modo de potencia: ${mode.toUpperCase()}`,
+      description: description,
+    });
+  };
+
+  const handleAiPowerToggle = () => {
+    setAiPowerActive(!aiPowerActive);
+    if (!aiPowerActive) {
+      // AI takes control
+      setPowerDistribution([70, 30]);
+      setMotorControls({
+        rear: { voltage: 520, amperage: 220 },
+        front: { voltage: 480, amperage: 180 }
+      });
+      toast({
+        title: "🧠 IA ACTIVADA",
+        description: "Sistema inteligente optimizando potencia en tiempo real",
+      });
+    } else {
+      toast({
+        title: "IA desactivada",
+        description: "Control manual restaurado",
+      });
+    }
+  };
 
   const handleDriveProfileChange = (profile) => {
     setDriveProfile(profile);
@@ -107,23 +186,32 @@ const VehicleInterface = () => {
         front: { voltage: Math.min(600, prev.front.voltage + 100), amperage: Math.min(300, prev.front.amperage + 50) }
       }));
       
+      // Boost bionic cooling
+      setBionicCooling(prev => ({ ...prev, pulseRate: 120, arterialPressure: 95 }));
+      
       setTimeout(() => {
         setOverdrive(false);
+        setBionicCooling(prev => ({ ...prev, pulseRate: 72, arterialPressure: 85 }));
         toast({
           title: "Overdrive desactivado",
-          description: "Potencia restaurada a niveles normales",
+          description: "Potencia y refrigeración restauradas",
         });
       }, 30000);
       
       toast({
-        title: "⚡ OVERDRIVE ACTIVADO",
-        description: "Potencia máxima por 30 segundos",
+        title: "⚡ OVERDRIVE + CRIOGÉNICO ACTIVADO",
+        description: "Potencia máxima con refrigeración biónica acelerada",
       });
     }
   };
 
   const handleHibernationToggle = () => {
     setHibernationMode(!hibernationMode);
+    setBionicCooling(prev => ({ 
+      ...prev, 
+      active: hibernationMode, 
+      pulseRate: hibernationMode ? 72 : 20 
+    }));
     toast({
       title: hibernationMode ? "Despertar del hibernación" : "Modo hibernación activado",
       description: hibernationMode ? "Todos los sistemas activos" : "Sistemas en modo de bajo consumo",
@@ -149,24 +237,6 @@ const VehicleInterface = () => {
     }
   };
 
-  const handlePowerDistributionChange = (values) => {
-    const rear = values[0];
-    const front = 100 - rear;
-    setPowerDistribution([rear, front]);
-    setActiveConfig('Custom');
-  };
-
-  const handleMotorControlChange = (motor, type, value) => {
-    setMotorControls(prev => ({
-      ...prev,
-      [motor]: {
-        ...prev[motor],
-        [type]: value[0]
-      }
-    }));
-    setActiveConfig('Custom');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white p-4">
       <div className="max-w-7xl mx-auto space-y-6">
@@ -174,7 +244,7 @@ const VehicleInterface = () => {
         {/* Header with Status Indicators */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-2">
-            TROPHY TRUCK ELÉCTRICO
+            TROPHY TRUCK ELÉCTRICO - SISTEMA BIÓNICO
           </h1>
           <div className="flex justify-center space-x-4 mb-4">
             <Badge variant={hibernationMode ? "destructive" : "default"} className="text-sm">
@@ -183,17 +253,20 @@ const VehicleInterface = () => {
             <Badge variant={overdrive ? "destructive" : "outline"} className="text-sm">
               {overdrive ? "⚡ OVERDRIVE" : "NORMAL"}
             </Badge>
-            <Badge variant="outline" className="text-sm">
-              PERFIL: {driveProfile}
+            <Badge variant={bionicCooling.active ? "default" : "destructive"} className="text-sm">
+              {bionicCooling.active ? "❄️ CRIOGÉNICO" : "ENFRIAMIENTO OFF"}
             </Badge>
             <Badge variant="outline" className="text-sm">
-              MARCHA: {currentGear}
+              POTENCIA: {powerControlMode.toUpperCase()}
+            </Badge>
+            <Badge variant={aiPowerActive ? "destructive" : "outline"} className="text-sm">
+              {aiPowerActive ? "🧠 IA ACTIVA" : "MANUAL"}
             </Badge>
           </div>
         </div>
 
         {/* Emergency Controls */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
           <Button 
             variant={overdrive ? "destructive" : "outline"}
             onClick={handleOverdriveToggle}
@@ -223,7 +296,17 @@ const VehicleInterface = () => {
             REGEN {regenMode.toUpperCase()}
           </Button>
           
-          <div className="grid grid-cols-3 gap-2">
+          <Button 
+            variant={bionicCooling.active ? "default" : "destructive"}
+            onClick={() => setBionicCooling(prev => ({ ...prev, active: !prev.active }))}
+            disabled={hibernationMode}
+            className="h-16 text-lg"
+          >
+            <Snowflake className="w-6 h-6 mr-2" />
+            CRIOGÉNICO
+          </Button>
+          
+          <div className="grid grid-cols-3 gap-1">
             {driveProfiles.map((profile) => (
               <Button
                 key={profile.name}
@@ -240,10 +323,18 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-6 bg-slate-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
               <Gauge className="w-4 h-4 mr-2" />
               Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="power" className="data-[state=active]:bg-yellow-600">
+              <Zap className="w-4 h-4 mr-2" />
+              Potencia
+            </TabsTrigger>
+            <TabsTrigger value="cooling" className="data-[state=active]:bg-blue-600">
+              <Heart className="w-4 h-4 mr-2" />
+              Criogénico
             </TabsTrigger>
             <TabsTrigger value="suspension" className="data-[state=active]:bg-orange-600">
               <Mountain className="w-4 h-4 mr-2" />
@@ -252,10 +343,6 @@ const VehicleInterface = () => {
             <TabsTrigger value="awareness" className="data-[state=active]:bg-green-600">
               <Eye className="w-4 h-4 mr-2" />
               Sensores
-            </TabsTrigger>
-            <TabsTrigger value="transmission" className="data-[state=active]:bg-purple-600">
-              <Settings className="w-4 h-4 mr-2" />
-              Transmisión
             </TabsTrigger>
             <TabsTrigger value="diagnostics" className="data-[state=active]:bg-red-600">
               <Activity className="w-4 h-4 mr-2" />
@@ -301,7 +388,9 @@ const VehicleInterface = () => {
                     <Progress value={vehicleData.batteryLevel} className="h-2" />
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-400">Temp:</span>
-                      <span className="text-orange-400 flex items-center">
+                      <span className={`flex items-center ${
+                        bionicCooling.active ? 'text-blue-400' : 'text-orange-400'
+                      }`}>
                         <Thermometer className="w-4 h-4 mr-1" />
                         {Math.round(vehicleData.batteryTemp)}°C
                       </span>
@@ -310,180 +399,84 @@ const VehicleInterface = () => {
                 </CardContent>
               </Card>
 
-              {/* G-Force & Attitude */}
+              {/* Bionic Cooling Status */}
               <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
-                    <Compass className="w-8 h-8 text-purple-400" />
-                    <Badge variant="outline" className="text-purple-400 border-purple-400">
-                      ACTITUD
+                    <Snowflake className="w-8 h-8 text-blue-400" />
+                    <Badge variant="outline" className="text-blue-400 border-blue-400">
+                      CRIOGÉNICO
                     </Badge>
                   </div>
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span>G-Force X:</span>
-                      <span className="text-purple-400">{vehicleData.gForce?.x?.toFixed(2)}g</span>
+                      <span>Temp. Crio:</span>
+                      <span className="text-blue-400">{bionicCooling.temperature.toFixed(1)}°C</span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Pitch:</span>
-                      <span className="text-purple-400">{vehicleData.pitch?.toFixed(1)}°</span>
+                      <span>Pulso:</span>
+                      <span className="text-purple-400 flex items-center">
+                        <Heart className="w-4 h-4 mr-1" />
+                        {bionicCooling.pulseRate} BPM
+                      </span>
                     </div>
                     <div className="flex justify-between">
-                      <span>Roll:</span>
-                      <span className="text-purple-400">{vehicleData.roll?.toFixed(1)}°</span>
+                      <span>Presión:</span>
+                      <span className="text-cyan-400">{bionicCooling.arterialPressure}%</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* Torque & Power */}
+              {/* Torque & AI Status */}
               <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between mb-4">
                     <Zap className="w-8 h-8 text-yellow-400" />
-                    <Badge variant="outline" className="text-yellow-400 border-yellow-400">
-                      TORQUE
+                    <Badge variant="outline" className={aiPowerActive ? "text-purple-400 border-purple-400" : "text-yellow-400 border-yellow-400"}>
+                      {aiPowerActive ? "IA TORQUE" : "TORQUE"}
                     </Badge>
                   </div>
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-yellow-400 mb-2">
+                    <div className={`text-3xl font-bold mb-2 ${aiPowerActive ? 'text-purple-400' : 'text-yellow-400'}`}>
                       {Math.round(vehicleData.torque)} Nm
                     </div>
                     <Progress value={vehicleData.torque} max={500} className="h-2" />
+                    {aiPowerActive && (
+                      <div className="text-xs text-purple-400 mt-2 flex items-center justify-center">
+                        <Brain className="w-4 h-4 mr-1" />
+                        IA optimizando
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
 
-            {/* Power Distribution Control */}
-            <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-              <CardContent className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-semibold text-cyan-400">
-                    Distribución de Potencia AWD
-                  </h3>
-                  <Badge className="bg-cyan-600">{activeConfig}</Badge>
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Trasera</span>
-                      <span className="text-cyan-400 font-bold">{powerDistribution[0]}%</span>
-                    </div>
-                    <Slider
-                      value={[powerDistribution[0]]}
-                      onValueChange={(values) => handlePowerDistributionChange(values)}
-                      max={100}
-                      step={1}
-                      className="w-full"
-                      disabled={driveMode !== 'AWD' || hibernationMode}
-                    />
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-slate-300">Delantera</span>
-                      <span className="text-cyan-400 font-bold">{powerDistribution[1]}%</span>
-                    </div>
-                    <Progress value={powerDistribution[1]} className="h-4" />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <TabsContent value="power">
+            <PowerControlSystem 
+              powerControlMode={powerControlMode}
+              setPowerControlMode={handlePowerControlModeChange}
+              powerDistribution={powerDistribution}
+              setPowerDistribution={setPowerDistribution}
+              motorControls={motorControls}
+              setMotorControls={setMotorControls}
+              individualMotorControls={individualMotorControls}
+              setIndividualMotorControls={setIndividualMotorControls}
+              aiPowerActive={aiPowerActive}
+              setAiPowerActive={handleAiPowerToggle}
+              disabled={hibernationMode}
+            />
+          </TabsContent>
 
-            {/* Motor Controls */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Rear Motor */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-red-400 mb-6">
-                    Motor Trasero
-                  </h3>
-                  
-                  <div className="space-y-6">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-slate-300">Voltaje</span>
-                        <span className="text-red-400 font-bold">{motorControls.rear.voltage}V</span>
-                      </div>
-                      <Slider
-                        value={[motorControls.rear.voltage]}
-                        onValueChange={(value) => handleMotorControlChange('rear', 'voltage', value)}
-                        min={200}
-                        max={600}
-                        step={5}
-                        className="w-full"
-                        disabled={hibernationMode}
-                      />
-                      <div className="text-xs text-slate-500 mt-1">Velocidad máxima</div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-slate-300">Amperaje</span>
-                        <span className="text-red-400 font-bold">{motorControls.rear.amperage}A</span>
-                      </div>
-                      <Slider
-                        value={[motorControls.rear.amperage]}
-                        onValueChange={(value) => handleMotorControlChange('rear', 'amperage', value)}
-                        min={50}
-                        max={300}
-                        step={5}
-                        className="w-full"
-                        disabled={hibernationMode}
-                      />
-                      <div className="text-xs text-slate-500 mt-1">Torque máximo</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Front Motor */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-blue-400 mb-6">
-                    Motor Delantero
-                  </h3>
-                  
-                  <div className="space-y-6">
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-slate-300">Voltaje</span>
-                        <span className="text-blue-400 font-bold">{motorControls.front.voltage}V</span>
-                      </div>
-                      <Slider
-                        value={[motorControls.front.voltage]}
-                        onValueChange={(value) => handleMotorControlChange('front', 'voltage', value)}
-                        min={200}
-                        max={600}
-                        step={5}
-                        className="w-full"
-                        disabled={hibernationMode}
-                      />
-                      <div className="text-xs text-slate-500 mt-1">Velocidad máxima</div>
-                    </div>
-                    
-                    <div>
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-slate-300">Amperaje</span>
-                        <span className="text-blue-400 font-bold">{motorControls.front.amperage}A</span>
-                      </div>
-                      <Slider
-                        value={[motorControls.front.amperage]}
-                        onValueChange={(value) => handleMotorControlChange('front', 'amperage', value)}
-                        min={50}
-                        max={300}
-                        step={5}
-                        className="w-full"
-                        disabled={hibernationMode}
-                      />
-                      <div className="text-xs text-slate-500 mt-1">Torque máximo</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+          <TabsContent value="cooling">
+            <BionicCooling 
+              bionicCooling={bionicCooling}
+              setBionicCooling={setBionicCooling}
+              vehicleData={vehicleData}
+              disabled={hibernationMode}
+            />
           </TabsContent>
 
           <TabsContent value="suspension">
@@ -492,16 +485,6 @@ const VehicleInterface = () => {
 
           <TabsContent value="awareness">
             <SituationalAwareness vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="transmission">
-            <VirtualTransmission 
-              currentGear={currentGear}
-              setCurrentGear={setCurrentGear}
-              motorControls={motorControls}
-              setMotorControls={setMotorControls}
-              disabled={hibernationMode}
-            />
           </TabsContent>
 
           <TabsContent value="diagnostics">
