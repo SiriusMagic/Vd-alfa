@@ -383,11 +383,258 @@ const BionicCooling = ({ bionicCooling, setBionicCooling, vehicleData, disabled 
         </CardContent>
       </Card>
 
+      {/* Bionic Flow Diagram */}
+      <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+        <CardContent className="p-6">
+          <h4 className="text-lg font-semibold text-cyan-400 mb-6">
+            Diagrama de Flujo Biónico - Red Vascular en Tiempo Real
+          </h4>
+          
+          <div className="relative bg-slate-800/30 rounded-xl p-6 overflow-hidden">
+            {/* Vehicle Outline SVG */}
+            <svg 
+              viewBox="0 0 800 400" 
+              className="w-full h-80 mx-auto"
+              style={{ filter: 'drop-shadow(0 0 10px rgba(6, 182, 212, 0.3))' }}
+            >
+              {/* Vehicle Body */}
+              <rect x="100" y="150" width="600" height="100" rx="20" 
+                    fill="none" stroke="#334155" strokeWidth="2" opacity="0.6"/>
+              
+              {/* Wheels */}
+              <circle cx="200" cy="280" r="30" fill="none" stroke="#475569" strokeWidth="3"/>
+              <circle cx="600" cy="280" r="30" fill="none" stroke="#475569" strokeWidth="3"/>
+              <circle cx="200" cy="120" r="30" fill="none" stroke="#475569" strokeWidth="3"/>
+              <circle cx="600" cy="120" r="30" fill="none" stroke="#475569" strokeWidth="3"/>
+              
+              {/* Main Components */}
+              {/* Front Motors */}
+              <rect x="650" y="140" width="40" height="30" rx="5" 
+                    fill="#1e40af" opacity="0.7" stroke="#3b82f6" strokeWidth="1"/>
+              <text x="665" y="158" fill="#60a5fa" fontSize="10" textAnchor="middle">FL</text>
+              <rect x="650" y="230" width="40" height="30" rx="5" 
+                    fill="#1e40af" opacity="0.7" stroke="#3b82f6" strokeWidth="1"/>
+              <text x="665" y="248" fill="#60a5fa" fontSize="10" textAnchor="middle">FR</text>
+              
+              {/* Rear Motors */}
+              <rect x="110" y="140" width="40" height="30" rx="5" 
+                    fill="#dc2626" opacity="0.7" stroke="#ef4444" strokeWidth="1"/>
+              <text x="125" y="158" fill="#f87171" fontSize="10" textAnchor="middle">RL</text>
+              <rect x="110" y="230" width="40" height="30" rx="5" 
+                    fill="#dc2626" opacity="0.7" stroke="#ef4444" strokeWidth="1"/>
+              <text x="125" y="248" fill="#f87171" fontSize="10" textAnchor="middle">RR</text>
+              
+              {/* Battery Pack */}
+              <rect x="350" y="180" width="100" height="40" rx="8" 
+                    fill="#059669" opacity="0.7" stroke="#10b981" strokeWidth="2"/>
+              <text x="400" y="202" fill="#34d399" fontSize="12" textAnchor="middle">BATTERY</text>
+              
+              {/* Cooling Core */}
+              <circle cx="400" cy="120" r="25" 
+                      fill="#0891b2" opacity="0.8" stroke="#06b6d4" strokeWidth="2"/>
+              <text x="400" y="125" fill="#67e8f9" fontSize="10" textAnchor="middle">CORE</text>
+              
+              {/* Arterial Network (Cold Flow) - Animated */}
+              <defs>
+                <linearGradient id="coldFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#3b82f6">
+                    <animate attributeName="stop-color" 
+                             values="#3b82f6;#06b6d4;#0891b2;#3b82f6" 
+                             dur="3s" repeatCount="indefinite"/>
+                  </stop>
+                  <stop offset="50%" stopColor="#06b6d4">
+                    <animate attributeName="stop-color" 
+                             values="#06b6d4;#0891b2;#3b82f6;#06b6d4" 
+                             dur="3s" repeatCount="indefinite"/>
+                  </stop>
+                  <stop offset="100%" stopColor="#0891b2">
+                    <animate attributeName="stop-color" 
+                             values="#0891b2;#3b82f6;#06b6d4;#0891b2" 
+                             dur="3s" repeatCount="indefinite"/>
+                  </stop>
+                </linearGradient>
+                
+                <linearGradient id="hotFlow" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#ef4444">
+                    <animate attributeName="stop-color" 
+                             values="#ef4444;#f97316;#eab308;#ef4444" 
+                             dur="2s" repeatCount="indefinite"/>
+                  </stop>
+                  <stop offset="50%" stopColor="#f97316">
+                    <animate attributeName="stop-color" 
+                             values="#f97316;#eab308;#ef4444;#f97316" 
+                             dur="2s" repeatCount="indefinite"/>
+                  </stop>
+                  <stop offset="100%" stopColor="#eab308">
+                    <animate attributeName="stop-color" 
+                             values="#eab308;#ef4444;#f97316;#eab308" 
+                             dur="2s" repeatCount="indefinite"/>
+                  </stop>
+                </linearGradient>
+                
+                {/* Pulsating Animation */}
+                <animate id="pulse" attributeName="r" 
+                         values="2;4;2" dur={`${60/bionicCooling.pulseRate}s`} repeatCount="indefinite"/>
+              </defs>
+              
+              {/* Main Arterial Lines (Cold Distribution) */}
+              <path d="M 400 145 Q 300 180 130 155" 
+                    fill="none" stroke="url(#coldFlow)" strokeWidth="4" opacity="0.8"/>
+              <path d="M 400 145 Q 300 220 130 245" 
+                    fill="none" stroke="url(#coldFlow)" strokeWidth="4" opacity="0.8"/>
+              <path d="M 400 145 Q 500 180 670 155" 
+                    fill="none" stroke="url(#coldFlow)" strokeWidth="4" opacity="0.8"/>
+              <path d="M 400 145 Q 500 220 670 245" 
+                    fill="none" stroke="url(#coldFlow)" strokeWidth="4" opacity="0.8"/>
+              <path d="M 400 145 L 400 180" 
+                    fill="none" stroke="url(#coldFlow)" strokeWidth="6" opacity="0.9"/>
+              
+              {/* Venous Return Lines (Hot Return) */}
+              <path d="M 150 155 Q 250 200 380 200" 
+                    fill="none" stroke="url(#hotFlow)" strokeWidth="3" opacity="0.7"/>
+              <path d="M 150 245 Q 250 200 380 200" 
+                    fill="none" stroke="url(#hotFlow)" strokeWidth="3" opacity="0.7"/>
+              <path d="M 650 155 Q 550 200 420 200" 
+                    fill="none" stroke="url(#hotFlow)" strokeWidth="3" opacity="0.7"/>
+              <path d="M 650 245 Q 550 200 420 200" 
+                    fill="none" stroke="url(#hotFlow)" strokeWidth="3" opacity="0.7"/>
+              
+              {/* Capillary Network (Micro-circulation) */}
+              <g opacity="0.6">
+                {/* Front Motor Capillaries */}
+                {[...Array(8)].map((_, i) => (
+                  <line key={`fl-cap-${i}`} 
+                        x1={660 + i * 2} y1="142" 
+                        x2={660 + i * 2} y2="168" 
+                        stroke="#10b981" strokeWidth="1">
+                    <animate attributeName="opacity" 
+                             values="0.3;0.8;0.3" 
+                             dur={`${1 + i * 0.1}s`} 
+                             repeatCount="indefinite"/>
+                  </line>
+                ))}
+                
+                {/* Rear Motor Capillaries */}
+                {[...Array(8)].map((_, i) => (
+                  <line key={`rl-cap-${i}`} 
+                        x1={120 + i * 2} y1="142" 
+                        x2={120 + i * 2} y2="168" 
+                        stroke="#10b981" strokeWidth="1">
+                    <animate attributeName="opacity" 
+                             values="0.3;0.8;0.3" 
+                             dur={`${1.2 + i * 0.1}s`} 
+                             repeatCount="indefinite"/>
+                  </line>
+                ))}
+                
+                {/* Battery Capillaries */}
+                {[...Array(15)].map((_, i) => (
+                  <line key={`bat-cap-${i}`} 
+                        x1={355 + i * 6} y1="182" 
+                        x2={355 + i * 6} y2="218" 
+                        stroke="#10b981" strokeWidth="1">
+                    <animate attributeName="opacity" 
+                             values="0.3;0.8;0.3" 
+                             dur={`${0.8 + i * 0.05}s`} 
+                             repeatCount="indefinite"/>
+                  </line>
+                ))}
+              </g>
+              
+              {/* Flow Particles */}
+              <g>
+                {/* Cold Flow Particles */}
+                {[...Array(6)].map((_, i) => (
+                  <circle key={`cold-particle-${i}`} r="2" fill="#06b6d4" opacity="0.8">
+                    <animateMotion dur={`${3 + i * 0.5}s`} repeatCount="indefinite">
+                      <path d="M 400 145 Q 300 180 130 155"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" 
+                             values="0;1;0" 
+                             dur={`${3 + i * 0.5}s`} 
+                             repeatCount="indefinite"/>
+                  </circle>
+                ))}
+                
+                {/* Hot Flow Particles */}
+                {[...Array(4)].map((_, i) => (
+                  <circle key={`hot-particle-${i}`} r="1.5" fill="#f97316" opacity="0.7">
+                    <animateMotion dur={`${4 + i * 0.3}s`} repeatCount="indefinite">
+                      <path d="M 150 155 Q 250 200 380 200"/>
+                    </animateMotion>
+                    <animate attributeName="opacity" 
+                             values="0;1;0" 
+                             dur={`${4 + i * 0.3}s`} 
+                             repeatCount="indefinite"/>
+                  </circle>
+                ))}
+              </g>
+              
+              {/* Pulsating Core */}
+              <circle cx="400" cy="120" r="3" fill="#67e8f9" opacity="0.9">
+                <animate attributeName="r" 
+                         values="3;8;3" 
+                         dur={`${60/bionicCooling.pulseRate}s`} 
+                         repeatCount="indefinite"/>
+                <animate attributeName="opacity" 
+                         values="0.9;0.4;0.9" 
+                         dur={`${60/bionicCooling.pulseRate}s`} 
+                         repeatCount="indefinite"/>
+              </circle>
+              
+              {/* Temperature Indicators */}
+              <text x="50" y="30" fill="#06b6d4" fontSize="14" fontWeight="bold">
+                ARTERIAL: {bionicCooling.temperature.toFixed(1)}°C
+              </text>
+              <text x="50" y="50" fill="#f97316" fontSize="14" fontWeight="bold">
+                VENOSO: {(bionicCooling.temperature + 15).toFixed(1)}°C
+              </text>
+              <text x="50" y="70" fill="#10b981" fontSize="14" fontWeight="bold">
+                CAPILAR: {fluidCirculation.capillary.toFixed(0)}% FLUJO
+              </text>
+              
+              {/* Pulse Indicator */}
+              <g transform="translate(650, 30)">
+                <text x="0" y="0" fill="#a855f7" fontSize="14" fontWeight="bold">
+                  PULSO: {bionicCooling.pulseRate} BPM
+                </text>
+                <circle cx="120" cy="-5" r="5" fill="#a855f7">
+                  <animate attributeName="r" 
+                           values="3;7;3" 
+                           dur={`${60/bionicCooling.pulseRate}s`} 
+                           repeatCount="indefinite"/>
+                  <animate attributeName="opacity" 
+                           values="1;0.3;1" 
+                           dur={`${60/bionicCooling.pulseRate}s`} 
+                           repeatCount="indefinite"/>
+                </circle>
+              </g>
+            </svg>
+            
+            {/* Flow Legend */}
+            <div className="mt-6 grid grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-2 bg-gradient-to-r from-blue-500 to-cyan-400 rounded"></div>
+                <span className="text-blue-400">Flujo Arterial (Frío)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-2 bg-gradient-to-r from-orange-500 to-yellow-400 rounded"></div>
+                <span className="text-orange-400">Retorno Venoso (Caliente)</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <div className="w-4 h-2 bg-green-400 rounded"></div>
+                <span className="text-green-400">Red Capilar (Micro)</span>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Temperature Map */}
       <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
         <CardContent className="p-6">
           <h4 className="text-lg font-semibold text-orange-400 mb-4">
-            Mapa Térmico en Tiempo Real - Vehículo
+            Mapa Térmico Complementario - Componentes
           </h4>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
