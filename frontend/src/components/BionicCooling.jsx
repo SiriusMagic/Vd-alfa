@@ -19,6 +19,7 @@ import {
   Wind
 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
+import BionicFlowDiagram from './BionicFlowDiagram';
 
 const BionicCooling = ({ bionicCooling, setBionicCooling, vehicleData, disabled }) => {
   const [emergencyCooling, setEmergencyCooling] = useState(false);
