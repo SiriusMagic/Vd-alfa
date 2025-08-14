@@ -30,7 +30,8 @@ import {
   Target,
   Brain,
   Snowflake,
-  Heart
+  Heart,
+  Sparkles
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
@@ -40,6 +41,7 @@ import VirtualTransmission from './VirtualTransmission';
 import AdvancedDiagnostics from './AdvancedDiagnostics';
 import PowerControlSystem from './PowerControlSystem';
 import BionicCooling from './BionicCooling';
+import SmartVehicleControl from './SmartVehicleControl';
 
 const VehicleInterface = () => {
   const [vehicleData, setVehicleData] = useState(mockData);
@@ -244,7 +246,7 @@ const VehicleInterface = () => {
         {/* Header with Status Indicators */}
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent mb-2">
-            TROPHY TRUCK ELÉCTRICO - SISTEMA BIÓNICO
+            TROPHY TRUCK ELÉCTRICO - SISTEMA INTELIGENTE
           </h1>
           <div className="flex justify-center space-x-4 mb-4">
             <Badge variant={hibernationMode ? "destructive" : "default"} className="text-sm">
@@ -323,10 +325,14 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-6 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-7 bg-slate-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
               <Gauge className="w-4 h-4 mr-2" />
               Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="smart" className="data-[state=active]:bg-purple-600">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Inteligente
             </TabsTrigger>
             <TabsTrigger value="power" className="data-[state=active]:bg-yellow-600">
               <Zap className="w-4 h-4 mr-2" />
@@ -452,6 +458,10 @@ const VehicleInterface = () => {
                 </CardContent>
               </Card>
             </div>
+          </TabsContent>
+
+          <TabsContent value="smart">
+            <SmartVehicleControl vehicleData={vehicleData} disabled={hibernationMode} />
           </TabsContent>
 
           <TabsContent value="power">
