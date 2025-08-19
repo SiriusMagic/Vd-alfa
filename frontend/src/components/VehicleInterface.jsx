@@ -42,6 +42,8 @@ import AdvancedDiagnostics from './AdvancedDiagnostics';
 import PowerControlSystem from './PowerControlSystem';
 import BionicCooling from './BionicCooling';
 import SmartVehicleControl from './SmartVehicleControl';
+import ComfortSystems from './ComfortSystems';
+import AdvancedDriving from './AdvancedDriving';
 
 const VehicleInterface = () => {
   const [vehicleData, setVehicleData] = useState(mockData);
