@@ -327,33 +327,41 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-7 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-9 bg-slate-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
-              <Gauge className="w-4 h-4 mr-2" />
+              <Gauge className="w-4 h-4 mr-1" />
               Dashboard
             </TabsTrigger>
             <TabsTrigger value="smart" className="data-[state=active]:bg-purple-600">
-              <Sparkles className="w-4 h-4 mr-2" />
+              <Sparkles className="w-4 h-4 mr-1" />
               Inteligente
             </TabsTrigger>
+            <TabsTrigger value="comfort" className="data-[state=active]:bg-indigo-600">
+              <Settings className="w-4 h-4 mr-1" />
+              Confort
+            </TabsTrigger>
+            <TabsTrigger value="driving" className="data-[state=active]:bg-emerald-600">
+              <Car className="w-4 h-4 mr-1" />
+              Conducción
+            </TabsTrigger>
             <TabsTrigger value="power" className="data-[state=active]:bg-yellow-600">
-              <Zap className="w-4 h-4 mr-2" />
+              <Zap className="w-4 h-4 mr-1" />
               Potencia
             </TabsTrigger>
             <TabsTrigger value="cooling" className="data-[state=active]:bg-blue-600">
-              <Heart className="w-4 h-4 mr-2" />
+              <Heart className="w-4 h-4 mr-1" />
               Criogénico
             </TabsTrigger>
             <TabsTrigger value="suspension" className="data-[state=active]:bg-orange-600">
-              <Mountain className="w-4 h-4 mr-2" />
+              <Mountain className="w-4 h-4 mr-1" />
               Suspensión
             </TabsTrigger>
             <TabsTrigger value="awareness" className="data-[state=active]:bg-green-600">
-              <Eye className="w-4 h-4 mr-2" />
+              <Eye className="w-4 h-4 mr-1" />
               Sensores
             </TabsTrigger>
             <TabsTrigger value="diagnostics" className="data-[state=active]:bg-red-600">
-              <Activity className="w-4 h-4 mr-2" />
+              <Activity className="w-4 h-4 mr-1" />
               Diagnósticos
             </TabsTrigger>
           </TabsList>
