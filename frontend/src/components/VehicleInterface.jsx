@@ -474,6 +474,14 @@ const VehicleInterface = () => {
             <SmartVehicleControl vehicleData={vehicleData} disabled={hibernationMode} />
           </TabsContent>
 
+          <TabsContent value="comfort">
+            <ComfortSystems vehicleData={vehicleData} disabled={hibernationMode} />
+          </TabsContent>
+
+          <TabsContent value="driving">
+            <AdvancedDriving vehicleData={vehicleData} disabled={hibernationMode} />
+          </TabsContent>
+
           <TabsContent value="power">
             <PowerControlSystem 
               powerControlMode={powerControlMode}
