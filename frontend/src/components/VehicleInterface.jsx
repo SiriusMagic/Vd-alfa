@@ -328,10 +328,14 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-9 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-10 bg-slate-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
               <Gauge className="w-4 h-4 mr-1" />
               Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="traction" className="data-[state=active]:bg-teal-600">
+              <ArrowLeftRight className="w-4 h-4 mr-1" />
+              Tracción
             </TabsTrigger>
             <TabsTrigger value="smart" className="data-[state=active]:bg-purple-600">
               <Sparkles className="w-4 h-4 mr-1" />
