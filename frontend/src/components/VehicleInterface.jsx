@@ -487,6 +487,10 @@ const VehicleInterface = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="treer">
+            <TreeRSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          </TabsContent>
+
           <TabsContent value="autonomy">
             <AutonomyControl vehicleData={vehicleData} disabled={hibernationMode} />
           </TabsContent>
