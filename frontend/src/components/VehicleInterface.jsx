@@ -32,7 +32,8 @@ import {
   Snowflake,
   Heart,
   Sparkles,
-  ArrowLeftRight
+  ArrowLeftRight,
+  Leaf
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
