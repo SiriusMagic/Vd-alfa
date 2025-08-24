@@ -47,6 +47,7 @@ import ComfortSystems from './ComfortSystems';
 import AdvancedDriving from './AdvancedDriving';
 import TractionControl from './TractionControl';
 import AutonomyControl from './AutonomyControl';
+import TreeRSystem from './TreeRSystem';
 
 const VehicleInterface = () => {
   const [vehicleData, setVehicleData] = useState(mockData);
