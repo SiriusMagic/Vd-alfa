@@ -481,6 +481,10 @@ const VehicleInterface = () => {
             </div>
           </TabsContent>
 
+          <TabsContent value="autonomy">
+            <AutonomyControl vehicleData={vehicleData} disabled={hibernationMode} />
+          </TabsContent>
+
           <TabsContent value="traction">
             <TractionControl disabled={hibernationMode} />
           </TabsContent>
