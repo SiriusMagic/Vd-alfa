@@ -331,10 +331,14 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-11 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-12 bg-slate-800">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
               <Gauge className="w-4 h-4 mr-1" />
               Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="treer" className="data-[state=active]:bg-green-600">
+              <Leaf className="w-4 h-4 mr-1" />
+              TreeR
             </TabsTrigger>
             <TabsTrigger value="autonomy" className="data-[state=active]:bg-pink-600">
               <Battery className="w-4 h-4 mr-1" />
