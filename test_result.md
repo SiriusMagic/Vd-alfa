@@ -203,10 +203,11 @@ metadata:
 
 test_plan:
   current_focus:
+    - "Dashboard Kilometer Tracking"
+    - "Reconnaissance Mission Enhancements"
     - "Codes System Complete Functionality"
     - "Sliding Panel Navigation"
     - "All 13 Vehicle Systems Accessibility"
-    - "Reconnaissance System Complete Functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -216,3 +217,5 @@ agent_communication:
     message: "Successfully resolved both user issues: 1) Fixed Reconnaissance system by replacing undefined Drone icon with Plane icon, 2) Implemented clean right sliding panel interface replacing complex 13-tab system. All 12 vehicle systems now accessible through intuitive grid navigation with smooth panel animations. Dashboard remains central with real-time data updates."
   - agent: "main"
     message: "NEW FEATURE ADDED: Comprehensive Codes System for vehicle and drone diagnostics. System includes 11 error codes (P001-P003 for drone, V01A-V04L+S01-S02+T01 for vehicle) with search filtering, category filtering, active code detection, severity levels, and statistics dashboard. Formats output as 'Code + Simple Explanation' as requested."
+  - agent: "main"
+    message: "LATEST ENHANCEMENTS: 1) Added km recorridos (kilometers traveled) to dashboard with total odometer (12,847+ km), trip meter (156+ km), and daily average calculation. 2) Enhanced Reconnaissance mission system with specific drone targeting (Enviar a 1, Enviar a 2, Enviar a todos) and three mission types (Reconocimiento, Mapeo, Seguimiento) with intelligent deployment buttons."
