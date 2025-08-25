@@ -368,7 +368,7 @@ const VehicleInterface = () => {
         </div>
 
         {/* Main Dashboard */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-6">
           
           {/* Speed & Battery Status */}
           <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
@@ -410,6 +410,37 @@ const VehicleInterface = () => {
                     <Thermometer className="w-4 h-4 mr-1" />
                     {Math.round(vehicleData.batteryTemp)}°C
                   </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Km Recorridos */}
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Compass className="w-8 h-8 text-purple-400" />
+                <Badge variant="outline" className="text-purple-400 border-purple-400">
+                  KILOMETRAJE
+                </Badge>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Total:</span>
+                  <span className="text-purple-400 font-bold">
+                    {vehicleData.odometer?.toLocaleString() || '12,847'} km
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-slate-400">Viaje:</span>
+                  <span className="text-cyan-400 font-bold">
+                    {vehicleData.tripMeter?.toFixed(1) || '156.3'} km
+                  </span>
+                </div>
+                <div className="text-center mt-3">
+                  <div className="text-xs text-slate-500">
+                    Promedio: {((vehicleData.tripMeter || 156.3) / 2.5).toFixed(1)} km/día
+                  </div>
                 </div>
               </div>
             </CardContent>
