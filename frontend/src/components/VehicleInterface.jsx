@@ -51,7 +51,7 @@ import AdvancedDriving from './AdvancedDriving';
 import TractionControl from './TractionControl';
 import AutonomyControl from './AutonomyControl';
 import TreeRSystem from './TreeRSystem';
-import ReconnaissanceSystem from './ReconnaissanceSystem';
+// import ReconnaissanceSystem from './ReconnaissanceSystem'; // Temporarily disabled for testing
 
 const VehicleInterface = () => {
   // Panel deslizante state
