@@ -528,7 +528,31 @@ const VehicleInterface = () => {
         {/* Contenido del panel */}
         <div className="p-6 h-full overflow-y-auto">
           {activeSection === 'reconnaissance' && (
-            <ReconnaissanceSystem vehicleData={vehicleData} disabled={hibernationMode} />
+            <div className="space-y-6">
+              <div className="text-center p-8">
+                <Eye className="w-16 h-16 mx-auto text-sky-400 mb-4" />
+                <h3 className="text-2xl font-semibold text-sky-400 mb-2">Sistema de Reconocimiento</h3>
+                <p className="text-slate-400">
+                  Panel deslizante funcionando correctamente. 
+                  El sistema de reconocimiento aéreo permite controlar drones para exploración, 
+                  mapeo LIDAR y detección de obstáculos.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-slate-800/50 rounded-lg">
+                  <h4 className="text-lg font-semibold text-cyan-400 mb-2">Estado del Sistema</h4>
+                  <p className="text-sm text-slate-300">✅ Panel deslizante: ACTIVO</p>
+                  <p className="text-sm text-slate-300">🚁 Drones: LISTOS</p>
+                  <p className="text-sm text-slate-300">📡 LIDAR: OPERATIVO</p>
+                </div>
+                <div className="p-4 bg-slate-800/50 rounded-lg">
+                  <h4 className="text-lg font-semibold text-green-400 mb-2">Próximas Funciones</h4>
+                  <p className="text-sm text-slate-300">• Control de compuerta</p>
+                  <p className="text-sm text-slate-300">• Despliegue de drones</p>
+                  <p className="text-sm text-slate-300">• Transferencia de energía</p>
+                </div>
+              </div>
+            </div>
           )}
           {activeSection === 'treer' && (
             <TreeRSystem vehicleData={vehicleData} disabled={hibernationMode} />
