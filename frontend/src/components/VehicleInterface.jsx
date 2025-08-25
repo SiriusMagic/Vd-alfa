@@ -504,10 +504,12 @@ const VehicleInterface = () => {
         {/* Header del panel */}
         <div className="flex items-center justify-between p-6 border-b border-slate-700">
           <div className="flex items-center space-x-3">
-            {sections.find(s => s.id === activeSection)?.icon && 
-              React.createElement(sections.find(s => s.id === activeSection).icon, {
-                className: `w-6 h-6 text-${sections.find(s => s.id === activeSection)?.color}-400`
-              })
+            {sections.find(s => s.id === activeSection) && 
+              (() => {
+                const section = sections.find(s => s.id === activeSection);
+                const IconComponent = section.icon;
+                return <IconComponent className={`w-6 h-6 text-${section.color}-400`} />;
+              })()
             }
             <h2 className="text-xl font-semibold text-white">
               {sections.find(s => s.id === activeSection)?.name || 'Sistema'}
