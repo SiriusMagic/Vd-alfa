@@ -439,7 +439,7 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
                           top: `${50 + drone.position.y * 0.2}%`
                         }}
                       >
-                        <Drone className="w-4 h-4 text-green-400" />
+                        <Plane className="w-4 h-4 text-green-400" />
                       </div>
                     );
                   }
