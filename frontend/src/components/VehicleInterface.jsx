@@ -4,7 +4,6 @@ import { Button } from './ui/button';
 import { Slider } from './ui/slider';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Switch } from './ui/switch';
 import { 
   Gauge, 
@@ -33,7 +32,10 @@ import {
   Heart,
   Sparkles,
   ArrowLeftRight,
-  Leaf
+  Leaf,
+  Menu,
+  X,
+  ChevronRight
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
