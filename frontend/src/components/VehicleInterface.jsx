@@ -282,8 +282,8 @@ const VehicleInterface = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white p-4">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 text-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto space-y-6 p-4">
         
         {/* Header with Status Indicators */}
         <div className="text-center mb-8">
@@ -365,196 +365,188 @@ const VehicleInterface = () => {
           </div>
         </div>
 
-        {/* Main Interface Tabs */}
-        <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-13 bg-slate-800 text-xs">
-            <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
-              <Gauge className="w-3 h-3 mr-1" />
-              Dashboard
-            </TabsTrigger>
-            <TabsTrigger value="reconnaissance" className="data-[state=active]:bg-sky-600">
-              <Eye className="w-3 h-3 mr-1" />
-              Reconocimiento
-            </TabsTrigger>
-            <TabsTrigger value="treer" className="data-[state=active]:bg-green-600">
-              <Leaf className="w-3 h-3 mr-1" />
-              TreeR
-            </TabsTrigger>
-            <TabsTrigger value="autonomy" className="data-[state=active]:bg-pink-600">
-              <Battery className="w-3 h-3 mr-1" />
-              Autonomía
-            </TabsTrigger>
-            <TabsTrigger value="traction" className="data-[state=active]:bg-teal-600">
-              <ArrowLeftRight className="w-3 h-3 mr-1" />
-              Tracción
-            </TabsTrigger>
-            <TabsTrigger value="smart" className="data-[state=active]:bg-purple-600">
-              <Sparkles className="w-3 h-3 mr-1" />
-              Inteligente
-            </TabsTrigger>
-            <TabsTrigger value="comfort" className="data-[state=active]:bg-indigo-600">
-              <Settings className="w-3 h-3 mr-1" />
-              Confort
-            </TabsTrigger>
-            <TabsTrigger value="driving" className="data-[state=active]:bg-emerald-600">
-              <Car className="w-3 h-3 mr-1" />
-              Conducción
-            </TabsTrigger>
-            <TabsTrigger value="power" className="data-[state=active]:bg-yellow-600">
-              <Zap className="w-3 h-3 mr-1" />
-              Potencia
-            </TabsTrigger>
-            <TabsTrigger value="cooling" className="data-[state=active]:bg-blue-600">
-              <Heart className="w-3 h-3 mr-1" />
-              Criogénico
-            </TabsTrigger>
-            <TabsTrigger value="suspension" className="data-[state=active]:bg-orange-600">
-              <Mountain className="w-3 h-3 mr-1" />
-              Suspensión
-            </TabsTrigger>
-            <TabsTrigger value="awareness" className="data-[state=active]:bg-green-600">
-              <Radar className="w-3 h-3 mr-1" />
-              Sensores
-            </TabsTrigger>
-            <TabsTrigger value="diagnostics" className="data-[state=active]:bg-red-600">
-              <Activity className="w-3 h-3 mr-1" />
-              Diagnósticos
-            </TabsTrigger>
-          </TabsList>
+        {/* Main Dashboard */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-6">
+          
+          {/* Speed & Battery Status */}
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Gauge className="w-8 h-8 text-cyan-400" />
+                <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                  VELOCIDAD
+                </Badge>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-cyan-400 mb-2">
+                  {Math.round(vehicleData.speed)} km/h
+                </div>
+                <Progress value={vehicleData.speed} max={200} className="h-2" />
+              </div>
+            </CardContent>
+          </Card>
 
-          <TabsContent value="dashboard" className="space-y-6">
-            {/* Main Dashboard */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-              
-              {/* Speed & Battery Status */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Gauge className="w-8 h-8 text-cyan-400" />
-                    <Badge variant="outline" className="text-cyan-400 border-cyan-400">
-                      VELOCIDAD
-                    </Badge>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-cyan-400 mb-2">
-                      {Math.round(vehicleData.speed)} km/h
-                    </div>
-                    <Progress value={vehicleData.speed} max={200} className="h-2" />
-                  </div>
-                </CardContent>
-              </Card>
+          {/* Battery Status */}
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Battery className="w-8 h-8 text-green-400" />
+                <Badge variant="outline" className="text-green-400 border-green-400">
+                  BATERÍA
+                </Badge>
+              </div>
+              <div className="space-y-3">
+                <div className="text-2xl font-bold text-green-400">
+                  {vehicleData.batteryLevel}%
+                </div>
+                <Progress value={vehicleData.batteryLevel} className="h-2" />
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-slate-400">Temp:</span>
+                  <span className={`flex items-center ${
+                    bionicCooling.active ? 'text-blue-400' : 'text-orange-400'
+                  }`}>
+                    <Thermometer className="w-4 h-4 mr-1" />
+                    {Math.round(vehicleData.batteryTemp)}°C
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-              {/* Battery Status */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Battery className="w-8 h-8 text-green-400" />
-                    <Badge variant="outline" className="text-green-400 border-green-400">
-                      BATERÍA
-                    </Badge>
-                  </div>
-                  <div className="space-y-3">
-                    <div className="text-2xl font-bold text-green-400">
-                      {vehicleData.batteryLevel}%
-                    </div>
-                    <Progress value={vehicleData.batteryLevel} className="h-2" />
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-400">Temp:</span>
-                      <span className={`flex items-center ${
-                        bionicCooling.active ? 'text-blue-400' : 'text-orange-400'
-                      }`}>
-                        <Thermometer className="w-4 h-4 mr-1" />
-                        {Math.round(vehicleData.batteryTemp)}°C
-                      </span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+          {/* Bionic Cooling Status */}
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Snowflake className="w-8 h-8 text-blue-400" />
+                <Badge variant="outline" className="text-blue-400 border-blue-400">
+                  CRIOGÉNICO
+                </Badge>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span>Temp. Crio:</span>
+                  <span className="text-blue-400">{bionicCooling.temperature.toFixed(1)}°C</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Pulso:</span>
+                  <span className="text-purple-400 flex items-center">
+                    <Heart className="w-4 h-4 mr-1" />
+                    {bionicCooling.pulseRate} BPM
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span>Presión:</span>
+                  <span className="text-cyan-400">{bionicCooling.arterialPressure}%</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
 
-              {/* Bionic Cooling Status */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Snowflake className="w-8 h-8 text-blue-400" />
-                    <Badge variant="outline" className="text-blue-400 border-blue-400">
-                      CRIOGÉNICO
-                    </Badge>
+          {/* Torque & AI Status */}
+          <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <Zap className="w-8 h-8 text-yellow-400" />
+                <Badge variant="outline" className={aiPowerActive ? "text-purple-400 border-purple-400" : "text-yellow-400 border-yellow-400"}>
+                  {aiPowerActive ? "IA TORQUE" : "TORQUE"}
+                </Badge>
+              </div>
+              <div className="text-center">
+                <div className={`text-3xl font-bold mb-2 ${aiPowerActive ? 'text-purple-400' : 'text-yellow-400'}`}>
+                  {Math.round(vehicleData.torque)} Nm
+                </div>
+                <Progress value={vehicleData.torque} max={500} className="h-2" />
+                {aiPowerActive && (
+                  <div className="text-xs text-purple-400 mt-2 flex items-center justify-center">
+                    <Brain className="w-4 h-4 mr-1" />
+                    IA optimizando
                   </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex justify-between">
-                      <span>Temp. Crio:</span>
-                      <span className="text-blue-400">{bionicCooling.temperature.toFixed(1)}°C</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Pulso:</span>
-                      <span className="text-purple-400 flex items-center">
-                        <Heart className="w-4 h-4 mr-1" />
-                        {bionicCooling.pulseRate} BPM
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Presión:</span>
-                      <span className="text-cyan-400">{bionicCooling.arterialPressure}%</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-              {/* Torque & AI Status */}
-              <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <Zap className="w-8 h-8 text-yellow-400" />
-                    <Badge variant="outline" className={aiPowerActive ? "text-purple-400 border-purple-400" : "text-yellow-400 border-yellow-400"}>
-                      {aiPowerActive ? "IA TORQUE" : "TORQUE"}
-                    </Badge>
-                  </div>
-                  <div className="text-center">
-                    <div className={`text-3xl font-bold mb-2 ${aiPowerActive ? 'text-purple-400' : 'text-yellow-400'}`}>
-                      {Math.round(vehicleData.torque)} Nm
-                    </div>
-                    <Progress value={vehicleData.torque} max={500} className="h-2" />
-                    {aiPowerActive && (
-                      <div className="text-xs text-purple-400 mt-2 flex items-center justify-center">
-                        <Brain className="w-4 h-4 mr-1" />
-                        IA optimizando
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+        {/* Sistema de navegación por secciones */}
+        <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-cyan-400">Sistemas del Vehículo</h3>
+              <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                {sections.length} SISTEMAS DISPONIBLES
+              </Badge>
             </div>
-          </TabsContent>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {sections.map((section) => (
+                <Button
+                  key={section.id}
+                  variant="outline"
+                  onClick={() => openSection(section.id)}
+                  disabled={hibernationMode}
+                  className={`h-16 flex flex-col space-y-1 hover:bg-${section.color}-600/20 border-slate-600 hover:border-${section.color}-500`}
+                >
+                  <section.icon className={`w-6 h-6 text-${section.color}-400`} />
+                  <span className="text-xs font-semibold">{section.name}</span>
+                  <ChevronRight className="w-3 h-3 text-slate-500" />
+                </Button>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-          <TabsContent value="reconnaissance">
+      {/* Panel Deslizante Derecho */}
+      <div className={`fixed top-0 right-0 h-full w-full md:w-2/3 lg:w-1/2 xl:w-2/5 bg-slate-950/95 backdrop-blur-lg transform transition-transform duration-300 ease-in-out z-50 ${
+        sidePanelOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        
+        {/* Header del panel */}
+        <div className="flex items-center justify-between p-6 border-b border-slate-700">
+          <div className="flex items-center space-x-3">
+            {sections.find(s => s.id === activeSection)?.icon && 
+              React.createElement(sections.find(s => s.id === activeSection).icon, {
+                className: `w-6 h-6 text-${sections.find(s => s.id === activeSection)?.color}-400`
+              })
+            }
+            <h2 className="text-xl font-semibold text-white">
+              {sections.find(s => s.id === activeSection)?.name || 'Sistema'}
+            </h2>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={closeSidePanel}
+            className="text-slate-400 hover:text-white"
+          >
+            <X className="w-5 h-5" />
+          </Button>
+        </div>
+
+        {/* Contenido del panel */}
+        <div className="p-6 h-full overflow-y-auto">
+          {activeSection === 'reconnaissance' && (
             <ReconnaissanceSystem vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="treer">
+          )}
+          {activeSection === 'treer' && (
             <TreeRSystem vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="autonomy">
+          )}
+          {activeSection === 'autonomy' && (
             <AutonomyControl vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="traction">
+          )}
+          {activeSection === 'traction' && (
             <TractionControl disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="smart">
+          )}
+          {activeSection === 'smart' && (
             <SmartVehicleControl vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="comfort">
+          )}
+          {activeSection === 'comfort' && (
             <ComfortSystems vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="driving">
+          )}
+          {activeSection === 'driving' && (
             <AdvancedDriving vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="power">
+          )}
+          {activeSection === 'power' && (
             <PowerControlSystem 
               powerControlMode={powerControlMode}
               setPowerControlMode={handlePowerControlModeChange}
@@ -568,30 +560,34 @@ const VehicleInterface = () => {
               setAiPowerActive={handleAiPowerToggle}
               disabled={hibernationMode}
             />
-          </TabsContent>
-
-          <TabsContent value="cooling">
+          )}
+          {activeSection === 'cooling' && (
             <BionicCooling 
               bionicCooling={bionicCooling}
               setBionicCooling={setBionicCooling}
               vehicleData={vehicleData}
               disabled={hibernationMode}
             />
-          </TabsContent>
-
-          <TabsContent value="suspension">
+          )}
+          {activeSection === 'suspension' && (
             <SuspensionControl disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="awareness">
+          )}
+          {activeSection === 'awareness' && (
             <SituationalAwareness vehicleData={vehicleData} disabled={hibernationMode} />
-          </TabsContent>
-
-          <TabsContent value="diagnostics">
+          )}
+          {activeSection === 'diagnostics' && (
             <AdvancedDiagnostics vehicleData={vehicleData} motorControls={motorControls} disabled={hibernationMode} />
-          </TabsContent>
-        </Tabs>
+          )}
+        </div>
       </div>
+
+      {/* Overlay cuando el panel está abierto */}
+      {sidePanelOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40"
+          onClick={closeSidePanel}
+        />
+      )}
     </div>
   );
 };
