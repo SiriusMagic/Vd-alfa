@@ -425,6 +425,297 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
         </Card>
       </div>
 
+      {/* Pantalla de Control del Dron */}
+      {getDeployedCount() > 0 && (
+        <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <Video className="w-8 h-8 text-blue-400" />
+                <h4 className="text-xl font-semibold text-blue-400">
+                  Pantalla de Control del Dron
+                </h4>
+              </div>
+              <Badge variant="outline" className="text-blue-400 border-blue-400">
+                {getDeployedCount()} DRON(ES) ACTIVO(S)
+              </Badge>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Video en Vivo Simulado */}
+              <div className="space-y-4">
+                <h5 className="text-blue-300 font-semibold">Video en Vivo - Cámara Dron</h5>
+                
+                <div className="relative bg-slate-800/50 rounded-lg h-48 overflow-hidden border border-slate-600">
+                  {/* Simulación de video con grid de puntos móviles */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-slate-700 to-slate-900">
+                    {/* Simulación de terreno */}
+                    <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-green-900/30 to-transparent"></div>
+                    
+                    {/* Puntos móviles simulando detecciones */}
+                    {[...Array(8)].map((_, i) => (
+                      <div 
+                        key={i}
+                        className="absolute w-2 h-2 bg-red-400 rounded-full animate-pulse"
+                        style={{
+                          left: `${20 + i * 10}%`,
+                          top: `${30 + Math.sin(Date.now() / 1000 + i) * 10}%`,
+                          animationDelay: `${i * 0.2}s`
+                        }}
+                      ></div>
+                    ))}
+                    
+                    {/* HUD overlay */}
+                    <div className="absolute inset-4 border border-cyan-400/30 rounded">
+                      <div className="absolute top-2 left-2 text-xs text-cyan-400 font-mono">
+                        LIVE CAM | ALT: {Math.round(dronesStatus.drone1.altitude || 50)}m
+                      </div>
+                      <div className="absolute bottom-2 right-2 text-xs text-cyan-400 font-mono">
+                        REC ● {new Date().toLocaleTimeString()}
+                      </div>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="w-8 h-8 border-2 border-red-400 rounded-full animate-ping"></div>
+                        <Target className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 text-red-400" />
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="absolute bottom-2 left-2 flex items-center space-x-2">
+                    <Button size="sm" variant="outline" className="h-6 w-6 p-0">
+                      <Play className="w-3 h-3" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="h-6 w-6 p-0">
+                      <Pause className="w-3 h-3" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="h-6 w-6 p-0">
+                      <RotateCw className="w-3 h-3" />
+                    </Button>
+                    <Button size="sm" variant="outline" className="h-6 w-6 p-0">
+                      <Maximize2 className="w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Indicadores de Estado en Tiempo Real */}
+              <div className="space-y-4">
+                <h5 className="text-blue-300 font-semibold">Telemetría en Tiempo Real</h5>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  {/* Nivel de Batería */}
+                  <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                    <div className="flex items-center justify-between mb-2">
+                      <Battery className="w-4 h-4 text-green-400" />
+                      <span className="text-xs text-slate-400">BATERÍA</span>
+                    </div>
+                    <div className="text-lg font-bold text-green-400">
+                      {Math.round((dronesStatus.drone1.battery + dronesStatus.drone2.battery) / 2)}%
+                    </div>
+                    <Progress 
+                      value={(dronesStatus.drone1.battery + dronesStatus.drone2.battery) / 2} 
+                      className="h-1 mt-1" 
+                    />
+                  </div>
+
+                  {/* Intensidad de Señal */}
+                  <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                    <div className="flex items-center justify-between mb-2">
+                      <Signal className="w-4 h-4 text-cyan-400" />
+                      <span className="text-xs text-slate-400">SEÑAL</span>
+                    </div>
+                    <div className="text-lg font-bold text-cyan-400">
+                      {Math.round(85 + Math.random() * 10)}%
+                    </div>
+                    <div className="flex items-center space-x-1 mt-1">
+                      {[...Array(5)].map((_, i) => (
+                        <div 
+                          key={i}
+                          className={`w-1 h-3 rounded ${
+                            i < 4 ? 'bg-cyan-400' : 'bg-slate-600'
+                          }`}
+                        ></div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Velocidad */}
+                  <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                    <div className="flex items-center justify-between mb-2">
+                      <Gauge className="w-4 h-4 text-yellow-400" />
+                      <span className="text-xs text-slate-400">VELOCIDAD</span>
+                    </div>
+                    <div className="text-lg font-bold text-yellow-400">
+                      {Math.round(45 + Math.random() * 15)} km/h
+                    </div>
+                  </div>
+
+                  {/* Altitud */}
+                  <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                    <div className="flex items-center justify-between mb-2">
+                      <ArrowUp className="w-4 h-4 text-purple-400" />
+                      <span className="text-xs text-slate-400">ALTITUD</span>
+                    </div>
+                    <div className="text-lg font-bold text-purple-400">
+                      {Math.round(50 + Math.random() * 20)} m
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Estado de Misión */}
+                <div className="p-3 bg-slate-800/50 rounded-lg border border-slate-600">
+                  <div className="flex items-center justify-between mb-2">
+                    <Target className="w-4 h-4 text-orange-400" />
+                    <span className="text-xs text-slate-400">MISIÓN ACTIVA</span>
+                  </div>
+                  <div className="text-sm font-semibold text-orange-400 capitalize">
+                    {missionType} en Progreso
+                  </div>
+                  <div className="text-xs text-slate-500 mt-1">
+                    Tiempo transcurrido: {Math.floor(Math.random() * 5 + 1)}:32 min
+                  </div>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Mapeo LIDAR */}
+      {getDeployedCount() > 0 && (
+        <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center space-x-3">
+                <Radar className="w-8 h-8 text-cyan-400" />
+                <h4 className="text-xl font-semibold text-cyan-400">
+                  Mapeo LIDAR en Tiempo Real
+                </h4>
+              </div>
+              <Badge variant="outline" className="text-cyan-400 border-cyan-400">
+                ALTA PRECISIÓN
+              </Badge>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Pantalla LIDAR con puntos azules */}
+              <div className="space-y-4">
+                <h5 className="text-cyan-300 font-semibold">Visualización LIDAR</h5>
+                
+                <div className="relative bg-slate-900/80 rounded-lg h-64 overflow-hidden border border-cyan-500/30">
+                  {/* Grid de fondo */}
+                  <div className="absolute inset-0">
+                    {[...Array(20)].map((_, i) => (
+                      <div key={i} className="absolute border-cyan-700/20" style={{
+                        left: `${i * 5}%`,
+                        top: 0,
+                        bottom: 0,
+                        width: '1px',
+                        borderLeft: '1px solid'
+                      }}></div>
+                    ))}
+                    {[...Array(16)].map((_, i) => (
+                      <div key={i} className="absolute border-cyan-700/20" style={{
+                        top: `${i * 6.25}%`,
+                        left: 0,
+                        right: 0,
+                        height: '1px',
+                        borderTop: '1px solid'
+                      }}></div>
+                    ))}
+                  </div>
+                  
+                  {/* Puntos LIDAR azules */}
+                  {[...Array(150)].map((_, i) => (
+                    <div 
+                      key={i}
+                      className="absolute w-1 h-1 bg-cyan-400 rounded-full animate-pulse"
+                      style={{
+                        left: `${Math.random() * 95}%`,
+                        top: `${Math.random() * 95}%`,
+                        animationDelay: `${Math.random() * 2}s`,
+                        opacity: 0.3 + Math.random() * 0.7
+                      }}
+                    ></div>
+                  ))}
+                  
+                  {/* Líneas de barrido */}
+                  <div className="absolute inset-0">
+                    <div className="absolute w-full h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse" 
+                         style={{ top: `${(Date.now() / 50) % 100}%` }}></div>
+                  </div>
+                  
+                  {/* Centro del radar */}
+                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                    <div className="w-3 h-3 bg-cyan-400 rounded-full animate-ping"></div>
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-1 h-1 bg-white rounded-full"></div>
+                  </div>
+                  
+                  {/* HUD Info */}
+                  <div className="absolute top-2 left-2 text-xs text-cyan-400 font-mono">
+                    LIDAR | 360° | {Math.round(Math.random() * 50 + 100)} pts/sec
+                  </div>
+                  <div className="absolute bottom-2 right-2 text-xs text-cyan-400 font-mono">
+                    Alcance: 200m | Resolución: 1cm
+                  </div>
+                </div>
+              </div>
+
+              {/* Datos del Mapeo */}
+              <div className="space-y-4">
+                <h5 className="text-cyan-300 font-semibold">Datos de Escaneo</h5>
+                
+                <div className="space-y-3">
+                  <div className="p-3 bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-300">Puntos escaneados:</span>
+                      <span className="text-cyan-400 font-bold">1,247,382</span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-300">Área mapeada:</span>
+                      <span className="text-green-400 font-bold">
+                        {Math.round(getDeployedCount() * 3.7)} km²
+                      </span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-300">Obstáculos detectados:</span>
+                      <span className="text-red-400 font-bold">{droneMap.obstacles.length}</span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-300">Precisión:</span>
+                      <span className="text-purple-400 font-bold">±1.2cm</span>
+                    </div>
+                  </div>
+                  
+                  <div className="p-3 bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-300">Última actualización:</span>
+                      <span className="text-yellow-400 font-bold">
+                        {new Date().toLocaleTimeString()}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="text-xs text-slate-500 p-3 bg-slate-800/30 rounded">
+                  🛰️ El sistema LIDAR escanea continuamente el terreno para crear un mapa 3D de alta precisión
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Detection Alerts */}
       <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
         <CardContent className="p-6">
