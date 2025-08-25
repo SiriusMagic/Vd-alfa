@@ -292,14 +292,42 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
         <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
           <CardContent className="p-6">
             <h4 className="text-lg font-semibold text-green-400 mb-6">
-              Tipo de Misión
+              Configuración de Misión
             </h4>
             
+            {/* Target Drone Selection */}
+            <div className="mb-6">
+              <h5 className="text-sm font-semibold text-slate-300 mb-3">Enviar Misión A:</h5>
+              <div className="grid grid-cols-3 gap-3">
+                {[
+                  { id: 'drone1', label: 'Dron 1', desc: `Bat: ${dronesStatus.drone1.battery}%` },
+                  { id: 'drone2', label: 'Dron 2', desc: `Bat: ${dronesStatus.drone2.battery}%` },
+                  { id: 'all', label: 'Ambos', desc: 'Escuadrón' }
+                ].map((target) => (
+                  <Button
+                    key={target.id}
+                    variant={targetDrone === target.id ? "default" : "outline"}
+                    onClick={() => setTargetDrone(target.id)}
+                    disabled={disabled}
+                    className={`h-16 flex flex-col ${
+                      targetDrone === target.id ? 'bg-blue-600' : ''
+                    }`}
+                  >
+                    <Plane className="w-5 h-5 mb-1" />
+                    <span className="text-xs font-semibold">{target.label}</span>
+                    <span className="text-xs text-slate-400">{target.desc}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Mission Type Selection */}
             <div className="space-y-3">
+              <h5 className="text-sm font-semibold text-slate-300 mb-3">Tipo de Misión:</h5>
               {[
-                { id: 'reconnaissance1', label: 'Reconocimiento 1', desc: 'Exploración básica', icon: Eye },
-                { id: 'reconnaissance2', label: 'Reconocimiento 2', desc: 'Exploración avanzada', icon: Scan },
-                { id: 'mapping', label: 'Mapeo LIDAR', desc: 'Mapeo topográfico', icon: Map }
+                { id: 'reconnaissance', label: 'Reconocimiento', desc: 'Exploración y detección de objetivos', icon: Eye },
+                { id: 'mapping', label: 'Mapeo', desc: 'Mapeo topográfico con LIDAR', icon: Map },
+                { id: 'tracking', label: 'Seguimiento', desc: 'Seguimiento de objetivo específico', icon: Target }
               ].map((mission) => (
                 <Button
                   key={mission.id}
@@ -317,6 +345,20 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
                   </div>
                 </Button>
               ))}
+            </div>
+
+            {/* Send Mission Button */}
+            <div className="mt-6">
+              <Button
+                variant="default"
+                onClick={() => handleMissionDeployment()}
+                disabled={disabled || !roofHatch}
+                className="w-full h-12 bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+              >
+                <Target className="w-5 h-5 mr-2" />
+                Enviar Misión: {missionType.charAt(0).toUpperCase() + missionType.slice(1)} 
+                {targetDrone === 'all' ? ' (Ambos Drones)' : targetDrone === 'drone1' ? ' (Dron 1)' : ' (Dron 2)'}
+              </Button>
             </div>
           </CardContent>
         </Card>
