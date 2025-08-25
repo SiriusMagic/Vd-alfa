@@ -33,7 +33,8 @@ import {
   Heart,
   Sparkles,
   ArrowLeftRight,
-  Leaf
+  Leaf,
+  Radar
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
