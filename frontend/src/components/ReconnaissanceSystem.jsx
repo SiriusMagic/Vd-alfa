@@ -265,7 +265,7 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
                   disabled={disabled || !roofHatch}
                   className="h-16 flex flex-col"
                 >
-                  <Drone className="w-6 h-6 mb-1" />
+                  <Plane className="w-6 h-6 mb-1" />
                   <span className="text-xs">Dron 2</span>
                   <span className="text-xs text-slate-400">
                     {dronesStatus.drone2.battery}%
