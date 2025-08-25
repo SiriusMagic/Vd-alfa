@@ -134,6 +134,30 @@ frontend:
         agent: "main"
         comment: "Successfully replaced 13-column tab system with clean sliding panel. Dashboard remains central, 12 systems accessible via right panel with smooth animations"
 
+  - task: "Add Kilometers Traveled to Dashboard"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/VehicleInterface.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Successfully added KILOMETRAJE card to dashboard showing total odometer, trip meter, and calculated daily average. Updates in real-time based on vehicle speed."
+
+  - task: "Enhance Reconnaissance Mission Configuration"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/ReconnaissanceSystem.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Enhanced mission section with specific drone targeting (Dron 1, Dron 2, or Both) and three mission types (Reconocimiento, Mapeo, Seguimiento). Added intelligent mission deployment with dynamic button text."
+
   - task: "Add Codes System for Vehicle and Drone Diagnostics"
     implemented: true
     working: true
