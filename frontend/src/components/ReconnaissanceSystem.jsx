@@ -43,7 +43,8 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
     }
   });
   
-  const [missionType, setMissionType] = useState('reconnaissance1');
+  const [missionType, setMissionType] = useState('reconnaissance');
+  const [targetDrone, setTargetDrone] = useState('all'); // 'drone1', 'drone2', 'all'
   const [detectedObjects, setDetectedObjects] = useState([]);
   const [droneMap, setDroneMap] = useState({
     obstacles: [],
