@@ -6,7 +6,7 @@ import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { Switch } from './ui/switch';
 import { 
-  Drone,
+  Plane,
   Map,
   Eye,
   Users,
