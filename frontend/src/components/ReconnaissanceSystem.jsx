@@ -20,7 +20,14 @@ import {
   Scan,
   ArrowUp,
   Zap,
-  Navigation
+  Navigation,
+  Signal,
+  Gauge,
+  Video,
+  Play,
+  Pause,
+  RotateCw,
+  Maximize2
 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
 
