@@ -8,6 +8,8 @@ export const mockData = {
   powerConsumption: 45, // kW
   range: 342, // km
   efficiency: 4.2, // km/kWh
+  odometer: 12847, // km recorridos total
+  tripMeter: 156.3, // km del viaje actual
   gForce: {
     x: 0.2, // lateral
     y: -0.1, // longitudinal  
