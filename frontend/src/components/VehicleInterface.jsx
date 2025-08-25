@@ -91,6 +91,33 @@ const VehicleInterface = () => {
   const [regenMode, setRegenMode] = useState('Standard');
   const { toast } = useToast();
 
+  // Secciones del panel lateral
+  const sections = [
+    { id: 'reconnaissance', name: 'Reconocimiento', icon: Eye, color: 'sky' },
+    { id: 'treer', name: 'TreeR', icon: Leaf, color: 'green' },
+    { id: 'autonomy', name: 'Autonomía', icon: Battery, color: 'pink' },
+    { id: 'traction', name: 'Tracción', icon: ArrowLeftRight, color: 'teal' },
+    { id: 'smart', name: 'Inteligente', icon: Sparkles, color: 'purple' },
+    { id: 'comfort', name: 'Confort', icon: Settings, color: 'indigo' },
+    { id: 'driving', name: 'Conducción', icon: Car, color: 'emerald' },
+    { id: 'power', name: 'Potencia', icon: Zap, color: 'yellow' },
+    { id: 'cooling', name: 'Criogénico', icon: Heart, color: 'blue' },
+    { id: 'suspension', name: 'Suspensión', icon: Mountain, color: 'orange' },
+    { id: 'awareness', name: 'Sensores', icon: Radar, color: 'green' },
+    { id: 'diagnostics', name: 'Diagnósticos', icon: Activity, color: 'red' }
+  ];
+
+  // Función para abrir sección en panel lateral
+  const openSection = (sectionId) => {
+    setActiveSection(sectionId);
+    setSidePanelOpen(true);
+  };
+
+  // Función para cerrar panel lateral
+  const closeSidePanel = () => {
+    setSidePanelOpen(false);
+  };
+
   // Simulate real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
