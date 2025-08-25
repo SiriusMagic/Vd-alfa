@@ -537,7 +537,7 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
             <div className="grid grid-cols-2 gap-6">
               <div className="text-center p-4 bg-slate-800/50 rounded-lg">
                 <div className="flex items-center justify-center space-x-2 mb-2">
-                  <Drone className="w-5 h-5 text-blue-400" />
+                  <Plane className="w-5 h-5 text-blue-400" />
                   <span className="text-blue-400 font-semibold">Drones</span>
                 </div>
                 <div className="text-sm text-slate-300">
