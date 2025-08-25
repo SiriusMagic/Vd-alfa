@@ -333,53 +333,57 @@ const VehicleInterface = () => {
 
         {/* Main Interface Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
-          <TabsList className="grid w-full grid-cols-12 bg-slate-800">
+          <TabsList className="grid w-full grid-cols-13 bg-slate-800 text-xs">
             <TabsTrigger value="dashboard" className="data-[state=active]:bg-cyan-600">
-              <Gauge className="w-4 h-4 mr-1" />
+              <Gauge className="w-3 h-3 mr-1" />
               Dashboard
             </TabsTrigger>
+            <TabsTrigger value="reconnaissance" className="data-[state=active]:bg-sky-600">
+              <Eye className="w-3 h-3 mr-1" />
+              Reconocimiento
+            </TabsTrigger>
             <TabsTrigger value="treer" className="data-[state=active]:bg-green-600">
-              <Leaf className="w-4 h-4 mr-1" />
+              <Leaf className="w-3 h-3 mr-1" />
               TreeR
             </TabsTrigger>
             <TabsTrigger value="autonomy" className="data-[state=active]:bg-pink-600">
-              <Battery className="w-4 h-4 mr-1" />
+              <Battery className="w-3 h-3 mr-1" />
               Autonomía
             </TabsTrigger>
             <TabsTrigger value="traction" className="data-[state=active]:bg-teal-600">
-              <ArrowLeftRight className="w-4 h-4 mr-1" />
+              <ArrowLeftRight className="w-3 h-3 mr-1" />
               Tracción
             </TabsTrigger>
             <TabsTrigger value="smart" className="data-[state=active]:bg-purple-600">
-              <Sparkles className="w-4 h-4 mr-1" />
+              <Sparkles className="w-3 h-3 mr-1" />
               Inteligente
             </TabsTrigger>
             <TabsTrigger value="comfort" className="data-[state=active]:bg-indigo-600">
-              <Settings className="w-4 h-4 mr-1" />
+              <Settings className="w-3 h-3 mr-1" />
               Confort
             </TabsTrigger>
             <TabsTrigger value="driving" className="data-[state=active]:bg-emerald-600">
-              <Car className="w-4 h-4 mr-1" />
+              <Car className="w-3 h-3 mr-1" />
               Conducción
             </TabsTrigger>
             <TabsTrigger value="power" className="data-[state=active]:bg-yellow-600">
-              <Zap className="w-4 h-4 mr-1" />
+              <Zap className="w-3 h-3 mr-1" />
               Potencia
             </TabsTrigger>
             <TabsTrigger value="cooling" className="data-[state=active]:bg-blue-600">
-              <Heart className="w-4 h-4 mr-1" />
+              <Heart className="w-3 h-3 mr-1" />
               Criogénico
             </TabsTrigger>
             <TabsTrigger value="suspension" className="data-[state=active]:bg-orange-600">
-              <Mountain className="w-4 h-4 mr-1" />
+              <Mountain className="w-3 h-3 mr-1" />
               Suspensión
             </TabsTrigger>
             <TabsTrigger value="awareness" className="data-[state=active]:bg-green-600">
-              <Eye className="w-4 h-4 mr-1" />
+              <Radar className="w-3 h-3 mr-1" />
               Sensores
             </TabsTrigger>
             <TabsTrigger value="diagnostics" className="data-[state=active]:bg-red-600">
-              <Activity className="w-4 h-4 mr-1" />
+              <Activity className="w-3 h-3 mr-1" />
               Diagnósticos
             </TabsTrigger>
           </TabsList>
