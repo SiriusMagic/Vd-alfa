@@ -133,6 +133,9 @@ const VehicleInterface = () => {
           torque: powerControlMode === 'ai' && aiPowerActive ? 
             450 + (Math.random() - 0.5) * 50 :
             (motorControls.rear.amperage + motorControls.front.amperage) + (Math.random() - 0.5) * 15,
+          // Update odometer and trip meter based on speed
+          odometer: prev.odometer ? prev.odometer + (prev.speed / 3600) : 12847.1,
+          tripMeter: prev.tripMeter ? prev.tripMeter + (prev.speed / 3600) : 156.3,
           gForce: {
             x: (Math.random() - 0.5) * 2,
             y: (Math.random() - 0.5) * 1.5,
