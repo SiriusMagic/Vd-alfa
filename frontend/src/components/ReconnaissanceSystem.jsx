@@ -124,6 +124,60 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
     });
   };
 
+  const handleMissionDeployment = () => {
+    if (!roofHatch) {
+      toast({
+        title: 'Error',
+        description: 'Abrir compuerta primero',
+      });
+      return;
+    }
+
+    let dronesToDeploy = [];
+    
+    switch(targetDrone) {
+      case 'drone1':
+        dronesToDeploy = ['drone1'];
+        break;
+      case 'drone2':
+        dronesToDeploy = ['drone2'];
+        break;
+      case 'all':
+        dronesToDeploy = ['drone1', 'drone2'];
+        break;
+    }
+
+    setDronesStatus(prev => {
+      const newStatus = { ...prev };
+      dronesToDeploy.forEach(drone => {
+        newStatus[drone] = {
+          ...prev[drone],
+          deployed: true,
+          altitude: 50,
+          mission: missionType
+        };
+      });
+      return newStatus;
+    });
+
+    const missionNames = {
+      reconnaissance: 'Reconocimiento',
+      mapping: 'Mapeo LIDAR',
+      tracking: 'Seguimiento'
+    };
+
+    const targetNames = {
+      drone1: 'Dron 1',
+      drone2: 'Dron 2', 
+      all: 'Ambos Drones'
+    };
+
+    toast({
+      title: `Misión ${missionNames[missionType]} Iniciada`,
+      description: `Enviada a: ${targetNames[targetDrone]}`,
+    });
+  };
+
   const handleDroneDeployment = (option) => {
     if (!roofHatch) {
       toast({
