@@ -405,14 +405,22 @@ const VehicleInterface = () => {
                   {vehicleData.batteryLevel}%
                 </div>
                 <Progress value={vehicleData.batteryLevel} className="h-2" />
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-slate-400">Temp:</span>
-                  <span className={`flex items-center ${
-                    bionicCooling.active ? 'text-blue-400' : 'text-orange-400'
-                  }`}>
-                    <Thermometer className="w-4 h-4 mr-1" />
-                    {Math.round(vehicleData.batteryTemp)}°C
-                  </span>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-400">Temp:</span>
+                    <span className={`flex items-center ${
+                      bionicCooling.active ? 'text-blue-400' : 'text-orange-400'
+                    }`}>
+                      <Thermometer className="w-4 h-4 mr-1" />
+                      {Math.round(vehicleData.batteryTemp)}°C
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-slate-400">Autonomía:</span>
+                    <span className="text-cyan-400 font-bold">
+                      {Math.round((vehicleData.batteryLevel / 100) * 750)} km
+                    </span>
+                  </div>
                 </div>
               </div>
             </CardContent>
