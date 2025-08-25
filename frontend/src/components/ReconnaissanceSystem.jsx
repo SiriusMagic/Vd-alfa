@@ -204,7 +204,7 @@ const ReconnaissanceSystem = ({ vehicleData, disabled }) => {
         <CardContent className="p-6">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center space-x-3">
-              <Drone className="w-8 h-8 text-cyan-400" />
+              <Plane className="w-8 h-8 text-cyan-400" />
               <h3 className="text-xl font-semibold text-cyan-400">
                 Sistema de Reconocimiento Aéreo
               </h3>
