@@ -532,6 +532,9 @@ const VehicleInterface = () => {
           {activeSection === 'reconnaissance' && (
             <ReconnaissanceSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
+          {activeSection === 'codes' && (
+            <CodesSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'treer' && (
             <TreeRSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
