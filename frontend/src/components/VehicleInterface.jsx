@@ -54,6 +54,11 @@ import TreeRSystem from './TreeRSystem';
 import ReconnaissanceSystem from './ReconnaissanceSystem';
 
 const VehicleInterface = () => {
+  // Panel deslizante state
+  const [sidePanelOpen, setSidePanelOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('dashboard');
+  
+  // Vehicle state
   const [vehicleData, setVehicleData] = useState(mockData);
   const [driveMode, setDriveMode] = useState('AWD');
   const [powerControlMode, setPowerControlMode] = useState('axle'); // 'axle', 'individual', 'ai'
