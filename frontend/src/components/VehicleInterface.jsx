@@ -37,7 +37,8 @@ import {
   X,
   ChevronRight,
   DoorOpen,
-  UserX
+  UserX,
+  CircleDot
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
