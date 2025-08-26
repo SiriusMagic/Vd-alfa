@@ -44,7 +44,7 @@ const SecuritySystem = ({ vehicleData, disabled, onSecurityStatusChange }) => {
     const interval = setInterval(() => {
       if (!disabled && Math.random() > 0.92) {
         // Cambiar estado aleatorio de puertas (raro)
-        const doors = Object.keys(doorsStatus);
+        const doors = ['frontLeft', 'frontRight', 'rearLeft', 'rearRight', 'hatch'];
         const randomDoor = doors[Math.floor(Math.random() * doors.length)];
         setDoorsStatus(prev => ({
           ...prev,
@@ -54,7 +54,7 @@ const SecuritySystem = ({ vehicleData, disabled, onSecurityStatusChange }) => {
       
       if (!disabled && Math.random() > 0.88) {
         // Cambiar estado de cinturones (más frecuente)
-        const belts = Object.keys(seatbelts);
+        const belts = ['driver', 'passenger', 'rearLeft', 'rearRight'];
         const randomBelt = belts[Math.floor(Math.random() * belts.length)];
         setSeatbelts(prev => ({
           ...prev,
@@ -64,7 +64,7 @@ const SecuritySystem = ({ vehicleData, disabled, onSecurityStatusChange }) => {
     }, 8000);
 
     return () => clearInterval(interval);
-  }, [doorsStatus, seatbelts, disabled]);
+  }, [disabled]); // Removed doorsStatus and seatbelts from dependencies
 
   // Notificar cambios de seguridad al componente padre
   useEffect(() => {
@@ -78,7 +78,7 @@ const SecuritySystem = ({ vehicleData, disabled, onSecurityStatusChange }) => {
         hasSecurityIssues: openDoors.length > 0 || unbuckledBelts.length > 0
       });
     }
-  }, [doorsStatus, seatbelts, onSecurityStatusChange]);
+  }, [doorsStatus, seatbelts]); // Removed onSecurityStatusChange from dependencies
 
   const doorNames = {
     frontLeft: 'Puerta Delantera Izq.',
