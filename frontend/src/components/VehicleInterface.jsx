@@ -608,6 +608,13 @@ const VehicleInterface = () => {
           {activeSection === 'reconnaissance' && (
             <ReconnaissanceSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
+          {activeSection === 'security' && (
+            <SecuritySystem 
+              vehicleData={vehicleData} 
+              disabled={hibernationMode} 
+              onSecurityStatusChange={handleSecurityStatusChange}
+            />
+          )}
           {activeSection === 'codes' && (
             <CodesSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
