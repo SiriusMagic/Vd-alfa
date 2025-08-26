@@ -35,7 +35,9 @@ import {
   Leaf,
   Menu,
   X,
-  ChevronRight
+  ChevronRight,
+  DoorOpen,
+  UserX
 } from 'lucide-react';
 import { mockData, presetConfigs, suspensionModes, driveProfiles } from '../data/mockData';
 import { useToast } from '../hooks/use-toast';
