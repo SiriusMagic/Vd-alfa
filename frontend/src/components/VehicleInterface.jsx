@@ -56,6 +56,7 @@ import TreeRSystem from './TreeRSystem';
 import ReconnaissanceSystem from './ReconnaissanceSystem';
 import CodesSystem from './CodesSystem';
 import SecuritySystem from './SecuritySystem';
+import TireSystem from './TireSystem';
 
 const VehicleInterface = () => {
   // Panel deslizante state
