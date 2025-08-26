@@ -618,6 +618,9 @@ const VehicleInterface = () => {
               onSecurityStatusChange={handleSecurityStatusChange}
             />
           )}
+          {activeSection === 'tires' && (
+            <TireSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'codes' && (
             <CodesSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
