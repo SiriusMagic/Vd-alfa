@@ -60,6 +60,13 @@ const VehicleInterface = () => {
   const [sidePanelOpen, setSidePanelOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('dashboard');
   
+  // Security system state
+  const [securityStatus, setSecurityStatus] = useState({
+    openDoors: [],
+    unbuckledBelts: [],
+    hasSecurityIssues: false
+  });
+  
   // Vehicle state
   const [vehicleData, setVehicleData] = useState(mockData);
   const [driveMode, setDriveMode] = useState('AWD');
