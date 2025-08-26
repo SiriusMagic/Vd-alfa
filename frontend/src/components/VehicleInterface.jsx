@@ -132,9 +132,9 @@ const VehicleInterface = () => {
   };
 
   // Función para manejar cambios de estado de seguridad
-  const handleSecurityStatusChange = (status) => {
+  const handleSecurityStatusChange = useCallback((status) => {
     setSecurityStatus(status);
-  };
+  }, []);
 
   // Simulate real-time data updates
   useEffect(() => {
