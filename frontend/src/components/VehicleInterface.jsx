@@ -129,6 +129,11 @@ const VehicleInterface = () => {
     setSidePanelOpen(false);
   };
 
+  // Función para manejar cambios de estado de seguridad
+  const handleSecurityStatusChange = (status) => {
+    setSecurityStatus(status);
+  };
+
   // Simulate real-time data updates
   useEffect(() => {
     const interval = setInterval(() => {
