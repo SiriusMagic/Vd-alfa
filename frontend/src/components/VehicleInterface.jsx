@@ -327,6 +327,24 @@ const VehicleInterface = () => {
             <Badge variant={aiPowerActive ? "destructive" : "outline"} className="text-sm">
               {aiPowerActive ? "🧠 IA ACTIVA" : "MANUAL"}
             </Badge>
+            
+            {/* Indicadores de Seguridad */}
+            {securityStatus.hasSecurityIssues && (
+              <>
+                {securityStatus.openDoors.length > 0 && (
+                  <Badge variant="destructive" className="text-sm animate-pulse">
+                    <DoorOpen className="w-3 h-3 mr-1" />
+                    {securityStatus.openDoors.length} PUERTA(S)
+                  </Badge>
+                )}
+                {securityStatus.unbuckledBelts.length > 0 && (
+                  <Badge variant="destructive" className="text-sm animate-pulse">
+                    <UserX className="w-3 h-3 mr-1" />
+                    {securityStatus.unbuckledBelts.length} CINTURÓN(ES)
+                  </Badge>
+                )}
+              </>
+            )}
           </div>
         </div>
 
