@@ -103,6 +103,7 @@ const VehicleInterface = () => {
   // Secciones del panel lateral
   const sections = [
     { id: 'reconnaissance', name: 'Reconocimiento', icon: Eye, color: 'sky' },
+    { id: 'security', name: 'Seguridad', icon: Shield, color: 'red' },
     { id: 'codes', name: 'Códigos', icon: AlertTriangle, color: 'amber' },
     { id: 'treer', name: 'TreeR', icon: Leaf, color: 'green' },
     { id: 'autonomy', name: 'Autonomía', icon: Battery, color: 'pink' },
