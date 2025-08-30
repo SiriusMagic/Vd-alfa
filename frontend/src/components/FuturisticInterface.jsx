@@ -43,9 +43,123 @@ const FuturisticInterface = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex">
-      {/* Panel Izquierdo Expandido */}
-      <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col py-4">
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col">
+      {/* Header con Controles Avanzados */}
+      <div className="h-16 bg-gray-800 border-b border-gray-700 flex items-center justify-between px-6 z-30">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Monitor className="w-5 h-5 text-blue-400" />
+            <span className="text-lg font-bold text-white">Vista Futurística</span>
+            <Badge variant="outline" className="text-blue-400 border-blue-400">
+              v2.5
+            </Badge>
+          </div>
+          
+          {/* Quick Actions */}
+          <div className="flex items-center gap-2">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
+                  <Sliders className="w-4 h-4 mr-2" />
+                  Configuración
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-gray-800 border-gray-600 text-white">
+                <DialogHeader>
+                  <DialogTitle className="text-blue-400">Configuración Avanzada</DialogTitle>
+                  <DialogDescription className="text-gray-400">
+                    Personaliza la interfaz y funcionalidades del sistema
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4 py-4">
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-white">Tema Visual</h4>
+                    <div className="flex gap-2">
+                      <Button size="sm" variant="outline" className="border-blue-500 text-blue-400">
+                        <Palette className="w-4 h-4 mr-2" />
+                        Azul
+                      </Button>
+                      <Button size="sm" variant="outline" className="border-gray-600">
+                        Oscuro
+                      </Button>
+                      <Button size="sm" variant="outline" className="border-gray-600">
+                        Claro
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <h4 className="text-sm font-medium text-white">Layout</h4>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400">Panel Compacto</span>
+                      <Checkbox />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400">Animaciones</span>
+                      <Checkbox defaultChecked />
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-400">Auto-Actualizar</span>
+                      <Checkbox defaultChecked />
+                    </div>
+                  </div>
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" className="border-gray-600">Cancelar</Button>
+                  <Button className="bg-blue-600 hover:bg-blue-700">
+                    <Save className="w-4 h-4 mr-2" />
+                    Guardar
+                  </Button>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="border-gray-600 text-gray-300">
+                  <MoreHorizontal className="w-4 h-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-gray-800 border-gray-600 text-white">
+                <DropdownMenuLabel>Acciones Rápidas</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem className="text-gray-300 hover:bg-gray-700">
+                  <Download className="w-4 h-4 mr-2" />
+                  Exportar Configuración
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-gray-300 hover:bg-gray-700">
+                  <Upload className="w-4 h-4 mr-2" />
+                  Importar Configuración
+                </DropdownMenuItem>
+                <DropdownMenuItem className="text-gray-300 hover:bg-gray-700">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Reiniciar Sistema
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="bg-gray-600" />
+                <DropdownMenuItem className="text-red-400 hover:bg-red-900/30">
+                  <X className="w-4 h-4 mr-2" />
+                  Resetear Todo
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 text-sm text-gray-400">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            Sistema Online
+          </div>
+          <Badge className="bg-green-600">
+            Conectado
+          </Badge>
+        </div>
+      </div>
+
+      {/* Contenido Principal */}
+      <div className="flex-1 flex">
+        {/* Panel Izquierdo Expandido */}
+        <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col py-4 overflow-y-auto z-20">
         <div className="px-4 mb-6">
           <h2 className="text-lg font-bold text-white">TROPHY 2025</h2>
           <p className="text-xs text-gray-400">Sistema Inteligente</p>
