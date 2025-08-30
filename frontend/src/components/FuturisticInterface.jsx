@@ -83,38 +83,37 @@ const FuturisticInterface = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white flex relative overflow-hidden">
-      {/* Panel Izquierdo Vertical */}
-      <div className="w-16 bg-gray-900 flex flex-col items-center py-4 z-20">
-        {/* Logo/Marca */}
-        <div className="text-xs text-white transform -rotate-90 whitespace-nowrap mb-8 font-bold">
-          BMW 2024
+    <div className="h-screen bg-black text-white flex flex-col overflow-hidden">
+      {/* Header Horizontal Superior */}
+      <div className="h-12 sm:h-16 bg-gray-900 flex items-center justify-between px-4 sm:px-6 z-30">
+        <div className="flex items-center gap-2 sm:gap-4">
+          <span className="text-sm sm:text-base font-bold text-white">BMW 2024</span>
+          <Badge className="bg-blue-600 text-xs">Trophy</Badge>
         </div>
         
-        {/* Controles Verticales */}
-        <div className="space-y-4">
-          {leftControls.map((control, i) => (
-            <button
-              key={control.id}
-              onClick={() => setActiveControl(control.id)}
-              className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all ${
-                control.active 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-              }`}
-            >
-              <control.icon size={20} />
-            </button>
-          ))}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Wifi size={14} className="text-blue-400" />
+          <Bluetooth size={14} className="text-blue-400" />
+          <span className="text-xs sm:text-sm text-white">{systemStatus.battery}%</span>
         </div>
+      </div>
 
-        <div className="flex-1" />
-
-        {/* Temperatura Externa */}
-        <div className="text-center">
-          <div className="text-sm font-bold text-white">{temperature[0]}°C</div>
-          <div className="text-xs text-gray-400">EXT</div>
-        </div>
+      {/* Controles Horizontales Superiores */}
+      <div className="h-12 bg-gray-800 flex items-center justify-center gap-2 sm:gap-4 px-4 overflow-x-auto">
+        {leftControls.map((control, i) => (
+          <button
+            key={control.id}
+            onClick={() => setActiveControl(control.id)}
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-all ${
+              control.active 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+            }`}
+          >
+            <control.icon size={14} className="mr-1 inline" />
+            {control.name}
+          </button>
+        ))}
       </div>
 
       {/* Área Central del Vehículo */}
