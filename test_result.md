@@ -263,10 +263,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Viden Biometric Authentication System"
-    - "CrabModeSystem Icon Fix Verification"
+    - "Aerodinámica Intelligent Control System"
     - "All Vehicle Systems Integration"
-    - "Sliding Panel Navigation with New Viden Section"
+    - "Sliding Panel Navigation with New Aerodinámica Section"
+    - "Complete Trophy Truck Functionality"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
