@@ -474,28 +474,43 @@ const FuturisticInterface = () => {
         </div>
         <div className="grid grid-cols-5 gap-3">
           {[
-            { icon: Navigation, name: 'Navegación', active: true },
-            { icon: Thermometer, name: 'Clima', active: false },
-            { icon: Volume2, name: 'Audio', active: true },
-            { icon: Phone, name: 'Teléfono', active: false },
-            { icon: Camera, name: 'Cámara', active: true },
-            { icon: Eye, name: 'Seguridad', active: true },
-            { icon: Zap, name: 'Energía', active: true },
-            { icon: Wifi, name: 'Conectividad', active: true },
-            { icon: Settings, name: 'Configuración', active: false },
-            { icon: Car, name: 'Vehículo', active: true }
+            { icon: Navigation, name: 'Navegación', active: true, badge: 'GPS' },
+            { icon: Thermometer, name: 'Clima', active: advancedSettings.autoClimate, badge: '22°C' },
+            { icon: Volume2, name: 'Audio', active: true, badge: 'ON' },
+            { icon: Phone, name: 'Teléfono', active: false, badge: '---' },
+            { icon: Camera, name: 'Cámara 360°', active: true, badge: '4K' },
+            { icon: Eye, name: 'Seguridad', active: true, badge: 'OK' },
+            { icon: Zap, name: 'Energía', active: advancedSettings.performanceMode, badge: '78%' },
+            { icon: Wifi, name: 'Conectividad', active: true, badge: '5G' },
+            { icon: Monitor, name: 'HUD', active: advancedSettings.nightVision, badge: 'HD' },
+            { icon: Car, name: 'Vehículo', active: true, badge: 'RDY' }
           ].map((func, i) => (
-            <button 
+            <Card 
               key={i} 
-              className={`p-3 rounded-lg transition-all flex flex-col items-center gap-2 ${
+              className={`cursor-pointer transition-all border ${
                 func.active 
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
-                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                  ? 'bg-blue-600/20 border-blue-500 shadow-lg shadow-blue-500/20' 
+                  : 'bg-gray-700/50 border-gray-600 hover:bg-gray-600/50'
               }`}
             >
-              <func.icon size={18} />
-              <span className="text-xs font-medium">{func.name}</span>
-            </button>
+              <CardContent className="p-3 text-center">
+                <func.icon 
+                  size={18} 
+                  className={func.active ? 'text-blue-400 mx-auto mb-1' : 'text-gray-400 mx-auto mb-1'}
+                />
+                <div className="text-xs font-medium text-white mb-1">{func.name}</div>
+                <Badge 
+                  variant={func.active ? "default" : "outline"}
+                  className={`text-xs ${
+                    func.active 
+                      ? 'bg-blue-600 text-white' 
+                      : 'text-gray-400 border-gray-500'
+                  }`}
+                >
+                  {func.badge}
+                </Badge>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>
