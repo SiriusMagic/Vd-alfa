@@ -67,6 +67,7 @@ import EnhancedTireSystem from './EnhancedTireSystem';
 import CrabModeSystem from './CrabModeSystem';
 import VidenSystem from './VidenSystem';
 import GeocercasSystem from './GeocercasSystem';
+import AerodinamicaSystem from './AerodinamicaSystem';
 
 const VehicleInterface = () => {
   // Panel deslizante state
