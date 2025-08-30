@@ -392,11 +392,35 @@ const FuturisticInterface = () => {
         </div>
 
         <div className="px-4 mb-6">
-          <Alert className="bg-green-900/30 border-green-500/50 text-green-100">
-            <CheckCircle className="h-4 w-4" />
-            <AlertTitle>Sistema OK</AlertTitle>
-            <AlertDescription>Todos los sistemas funcionan correctamente</AlertDescription>
-          </Alert>
+          <Card className="bg-gray-800/50 border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-white flex items-center gap-2 text-sm">
+                <Settings className="w-4 h-4 text-purple-400" />
+                Configuración Avanzada
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {Object.entries(advancedSettings).map(([key, value]) => (
+                <div key={key} className="flex items-center justify-between">
+                  <span className="text-gray-300 text-sm">
+                    {key === 'nightVision' ? 'Visión Nocturna' :
+                     key === 'parkingAssist' ? 'Asistente Parking' :
+                     key === 'autoClimate' ? 'Clima Automático' :
+                     key === 'adaptiveSuspension' ? 'Suspensión Adaptiva' :
+                     key === 'ecoAssist' ? 'Asistente Eco' :
+                     key === 'performanceMode' ? 'Modo Performance' : key}
+                  </span>
+                  <Checkbox
+                    checked={value}
+                    onCheckedChange={(checked) =>
+                      setAdvancedSettings(prev => ({...prev, [key]: checked}))
+                    }
+                    className={value ? "border-green-500 data-[state=checked]:bg-green-600" : "border-gray-500"}
+                  />
+                </div>
+              ))}
+            </CardContent>
+          </Card>
         </div>
 
         <div className="flex-1" />
