@@ -20,6 +20,15 @@ const FuturisticInterface = () => {
   const [alerts, setAlerts] = useState([
     { id: 1, type: 'info', title: 'Sistema Activo', desc: 'Todos los sistemas funcionando correctamente' }
   ]);
+  const [vehicleView, setVehicleView] = useState(0);
+  const [advancedSettings, setAdvancedSettings] = useState({
+    nightVision: true,
+    parkingAssist: true,
+    autoClimate: false,
+    adaptiveSuspension: true,
+    ecoAssist: false,
+    performanceMode: true
+  });
 
   const modes = [
     { id: 'eco', name: 'Eco', icon: Leaf, desc: 'Máxima eficiencia energética' },
