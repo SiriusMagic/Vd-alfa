@@ -114,7 +114,12 @@ const VehicleInterface = () => {
   const sections = [
     { id: 'reconnaissance', name: 'Reconocimiento', icon: Eye, color: 'sky' },
     { id: 'security', name: 'Seguridad', icon: Shield, color: 'red' },
+    { id: 'crab-mode', name: 'Modo Cangrejo', icon: Move, color: 'orange' },
     { id: 'tires', name: 'Neumáticos', icon: CircleDot, color: 'orange' },
+    { id: 'enhanced-tires', name: 'Neumáticos Pro', icon: Target, color: 'purple' },
+    { id: 'compressor', name: 'Compresor', icon: ArrowUp, color: 'blue' },
+    { id: 'uv-hygiene', name: 'Higienización UV', icon: Sparkles, color: 'purple' },
+    { id: 'monitoring', name: 'Monitoreo', icon: Activity, color: 'green' },
     { id: 'codes', name: 'Códigos', icon: AlertTriangle, color: 'amber' },
     { id: 'treer', name: 'TreeR', icon: Leaf, color: 'green' },
     { id: 'autonomy', name: 'Autonomía', icon: Battery, color: 'pink' },
