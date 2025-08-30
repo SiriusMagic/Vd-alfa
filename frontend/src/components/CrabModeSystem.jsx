@@ -168,7 +168,7 @@ const CrabModeSystem = ({ vehicleData, disabled }) => {
   const getModoEstado = () => {
     if (!modoCangrejoActivo) return { color: 'text-slate-400', icon: Car, status: 'NORMAL' };
     if (anguloRuedasTraseras === 0) return { color: 'text-blue-400', icon: Target, status: 'CANGREJO - CENTRO' };
-    return { color: 'text-orange-400', icon: TrendingRight, status: 'CANGREJO - ACTIVO' };
+    return { color: 'text-orange-400', icon: ArrowUpRight, status: 'CANGREJO - ACTIVO' };
   };
 
   const estadoModo = getModoEstado();
