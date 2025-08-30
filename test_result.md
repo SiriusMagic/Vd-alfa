@@ -230,11 +230,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Dashboard Kilometer Tracking"
-    - "Reconnaissance Mission Enhancements"
-    - "Codes System Complete Functionality"
-    - "Sliding Panel Navigation"
-    - "All 13 Vehicle Systems Accessibility"
+    - "Viden Biometric Authentication System"
+    - "CrabModeSystem Icon Fix Verification"
+    - "All Vehicle Systems Integration"
+    - "Sliding Panel Navigation with New Viden Section"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
