@@ -417,27 +417,20 @@ const FuturisticInterface = () => {
           </Carousel>
         </div>
 
-        {/* Controles inferiores del vehículo */}
-        <div className="absolute bottom-20 left-0 right-0 bg-gray-800/90 backdrop-blur-sm border-t border-gray-700 p-4">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center gap-3">
-              <div className="text-sm font-medium text-white">Modo:</div>
-              <div className="px-3 py-1 bg-blue-600 rounded-full text-sm font-medium text-white capitalize">
-                {selectedMode}
+          {/* Control de Velocidad */}
+          <div className="mb-4">
+            <div className="flex justify-between items-center mb-2">
+              <div className="text-sm font-medium text-white">Control de Velocidad</div>
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-bold text-cyan-400">{speed[0]} km/h</span>
+                <div className="w-20 h-2 bg-gray-600 rounded-full">
+                  <div 
+                    className="h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full transition-all duration-300" 
+                    style={{width: `${(speed[0]/200)*100}%`}}
+                  />
+                </div>
               </div>
             </div>
-            <div className="flex items-center space-x-4">
-              <span className="text-lg font-bold text-cyan-400">{speed[0]} km/h</span>
-              <div className="w-24 h-2 bg-gray-600 rounded-full">
-                <div 
-                  className="h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full transition-all duration-300" 
-                  style={{width: `${(speed[0]/200)*100}%`}}
-                />
-              </div>
-            </div>
-          </div>
-          <div className="mb-2">
-            <div className="text-xs text-gray-400 mb-2">Control de Velocidad (0-200 km/h)</div>
             <Slider 
               value={speed} 
               onValueChange={setSpeed} 
@@ -447,203 +440,49 @@ const FuturisticInterface = () => {
               className="w-full"
             />
           </div>
-        </div>
-      </div>
 
-        {/* Panel Derecho Expandido */}
-        <div className="w-64 bg-gray-800 border-l border-gray-700 flex flex-col py-4 overflow-y-auto z-20">
-        <div className="px-4 mb-6">
-          <h2 className="text-lg font-bold text-white">Control Touch</h2>
-          <p className="text-xs text-gray-400">Sistemas Avanzados</p>
-        </div>
-        
-        <div className="px-4 mb-6">
-          <Card className="bg-gray-800/50 border-gray-600">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-white flex items-center gap-2">
-                <Signal className="w-5 h-5 text-cyan-400" />
-                Sistemas Avanzados
-              </CardTitle>
-              <CardDescription className="text-gray-400">
-                Monitoreo y control en tiempo real
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {[
-                { icon: Eye, name: 'Visión 360°', status: 'Activo', variant: 'default', health: 'excellent' },
-                { icon: Shield, name: 'Seguridad', status: 'Protegido', variant: 'default', health: 'good' },
-                { icon: Battery, name: 'Energía', status: '78%', variant: 'secondary', health: 'good' },
-                { icon: Activity, name: 'Diagnóstico', status: 'OK', variant: 'default', health: 'excellent' },
-                { icon: Settings, name: 'Configuración', status: 'Manual', variant: 'outline', health: 'normal' },
-                { icon: Navigation, name: 'GPS Satelital', status: 'Conectado', variant: 'default', health: 'excellent' }
-              ].map((system, i) => (
-                <Card
-                  key={i}
-                  className={`cursor-pointer transition-all border ${
-                    activeControl === i 
-                      ? 'bg-cyan-600/20 border-cyan-500 shadow-lg' 
-                      : 'bg-gray-700/30 border-gray-600 hover:bg-gray-600/30'
-                  }`}
-                  onClick={() => setActiveControl(i)}
-                >
-                  <CardContent className="p-3">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <system.icon 
-                          size={18} 
-                          className={activeControl === i ? 'text-cyan-400' : 'text-gray-400'}
-                        />
-                        <div>
-                          <div className={`text-sm font-medium ${activeControl === i ? 'text-white' : 'text-gray-300'}`}>
-                            {system.name}
-                          </div>
-                          <div className="flex items-center gap-2 mt-1">
-                            <div className={`w-2 h-2 rounded-full ${
-                              system.health === 'excellent' ? 'bg-green-400' :
-                              system.health === 'good' ? 'bg-blue-400' : 'bg-yellow-400'
-                            }`} />
-                            <span className="text-xs text-gray-400">
-                              {system.health === 'excellent' ? 'Excelente' :
-                               system.health === 'good' ? 'Bueno' : 'Normal'}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <Badge variant={system.variant} className="text-xs">
-                        {system.status}
-                      </Badge>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="px-4 mb-6">
-          <Card className="bg-gray-800/50 border-gray-600">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-white flex items-center gap-2 text-sm">
-                <Settings className="w-4 h-4 text-purple-400" />
-                Configuración Avanzada
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              {Object.entries(advancedSettings).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between">
-                  <span className="text-gray-300 text-sm">
-                    {key === 'nightVision' ? 'Visión Nocturna' :
-                     key === 'parkingAssist' ? 'Asistente Parking' :
-                     key === 'autoClimate' ? 'Clima Automático' :
-                     key === 'adaptiveSuspension' ? 'Suspensión Adaptiva' :
-                     key === 'ecoAssist' ? 'Asistente Eco' :
-                     key === 'performanceMode' ? 'Modo Performance' : key}
-                  </span>
-                  <Checkbox
-                    checked={value}
-                    onCheckedChange={(checked) =>
-                      setAdvancedSettings(prev => ({...prev, [key]: checked}))
-                    }
-                    className={value ? "border-green-500 data-[state=checked]:bg-green-600" : "border-gray-500"}
-                  />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="flex-1" />
-        <div className="px-4 space-y-3">
-          <Card className="bg-gradient-to-r from-green-900/20 to-green-800/20 border-green-500/30">
-            <CardContent className="p-4 text-center">
-              <Battery className="w-6 h-6 mx-auto mb-2 text-green-400" />
-              <div className="text-2xl font-bold text-green-400">78%</div>
-              <div className="text-xs text-green-300">Batería Principal</div>
-              <Badge variant="outline" className="mt-2 text-green-400 border-green-400">
-                Óptimo
-              </Badge>
-            </CardContent>
-          </Card>
-          
-          <Card className="bg-gradient-to-r from-cyan-900/20 to-blue-800/20 border-cyan-500/30">
-            <CardContent className="p-4 text-center">
-              <Gauge className="w-6 h-6 mx-auto mb-2 text-cyan-400" />
-              <div className="text-2xl font-bold text-cyan-400">{speed[0]}</div>
-              <div className="text-xs text-cyan-300">Velocidad (km/h)</div>
-              <Badge 
-                variant={speed[0] > 150 ? "destructive" : speed[0] > 80 ? "secondary" : "default"}
-                className="mt-2"
+          {/* Funciones Rápidas Grid */}
+          <div className="grid grid-cols-5 gap-2">
+            {[
+              { icon: Navigation, name: 'GPS', active: true, badge: 'ON' },
+              { icon: Thermometer, name: 'Clima', active: advancedSettings.autoClimate, badge: '22°C' },
+              { icon: Volume2, name: 'Audio', active: true, badge: 'ON' },
+              { icon: Camera, name: 'Cámara', active: true, badge: '4K' },
+              { icon: Eye, name: 'Seguridad', active: true, badge: 'OK' },
+              { icon: Zap, name: 'Energía', active: advancedSettings.performanceMode, badge: '78%' },
+              { icon: Wifi, name: 'WiFi', active: true, badge: '5G' },
+              { icon: Monitor, name: 'HUD', active: advancedSettings.nightVision, badge: 'HD' },
+              { icon: Phone, name: 'Teléfono', active: false, badge: '---' },
+              { icon: Car, name: 'Vehículo', active: true, badge: 'RDY' }
+            ].map((func, i) => (
+              <Card 
+                key={i} 
+                className={`cursor-pointer transition-all border text-center ${
+                  func.active 
+                    ? 'bg-blue-600/20 border-blue-500 shadow-sm' 
+                    : 'bg-gray-700/50 border-gray-600 hover:bg-gray-600/50'
+                }`}
               >
-                {speed[0] > 150 ? 'Alta' : speed[0] > 80 ? 'Media' : 'Baja'}
-              </Badge>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-r from-blue-900/20 to-purple-800/20 border-blue-500/30">
-            <CardContent className="p-4 text-center">
-              <Clock className="w-6 h-6 mx-auto mb-2 text-blue-400" />
-              <div className="text-lg font-bold text-blue-400">12:34</div>
-              <div className="text-xs text-blue-300">Sistema Activo</div>
-              <Badge variant="default" className="mt-2 bg-blue-600">
-                En Línea
-              </Badge>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
-      {/* Panel Inferior Mejorado */}
-      <div className="h-32 bg-gray-900 border-t border-gray-700 p-4 z-30">
-
-      {/* Barra inferior expandida */}
-      <div className="absolute bottom-0 left-64 right-64 bg-gray-900 border-t border-gray-700 p-4">
-        <div className="flex justify-between items-center mb-3">
-          <div className="text-sm font-medium text-white">Funciones Rápidas</div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-xs text-gray-400">Sistema Conectado</span>
+                <CardContent className="p-2">
+                  <func.icon 
+                    size={16} 
+                    className={func.active ? 'text-blue-400 mx-auto mb-1' : 'text-gray-400 mx-auto mb-1'}
+                  />
+                  <div className="text-xs text-white mb-1">{func.name}</div>
+                  <Badge 
+                    variant={func.active ? "default" : "outline"}
+                    className={`text-xs ${
+                      func.active 
+                        ? 'bg-blue-600 text-white' 
+                        : 'text-gray-400 border-gray-500'
+                    }`}
+                  >
+                    {func.badge}
+                  </Badge>
+                </CardContent>
+              </Card>
+            ))}
           </div>
-        </div>
-        <div className="grid grid-cols-5 gap-3">
-          {[
-            { icon: Navigation, name: 'Navegación', active: true, badge: 'GPS' },
-            { icon: Thermometer, name: 'Clima', active: advancedSettings.autoClimate, badge: '22°C' },
-            { icon: Volume2, name: 'Audio', active: true, badge: 'ON' },
-            { icon: Phone, name: 'Teléfono', active: false, badge: '---' },
-            { icon: Camera, name: 'Cámara 360°', active: true, badge: '4K' },
-            { icon: Eye, name: 'Seguridad', active: true, badge: 'OK' },
-            { icon: Zap, name: 'Energía', active: advancedSettings.performanceMode, badge: '78%' },
-            { icon: Wifi, name: 'Conectividad', active: true, badge: '5G' },
-            { icon: Monitor, name: 'HUD', active: advancedSettings.nightVision, badge: 'HD' },
-            { icon: Car, name: 'Vehículo', active: true, badge: 'RDY' }
-          ].map((func, i) => (
-            <Card 
-              key={i} 
-              className={`cursor-pointer transition-all border ${
-                func.active 
-                  ? 'bg-blue-600/20 border-blue-500 shadow-lg shadow-blue-500/20' 
-                  : 'bg-gray-700/50 border-gray-600 hover:bg-gray-600/50'
-              }`}
-            >
-              <CardContent className="p-3 text-center">
-                <func.icon 
-                  size={18} 
-                  className={func.active ? 'text-blue-400 mx-auto mb-1' : 'text-gray-400 mx-auto mb-1'}
-                />
-                <div className="text-xs font-medium text-white mb-1">{func.name}</div>
-                <Badge 
-                  variant={func.active ? "default" : "outline"}
-                  className={`text-xs ${
-                    func.active 
-                      ? 'bg-blue-600 text-white' 
-                      : 'text-gray-400 border-gray-500'
-                  }`}
-                >
-                  {func.badge}
-                </Badge>
-              </CardContent>
-            </Card>
-          ))}
         </div>
       </div>
     </div>
