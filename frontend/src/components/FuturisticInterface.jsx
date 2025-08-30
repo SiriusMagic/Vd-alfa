@@ -37,12 +37,27 @@ const FuturisticInterface = () => {
     connectivity: true
   });
 
-  const modes = [
-    { id: 'eco', name: 'Eco', icon: Leaf, desc: 'Máxima eficiencia energética' },
-    { id: 'confort', name: 'Confort', icon: User, desc: 'Balance entre rendimiento y comodidad' },
-    { id: 'deportivo', name: 'Deportivo', icon: Zap, desc: 'Máximo rendimiento y potencia' },
-    { id: 'individual', name: 'Individual', icon: Settings, desc: 'Configuración personalizada' },
-    { id: 'offroad', name: 'Off-Road', icon: Trophy, desc: 'Optimizado para terrenos difíciles' }
+  const leftControls = [
+    { id: 'modo', name: 'Modo de conducción', icon: Car, active: true },
+    { id: 'alarm', name: 'Alarma', icon: Shield, active: vehicleControls.alarm },
+    { id: 'modo2', name: 'Modo', icon: Settings, active: false },
+    { id: 'individual', name: 'Individual', icon: User, active: true },
+    { id: 'deporte', name: 'Deporte', icon: Zap, active: false },
+    { id: 'eco', name: 'Eco', icon: Leaf, active: vehicleControls.eco }
+  ];
+
+  const rightControls = [
+    { id: 'control-fresco', name: 'Control Fresco', icon: Thermometer, active: true },
+    { id: 'volume', name: 'Volume', icon: Volume2, active: true },
+    { id: 'suspen', name: 'Suspen', icon: Settings, active: true },
+    { id: 'hud', name: 'HUD', icon: Monitor, active: true },
+    { id: 'energy', name: 'Energy', icon: Battery, active: true }
+  ];
+
+  const bottomOptions = [
+    'Navegación', 'Asiento', 'Luces', 'Puertas y ventanas', 'Cargo', 
+    'ISOFIX/AO', 'Seguridad', 'Conectividad', 'Solución y notificaciones', 
+    'Voz', 'Visualización', 'Personalización'
   ];
 
   return (
