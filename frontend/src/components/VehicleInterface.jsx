@@ -116,6 +116,7 @@ const VehicleInterface = () => {
     { id: 'reconnaissance', name: 'Reconocimiento', icon: Eye, color: 'sky' },
     { id: 'security', name: 'Seguridad', icon: Shield, color: 'red' },
     { id: 'crab-mode', name: 'Modo Cangrejo', icon: Move, color: 'orange' },
+    { id: 'viden', name: 'Viden', icon: Shield, color: 'cyan' },
     { id: 'tires', name: 'Neumáticos', icon: CircleDot, color: 'orange' },
     { id: 'enhanced-tires', name: 'Neumáticos Pro', icon: Target, color: 'purple' },
     { id: 'compressor', name: 'Compresor', icon: ArrowUp, color: 'blue' },
