@@ -112,11 +112,17 @@ const FuturisticInterface = () => {
         </div>
 
         <div className="flex-1" />
-        <div className="px-4 text-center">
-          <div className="bg-gray-700 rounded-lg p-3">
-            <div className="text-sm font-medium text-white">22°C</div>
-            <div className="text-xs text-gray-400">Temperatura Externa</div>
-          </div>
+        <div className="px-4">
+          <Card className="bg-gradient-to-b from-orange-900/20 to-yellow-800/20 border-orange-500/30">
+            <CardContent className="p-4 text-center">
+              <Thermometer className="w-5 h-5 mx-auto mb-2 text-orange-400" />
+              <div className="text-lg font-bold text-orange-400">22°C</div>
+              <div className="text-xs text-orange-300 mb-2">Temperatura Externa</div>
+              <Badge variant="outline" className="text-orange-400 border-orange-400">
+                Confortable
+              </Badge>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
