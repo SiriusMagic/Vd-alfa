@@ -26,26 +26,63 @@ const FuturisticInterface = () => {
 
   return (
     <div className="min-h-screen bg-gray-900 text-white flex">
-      {/* Panel Izquierdo */}
-      <div className="w-20 bg-gray-800 border-r border-gray-700 flex flex-col items-center py-4 space-y-6">
-        <div className="text-xs font-bold transform -rotate-90 whitespace-nowrap mb-8">TROPHY 2025</div>
+      {/* Panel Izquierdo Expandido */}
+      <div className="w-64 bg-gray-800 border-r border-gray-700 flex flex-col py-4">
+        <div className="px-4 mb-6">
+          <h2 className="text-lg font-bold text-white">TROPHY 2025</h2>
+          <p className="text-xs text-gray-400">Sistema Inteligente</p>
+        </div>
         
-        {modes.map((mode) => (
-          <button
-            key={mode.id}
-            onClick={() => setSelectedMode(mode.id)}
-            className={`p-3 rounded-lg transition-colors ${
-              selectedMode === mode.id ? 'bg-blue-600' : 'hover:bg-gray-700'
-            }`}
-          >
-            <mode.icon size={20} />
-          </button>
-        ))}
+        <div className="px-4 mb-6">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="modes" className="border-gray-600">
+              <AccordionTrigger className="text-white hover:text-blue-400">
+                Modos de Conducción
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-2">
+                  {modes.map((mode) => (
+                    <button
+                      key={mode.id}
+                      onClick={() => setSelectedMode(mode.id)}
+                      className={`w-full p-3 rounded-lg transition-all text-left ${
+                        selectedMode === mode.id 
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      }`}
+                      title={mode.desc}
+                    >
+                      <div className="flex items-center gap-3">
+                        <mode.icon size={16} />
+                        <div>
+                          <div className="font-medium">{mode.name}</div>
+                          <div className="text-xs opacity-75">{mode.desc}</div>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        <div className="px-4 mb-6">
+          {alerts.map((alert) => (
+            <Alert key={alert.id} className="bg-blue-900/30 border-blue-500/50 text-blue-100">
+              <Info className="h-4 w-4" />
+              <AlertTitle>{alert.title}</AlertTitle>
+              <AlertDescription>{alert.desc}</AlertDescription>
+            </Alert>
+          ))}
+        </div>
 
         <div className="flex-1" />
-        <div className="text-center">
-          <div className="text-xs">22°C</div>
-          <div className="text-xs opacity-60">EXT</div>
+        <div className="px-4 text-center">
+          <div className="bg-gray-700 rounded-lg p-3">
+            <div className="text-sm font-medium text-white">22°C</div>
+            <div className="text-xs text-gray-400">Temperatura Externa</div>
+          </div>
         </div>
       </div>
 
