@@ -113,7 +113,26 @@ const GeocercasSystem = () => {
     });
   };
 
-  const resultado = estadoGeocerca ? verificarGeocerca() : null;
+  // Calcular resultado basado en el estado actual
+  const resultado = useMemo(() => {
+    if (!estadoGeocerca) return null;
+    
+    if (estadoGeocerca === 'dentro') {
+      return {
+        estado: 'dentro',
+        mensaje: 'El vehículo está DENTRO de la geocerca. Activando modo de seguridad.',
+        color: 'text-green-400',
+        accion: 'Modo Seguridad Activado'
+      };
+    } else {
+      return {
+        estado: 'fuera',
+        mensaje: 'El vehículo está FUERA de la geocerca. Enviando alerta.',
+        color: 'text-red-400',
+        accion: 'Alerta Enviada'
+      };
+    }
+  }, [estadoGeocerca]);
 
   return (
     <div className="h-full overflow-y-auto p-6 space-y-6">
