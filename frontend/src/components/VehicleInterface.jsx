@@ -640,6 +640,9 @@ const VehicleInterface = () => {
           {activeSection === 'viden' && (
             <VidenSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
+          {activeSection === 'geocercas' && (
+            <GeocercasSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'tires' && (
             <TireSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
