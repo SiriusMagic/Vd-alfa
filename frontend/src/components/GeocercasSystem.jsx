@@ -78,7 +78,7 @@ const GeocercasSystem = () => {
     if (simulacionActiva) {
       verificarGeocerca();
     }
-  }, [ubicacionVehiculo, geocerca]);
+  }, [ubicacionVehiculo, geocerca, simulacionActiva, verificarGeocerca]);
 
   const iniciarSimulacion = () => {
     setSimulacionActiva(true);
