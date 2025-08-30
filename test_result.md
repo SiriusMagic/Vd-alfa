@@ -150,13 +150,19 @@ frontend:
     implemented: true
     working: true
     file: "/app/frontend/src/components/GeocercasSystem.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
       - working: true
         agent: "main"
         comment: "Created comprehensive Geocercas (geofencing) system with virtual perimeter monitoring. Includes vehicle location simulation (lat/lon), configurable geofence with radius, euclidean distance calculation, real-time inside/outside detection, security mode activation, alert system, manual quick controls, and progress visualization. All simulation functionality tested successfully via automated browser testing."
+      - working: false
+        agent: "user"
+        comment: "User reported 'Too many re-renders' React error affecting the application"
+      - working: true
+        agent: "main"
+        comment: "FIXED React infinite rendering loop: 1) Moved verificarGeocerca() function call from component body to useCallback hook, 2) Replaced direct function call with useMemo for resultado calculation, 3) Added missing dependencies to useEffect hook, 4) Verified fix with automated testing - NO RENDERING ERRORS DETECTED. GeocercasSystem now works properly without infinite loops."
 
   - task: "Implement Right Sliding Panel Interface"
     implemented: true
