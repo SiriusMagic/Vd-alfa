@@ -281,8 +281,8 @@ const FuturisticInterface = () => {
             </div>
           </div>
 
-        {/* Carousel de Vistas del Vehículo */}
-        <div className="flex items-center justify-center h-full relative px-16">
+          {/* Carousel de Vistas del Vehículo */}
+          <div className="flex-1 flex items-center justify-center p-8">
           <Carousel className="w-full max-w-xs">
             <CarouselContent>
               {/* Vista Exterior */}
