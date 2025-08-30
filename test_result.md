@@ -118,6 +118,33 @@ frontend:
       - working: true
         agent: "main"
         comment: "Fixed by replacing undefined 'Drone' icon with available 'Plane' icon from lucide-react. All drone references updated successfully"
+  
+  - task: "Fix CrabModeSystem TrendingRight Icon Error"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/CrabModeSystem.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "user"
+        comment: "User reported compilation error: 'No se encontró la exportación TrendingRight (importada como TrendingRight) en lucide-react'"
+      - working: true
+        agent: "main"
+        comment: "Error already resolved - TrendingRight was replaced with ArrowUpRight icon. Project compiles successfully."
+
+  - task: "Implement Viden Biometric Authentication System"
+    implemented: true
+    working: true
+    file: "/app/frontend/src/components/VidenSystem.jsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Created comprehensive Viden system with 4 biometric authentication methods: Facial Recognition 2nd Gen (animated points, 3-sec scan), Smart Wearable Device (NFC/RFID simulation), Unique Voice Recognition (audio waves), and Dual Iris+Voice (sequential verification). All feature realistic animations and mockup simulations as requested."
 
   - task: "Implement Right Sliding Panel Interface"
     implemented: true
