@@ -124,6 +124,7 @@ const VehicleInterface = () => {
     { id: 'viden', name: 'Viden', icon: Shield, color: 'cyan' },
     { id: 'geocercas', name: 'Geocercas', icon: MapPin, color: 'teal' },
     { id: 'aerodinamica', name: 'Aerodinámica', icon: Wind, color: 'sky' },
+    { id: 'futuristic', name: 'Vista Futurista', icon: Car, color: 'indigo' },
     { id: 'tires', name: 'Neumáticos', icon: CircleDot, color: 'orange' },
     { id: 'enhanced-tires', name: 'Neumáticos Pro', icon: Target, color: 'purple' },
     { id: 'compressor', name: 'Compresor', icon: ArrowUp, color: 'blue' },
