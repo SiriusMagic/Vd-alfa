@@ -12,13 +12,16 @@ const FuturisticInterface = () => {
   const [selectedMode, setSelectedMode] = useState('deportivo');
   const [activeControl, setActiveControl] = useState(null);
   const [speed, setSpeed] = useState([85]);
+  const [alerts, setAlerts] = useState([
+    { id: 1, type: 'info', title: 'Sistema Activo', desc: 'Todos los sistemas funcionando correctamente' }
+  ]);
 
   const modes = [
-    { id: 'eco', name: 'Eco', icon: Leaf },
-    { id: 'confort', name: 'Confort', icon: User },
-    { id: 'deportivo', name: 'Deportivo', icon: Zap },
-    { id: 'individual', name: 'Individual', icon: Settings },
-    { id: 'offroad', name: 'Off-Road', icon: Trophy }
+    { id: 'eco', name: 'Eco', icon: Leaf, desc: 'Máxima eficiencia energética' },
+    { id: 'confort', name: 'Confort', icon: User, desc: 'Balance entre rendimiento y comodidad' },
+    { id: 'deportivo', name: 'Deportivo', icon: Zap, desc: 'Máximo rendimiento y potencia' },
+    { id: 'individual', name: 'Individual', icon: Settings, desc: 'Configuración personalizada' },
+    { id: 'offroad', name: 'Off-Road', icon: Trophy, desc: 'Optimizado para terrenos difíciles' }
   ];
 
   return (
