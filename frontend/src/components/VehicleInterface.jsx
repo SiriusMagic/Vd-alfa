@@ -58,6 +58,11 @@ import ReconnaissanceSystem from './ReconnaissanceSystem';
 import CodesSystem from './CodesSystem';
 import SecuritySystem from './SecuritySystem';
 import TireSystem from './TireSystem';
+import UVHygienizationSystem from './UVHygienizationSystem';
+import ParameterMonitoringSystem from './ParameterMonitoringSystem';
+import CompressorSystem from './CompressorSystem';
+import EnhancedTireSystem from './EnhancedTireSystem';
+import CrabModeSystem from './CrabModeSystem';
 
 const VehicleInterface = () => {
   // Panel deslizante state
