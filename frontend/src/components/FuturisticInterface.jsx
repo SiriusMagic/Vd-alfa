@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Slider } from './ui/slider';
+import { Alert, AlertTitle, AlertDescription } from './ui/alert';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { 
   Car, Leaf, User, Zap, Settings, Trophy, Thermometer, Wind, Navigation, Shield, Eye, 
-  Battery, Activity, Wifi, Phone, Camera, Lock, Lightbulb, MapPin, Wrench, Volume2, Gauge
+  Battery, Activity, Wifi, Phone, Camera, Lock, Lightbulb, MapPin, Wrench, Volume2, Gauge,
+  AlertTriangle, CheckCircle, Info
 } from 'lucide-react';
 
 const FuturisticInterface = () => {
