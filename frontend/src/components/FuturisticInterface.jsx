@@ -4,10 +4,13 @@ import { Alert, AlertTitle, AlertDescription } from './ui/alert';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
 import { Badge } from './ui/badge';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './ui/carousel';
+import { Checkbox } from './ui/checkbox';
 import { 
   Car, Leaf, User, Zap, Settings, Trophy, Thermometer, Wind, Navigation, Shield, Eye, 
   Battery, Activity, Wifi, Phone, Camera, Lock, Lightbulb, MapPin, Wrench, Volume2, Gauge,
-  AlertTriangle, CheckCircle, Info, Cpu, Signal, Bluetooth, Clock
+  AlertTriangle, CheckCircle, Info, Cpu, Signal, Bluetooth, Clock, RotateCcw, Maximize2,
+  Monitor, Smartphone, Tablet, Video
 } from 'lucide-react';
 
 const FuturisticInterface = () => {
