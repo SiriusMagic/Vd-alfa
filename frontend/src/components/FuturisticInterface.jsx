@@ -256,19 +256,30 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
-      {/* Área Central */}
-      <div className="flex-1 relative overflow-hidden">
-        {/* Header */}
-        <div className="absolute top-4 left-4 right-4 flex justify-between items-center z-10">
-          <div className="flex items-center space-x-4">
-            <div className="bg-gray-800 rounded-full px-3 py-1 text-sm">Climatización</div>
-            <div className="bg-gray-800 rounded-full px-3 py-1 text-sm">Auto</div>
+        {/* Área Central Optimizada */}
+        <div className="flex-1 flex flex-col">
+          {/* Subheader con Estado */}
+          <div className="h-12 bg-gray-800/50 border-b border-gray-700/50 flex items-center justify-between px-4 z-10">
+            <div className="flex items-center space-x-3">
+              <Badge variant="outline" className="text-green-400 border-green-400">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-2"></div>
+                Climatización Auto
+              </Badge>
+              <Badge variant="outline" className="text-blue-400 border-blue-400">
+                Modo {selectedMode}
+              </Badge>
+            </div>
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center gap-2 text-sm">
+                <Wifi size={14} className="text-blue-400" />
+                <span className="text-gray-300">5G</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm">
+                <Battery size={14} className="text-green-400" />
+                <span className="text-green-400">78%</span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center space-x-2">
-            <Wifi size={16} className="text-blue-400" />
-            <div className="text-sm">78%</div>
-          </div>
-        </div>
 
         {/* Carousel de Vistas del Vehículo */}
         <div className="flex items-center justify-center h-full relative px-16">
