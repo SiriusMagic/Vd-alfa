@@ -203,17 +203,40 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
-      {/* Barra inferior */}
-      <div className="absolute bottom-0 left-20 right-20 bg-gray-900 border-t border-gray-700 p-3">
-        <div className="flex justify-between items-center">
-          <div className="flex space-x-6">
-            {[Navigation, Thermometer, Volume2, Phone, Car, Settings, Camera, Eye, Zap, Wifi].map((Icon, i) => (
-              <button key={i} className="flex flex-col items-center space-y-1 text-xs hover:text-blue-400 transition-colors">
-                <Icon size={16} />
-              </button>
-            ))}
+      {/* Barra inferior expandida */}
+      <div className="absolute bottom-0 left-64 right-64 bg-gray-900 border-t border-gray-700 p-4">
+        <div className="flex justify-between items-center mb-3">
+          <div className="text-sm font-medium text-white">Funciones Rápidas</div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="text-xs text-gray-400">Sistema Conectado</span>
           </div>
-          <div className="text-xs text-gray-400">Trophy Truck Control System</div>
+        </div>
+        <div className="grid grid-cols-5 gap-3">
+          {[
+            { icon: Navigation, name: 'Navegación', active: true },
+            { icon: Thermometer, name: 'Clima', active: false },
+            { icon: Volume2, name: 'Audio', active: true },
+            { icon: Phone, name: 'Teléfono', active: false },
+            { icon: Camera, name: 'Cámara', active: true },
+            { icon: Eye, name: 'Seguridad', active: true },
+            { icon: Zap, name: 'Energía', active: true },
+            { icon: Wifi, name: 'Conectividad', active: true },
+            { icon: Settings, name: 'Configuración', active: false },
+            { icon: Car, name: 'Vehículo', active: true }
+          ].map((func, i) => (
+            <button 
+              key={i} 
+              className={`p-3 rounded-lg transition-all flex flex-col items-center gap-2 ${
+                func.active 
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30' 
+                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+              }`}
+            >
+              <func.icon size={18} />
+              <span className="text-xs font-medium">{func.name}</span>
+            </button>
+          ))}
         </div>
       </div>
     </div>
