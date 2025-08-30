@@ -18,20 +18,23 @@ import {
 } from 'lucide-react';
 
 const FuturisticInterface = () => {
-  const [selectedMode, setSelectedMode] = useState('deportivo');
+  const [selectedMode, setSelectedMode] = useState('Individual');
   const [activeControl, setActiveControl] = useState(null);
-  const [speed, setSpeed] = useState([85]);
-  const [alerts, setAlerts] = useState([
-    { id: 1, type: 'info', title: 'Sistema Activo', desc: 'Todos los sistemas funcionando correctamente' }
-  ]);
-  const [vehicleView, setVehicleView] = useState(0);
-  const [advancedSettings, setAdvancedSettings] = useState({
-    nightVision: true,
-    parkingAssist: true,
-    autoClimate: false,
-    adaptiveSuspension: true,
-    ecoAssist: false,
-    performanceMode: true
+  const [temperature, setTemperature] = useState([21]);
+  const [fanSpeed, setFanSpeed] = useState([3]);
+  const [climateMode, setClimateMode] = useState('Auto');
+  const [vehicleControls, setVehicleControls] = useState({
+    alarm: false,
+    security: true,
+    suspension: 'Sport',
+    lights: true,
+    eco: false
+  });
+  const [systemStatus, setSystemStatus] = useState({
+    battery: 78,
+    range: 456,
+    temperature: 21,
+    connectivity: true
   });
 
   const modes = [
