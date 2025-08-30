@@ -40,7 +40,7 @@ const GeocercasSystem = () => {
   };
 
   // Función para verificar si el vehículo está dentro de la geocerca
-  const verificarGeocerca = () => {
+  const verificarGeocerca = useCallback(() => {
     const distancia = calcularDistancia(ubicacionVehiculo, geocerca);
     setDistanciaCalculada(distancia);
     
@@ -48,24 +48,12 @@ const GeocercasSystem = () => {
       setEstadoGeocerca('dentro');
       setModoSeguridad(true);
       setAlertaEnviada(false);
-      return {
-        estado: 'dentro',
-        mensaje: 'El vehículo está DENTRO de la geocerca. Activando modo de seguridad.',
-        color: 'text-green-400',
-        accion: 'Modo Seguridad Activado'
-      };
     } else {
       setEstadoGeocerca('fuera');
       setModoSeguridad(false);
       setAlertaEnviada(true);
-      return {
-        estado: 'fuera',
-        mensaje: 'El vehículo está FUERA de la geocerca. Enviando alerta.',
-        color: 'text-red-400',
-        accion: 'Alerta Enviada'
-      };
     }
-  };
+  }, [ubicacionVehiculo, geocerca]);
 
   // Simulación automática de movimiento del vehículo
   useEffect(() => {
