@@ -85,13 +85,30 @@ const FuturisticInterface = () => {
         </div>
 
         <div className="px-4 mb-6">
-          {alerts.map((alert) => (
-            <Alert key={alert.id} className="bg-blue-900/30 border-blue-500/50 text-blue-100">
-              <Info className="h-4 w-4" />
-              <AlertTitle>{alert.title}</AlertTitle>
-              <AlertDescription>{alert.desc}</AlertDescription>
-            </Alert>
-          ))}
+          <Card className="bg-blue-900/20 border-blue-500/50">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-blue-300 flex items-center gap-2 text-sm">
+                <Info className="w-4 h-4" />
+                Estado del Sistema
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              {alerts.map((alert) => (
+                <div key={alert.id} className="flex items-center justify-between">
+                  <span className="text-blue-100 text-sm">{alert.desc}</span>
+                  <Badge variant="outline" className="text-blue-400 border-blue-400">
+                    Activo
+                  </Badge>
+                </div>
+              ))}
+              <div className="flex items-center justify-between mt-3 pt-3 border-t border-blue-500/30">
+                <span className="text-blue-100 text-xs">Última actualización:</span>
+                <Badge variant="secondary" className="text-xs">
+                  Ahora
+                </Badge>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         <div className="flex-1" />
