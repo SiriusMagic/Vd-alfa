@@ -148,23 +148,27 @@ def test_api_prefix():
     """Test that API routes are properly prefixed with /api"""
     print_test_header("API Route Prefix Verification")
     
-    # Test that routes without /api prefix don't work
-    base_url = BACKEND_URL.replace('/api', '')
-    
+    # Test that API routes work with /api prefix
     try:
-        response = requests.get(f"{base_url}/", timeout=TEST_TIMEOUT)
+        api_response = requests.get(f"{BACKEND_URL}/", timeout=TEST_TIMEOUT)
         
-        if response.status_code == 404:
-            print_result("API Prefix Enforcement", True, "Routes properly require /api prefix")
+        # Test that root URL serves frontend (not API)
+        base_url = BACKEND_URL.replace('/api', '')
+        root_response = requests.get(f"{base_url}/", timeout=TEST_TIMEOUT)
+        
+        if (api_response.status_code == 200 and 
+            root_response.status_code == 200 and 
+            'Hello World' in api_response.text and
+            'html' in root_response.text.lower()):
+            print_result("API Prefix Configuration", True, "API routes properly prefixed, frontend served at root")
             return True
         else:
-            print_result("API Prefix Enforcement", False, f"Route accessible without /api prefix: {response.status_code}")
+            print_result("API Prefix Configuration", False, f"API: {api_response.status_code}, Root: {root_response.status_code}")
             return False
             
     except requests.exceptions.RequestException as e:
-        # This might be expected if the server doesn't respond to non-/api routes
-        print_result("API Prefix Enforcement", True, f"Routes properly protected (connection error expected): {str(e)}")
-        return True
+        print_result("API Prefix Configuration", False, f"Request error: {str(e)}")
+        return False
 
 def test_error_handling():
     """Test error handling for invalid requests"""
