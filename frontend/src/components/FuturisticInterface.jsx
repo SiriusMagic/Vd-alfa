@@ -182,39 +182,66 @@ const FuturisticInterface = () => {
         </div>
         
         <div className="px-4 mb-6">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="systems" className="border-gray-600">
-              <AccordionTrigger className="text-white hover:text-cyan-400">
-                Sistemas del Vehículo
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2">
-                  {[
-                    { icon: Eye, name: 'Visión 360°', status: 'Activo' },
-                    { icon: Shield, name: 'Seguridad', status: 'Protegido' },
-                    { icon: Battery, name: 'Energía', status: '78%' },
-                    { icon: Activity, name: 'Diagnóstico', status: 'OK' },
-                    { icon: Settings, name: 'Config', status: 'Manual' },
-                    { icon: Navigation, name: 'GPS', status: 'Conectado' }
-                  ].map((system, i) => (
-                    <button 
-                      key={i} 
-                      onClick={() => setActiveControl(i)} 
-                      className={`w-full p-3 rounded-lg transition-colors flex items-center justify-between ${
-                        activeControl === i ? 'bg-cyan-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                    >
+          <Card className="bg-gray-800/50 border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-white flex items-center gap-2">
+                <Signal className="w-5 h-5 text-cyan-400" />
+                Sistemas Avanzados
+              </CardTitle>
+              <CardDescription className="text-gray-400">
+                Monitoreo y control en tiempo real
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {[
+                { icon: Eye, name: 'Visión 360°', status: 'Activo', variant: 'default', health: 'excellent' },
+                { icon: Shield, name: 'Seguridad', status: 'Protegido', variant: 'default', health: 'good' },
+                { icon: Battery, name: 'Energía', status: '78%', variant: 'secondary', health: 'good' },
+                { icon: Activity, name: 'Diagnóstico', status: 'OK', variant: 'default', health: 'excellent' },
+                { icon: Settings, name: 'Configuración', status: 'Manual', variant: 'outline', health: 'normal' },
+                { icon: Navigation, name: 'GPS Satelital', status: 'Conectado', variant: 'default', health: 'excellent' }
+              ].map((system, i) => (
+                <Card
+                  key={i}
+                  className={`cursor-pointer transition-all border ${
+                    activeControl === i 
+                      ? 'bg-cyan-600/20 border-cyan-500 shadow-lg' 
+                      : 'bg-gray-700/30 border-gray-600 hover:bg-gray-600/30'
+                  }`}
+                  onClick={() => setActiveControl(i)}
+                >
+                  <CardContent className="p-3">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <system.icon size={16} />
-                        <span className="text-sm font-medium">{system.name}</span>
+                        <system.icon 
+                          size={18} 
+                          className={activeControl === i ? 'text-cyan-400' : 'text-gray-400'}
+                        />
+                        <div>
+                          <div className={`text-sm font-medium ${activeControl === i ? 'text-white' : 'text-gray-300'}`}>
+                            {system.name}
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <div className={`w-2 h-2 rounded-full ${
+                              system.health === 'excellent' ? 'bg-green-400' :
+                              system.health === 'good' ? 'bg-blue-400' : 'bg-yellow-400'
+                            }`} />
+                            <span className="text-xs text-gray-400">
+                              {system.health === 'excellent' ? 'Excelente' :
+                               system.health === 'good' ? 'Bueno' : 'Normal'}
+                            </span>
+                          </div>
+                        </div>
                       </div>
-                      <span className="text-xs px-2 py-1 bg-gray-600 rounded">{system.status}</span>
-                    </button>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+                      <Badge variant={system.variant} className="text-xs">
+                        {system.status}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </CardContent>
+          </Card>
         </div>
 
         <div className="px-4 mb-6">
