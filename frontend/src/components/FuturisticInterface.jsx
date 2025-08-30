@@ -254,14 +254,41 @@ const FuturisticInterface = () => {
 
         <div className="flex-1" />
         <div className="px-4 space-y-3">
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold text-green-400">78%</div>
-            <div className="text-xs text-gray-400">Batería Principal</div>
-          </div>
-          <div className="bg-gray-700 rounded-lg p-3 text-center">
-            <div className="text-lg font-bold text-cyan-400">{speed[0]}</div>
-            <div className="text-xs text-gray-400">km/h</div>
-          </div>
+          <Card className="bg-gradient-to-r from-green-900/20 to-green-800/20 border-green-500/30">
+            <CardContent className="p-4 text-center">
+              <Battery className="w-6 h-6 mx-auto mb-2 text-green-400" />
+              <div className="text-2xl font-bold text-green-400">78%</div>
+              <div className="text-xs text-green-300">Batería Principal</div>
+              <Badge variant="outline" className="mt-2 text-green-400 border-green-400">
+                Óptimo
+              </Badge>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-gradient-to-r from-cyan-900/20 to-blue-800/20 border-cyan-500/30">
+            <CardContent className="p-4 text-center">
+              <Gauge className="w-6 h-6 mx-auto mb-2 text-cyan-400" />
+              <div className="text-2xl font-bold text-cyan-400">{speed[0]}</div>
+              <div className="text-xs text-cyan-300">Velocidad (km/h)</div>
+              <Badge 
+                variant={speed[0] > 150 ? "destructive" : speed[0] > 80 ? "secondary" : "default"}
+                className="mt-2"
+              >
+                {speed[0] > 150 ? 'Alta' : speed[0] > 80 ? 'Media' : 'Baja'}
+              </Badge>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-gradient-to-r from-blue-900/20 to-purple-800/20 border-blue-500/30">
+            <CardContent className="p-4 text-center">
+              <Clock className="w-6 h-6 mx-auto mb-2 text-blue-400" />
+              <div className="text-lg font-bold text-blue-400">12:34</div>
+              <div className="text-xs text-blue-300">Sistema Activo</div>
+              <Badge variant="default" className="mt-2 bg-blue-600">
+                En Línea
+              </Badge>
+            </CardContent>
+          </Card>
         </div>
       </div>
 
