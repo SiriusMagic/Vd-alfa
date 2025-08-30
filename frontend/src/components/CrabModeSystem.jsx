@@ -17,7 +17,7 @@ import {
   Move,
   AlertTriangle,
   CheckCircle,
-  TrendingRight,
+  ArrowUpRight,
   RotateCcw
 } from 'lucide-react';
 import { useToast } from '../hooks/use-toast';
