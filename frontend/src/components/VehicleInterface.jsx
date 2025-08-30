@@ -69,6 +69,7 @@ import CrabModeSystem from './CrabModeSystem';
 import VidenSystem from './VidenSystem';
 import GeocercasSystem from './GeocercasSystem';
 import AerodinamicaSystem from './AerodinamicaSystem';
+import FuturisticInterface from './FuturisticInterface';
 
 const VehicleInterface = () => {
   // Panel deslizante state
