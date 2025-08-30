@@ -592,6 +592,9 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
+      {/* Panel Inferior Mejorado */}
+      <div className="h-32 bg-gray-900 border-t border-gray-700 p-4 z-30">
+
       {/* Barra inferior expandida */}
       <div className="absolute bottom-0 left-64 right-64 bg-gray-900 border-t border-gray-700 p-4">
         <div className="flex justify-between items-center mb-3">
