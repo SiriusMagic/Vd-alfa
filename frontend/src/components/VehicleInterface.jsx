@@ -629,8 +629,23 @@ const VehicleInterface = () => {
               onSecurityStatusChange={handleSecurityStatusChange}
             />
           )}
+          {activeSection === 'crab-mode' && (
+            <CrabModeSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'tires' && (
             <TireSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
+          {activeSection === 'enhanced-tires' && (
+            <EnhancedTireSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
+          {activeSection === 'compressor' && (
+            <CompressorSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
+          {activeSection === 'uv-hygiene' && (
+            <UVHygienizationSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
+          {activeSection === 'monitoring' && (
+            <ParameterMonitoringSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
           {activeSection === 'codes' && (
             <CodesSystem vehicleData={vehicleData} disabled={hibernationMode} />
