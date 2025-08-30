@@ -124,18 +124,36 @@ const FuturisticInterface = () => {
           </div>
         </div>
 
-        {/* Controles inferiores */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gray-800 border-t border-gray-700 p-4">
+        {/* Controles inferiores del vehículo */}
+        <div className="absolute bottom-20 left-0 right-0 bg-gray-800/90 backdrop-blur-sm border-t border-gray-700 p-4">
           <div className="flex justify-between items-center mb-4">
-            <div className="text-sm font-medium">Modo {selectedMode}</div>
-            <div className="flex items-center space-x-2">
-              <span className="text-sm">{speed[0]} km/h</span>
-              <div className="w-16 h-1 bg-gray-600 rounded-full">
-                <div className="h-1 bg-blue-400 rounded-full" style={{width: `${(speed[0]/200)*100}%`}}></div>
+            <div className="flex items-center gap-3">
+              <div className="text-sm font-medium text-white">Modo:</div>
+              <div className="px-3 py-1 bg-blue-600 rounded-full text-sm font-medium text-white capitalize">
+                {selectedMode}
+              </div>
+            </div>
+            <div className="flex items-center space-x-4">
+              <span className="text-lg font-bold text-cyan-400">{speed[0]} km/h</span>
+              <div className="w-24 h-2 bg-gray-600 rounded-full">
+                <div 
+                  className="h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full transition-all duration-300" 
+                  style={{width: `${(speed[0]/200)*100}%`}}
+                />
               </div>
             </div>
           </div>
-          <Slider value={speed} onValueChange={setSpeed} min={0} max={200} className="mb-2" />
+          <div className="mb-2">
+            <div className="text-xs text-gray-400 mb-2">Control de Velocidad (0-200 km/h)</div>
+            <Slider 
+              value={speed} 
+              onValueChange={setSpeed} 
+              min={0} 
+              max={200} 
+              step={5}
+              className="w-full"
+            />
+          </div>
         </div>
       </div>
 
