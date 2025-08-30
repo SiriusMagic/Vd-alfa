@@ -36,6 +36,28 @@ const FuturisticInterface = () => {
     temperature: 21,
     connectivity: true
   });
+  const [speed, setSpeed] = useState([85]);
+  const [advancedSettings, setAdvancedSettings] = useState({
+    nightVision: true,
+    parkingAssist: true,
+    autoClimate: true,
+    adaptiveSuspension: false,
+    ecoAssist: false,
+    performanceMode: true
+  });
+
+  const modes = [
+    { id: 'Individual', name: 'Individual', desc: 'Personalizado', icon: User },
+    { id: 'Eco', name: 'Eco', desc: 'Eficiencia', icon: Leaf },
+    { id: 'Sport', name: 'Sport', desc: 'Deportivo', icon: Zap },
+    { id: 'Comfort', name: 'Comfort', desc: 'Confort', icon: Car }
+  ];
+
+  const alerts = [
+    { id: 1, desc: 'Sistema de navegación' },
+    { id: 2, desc: 'Control de tracción' },
+    { id: 3, desc: 'Asistente de parking' }
+  ];
 
   const leftControls = [
     { id: 'modo', name: 'Modo de conducción', icon: Car, active: true },
