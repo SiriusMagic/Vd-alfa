@@ -634,6 +634,9 @@ const VehicleInterface = () => {
           {activeSection === 'crab-mode' && (
             <CrabModeSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
+          {activeSection === 'viden' && (
+            <VidenSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'tires' && (
             <TireSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
