@@ -36,37 +36,52 @@ const FuturisticInterface = () => {
         </div>
         
         <div className="px-4 mb-6">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="modes" className="border-gray-600">
-              <AccordionTrigger className="text-white hover:text-blue-400">
+          <Card className="bg-gray-800/50 border-gray-600">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-white flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-blue-400" />
                 Modos de Conducción
-              </AccordionTrigger>
-              <AccordionContent>
-                <div className="space-y-2">
-                  {modes.map((mode) => (
-                    <button
-                      key={mode.id}
-                      onClick={() => setSelectedMode(mode.id)}
-                      className={`w-full p-3 rounded-lg transition-all text-left ${
-                        selectedMode === mode.id 
-                          ? 'bg-blue-600 text-white' 
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-                      }`}
-                      title={mode.desc}
-                    >
+              </CardTitle>
+              <CardDescription className="text-gray-400">
+                Configuraciones optimizadas de rendimiento
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {modes.map((mode) => (
+                <Card
+                  key={mode.id}
+                  className={`cursor-pointer transition-all border ${
+                    selectedMode === mode.id 
+                      ? 'bg-blue-600/20 border-blue-500 shadow-lg shadow-blue-500/20' 
+                      : 'bg-gray-700/50 border-gray-600 hover:bg-gray-600/50'
+                  }`}
+                  onClick={() => setSelectedMode(mode.id)}
+                >
+                  <CardContent className="p-3">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <mode.icon size={16} />
+                        <mode.icon 
+                          size={20} 
+                          className={selectedMode === mode.id ? 'text-blue-400' : 'text-gray-400'}
+                        />
                         <div>
-                          <div className="font-medium">{mode.name}</div>
-                          <div className="text-xs opacity-75">{mode.desc}</div>
+                          <div className={`font-medium ${selectedMode === mode.id ? 'text-white' : 'text-gray-300'}`}>
+                            {mode.name}
+                          </div>
+                          <div className="text-xs text-gray-400">{mode.desc}</div>
                         </div>
                       </div>
-                    </button>
-                  ))}
-                </div>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
+                      {selectedMode === mode.id && (
+                        <Badge variant="default" className="bg-blue-600 text-white">
+                          Activo
+                        </Badge>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </CardContent>
+          </Card>
         </div>
 
         <div className="px-4 mb-6">
