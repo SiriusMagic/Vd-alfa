@@ -152,28 +152,140 @@ const FuturisticInterface = () => {
           </div>
         </div>
 
-        {/* Vehículo Central */}
-        <div className="flex items-center justify-center h-full relative">
-          <div className="relative w-80 h-48">
-            {/* Carrocería del vehículo */}
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-400 via-slate-500 to-slate-700 rounded-[2.5rem] shadow-2xl transform rotate-6">
-              <div className="absolute top-3 left-6 right-6 h-12 bg-gradient-to-b from-slate-200 to-slate-400 rounded-xl opacity-60"></div>
-              <div className="absolute top-4 left-2 w-8 h-10 bg-gradient-to-r from-slate-300 to-slate-500 rounded-lg opacity-50"></div>
-              <div className="absolute top-4 right-2 w-8 h-10 bg-gradient-to-l from-slate-300 to-slate-500 rounded-lg opacity-50"></div>
-              <div className="absolute top-8 left-1 w-3 h-6 bg-white rounded-lg opacity-90"></div>
-              <div className="absolute top-8 right-1 w-3 h-6 bg-white rounded-lg opacity-90"></div>
-              <div className="absolute bottom-3 left-2 w-2 h-4 bg-red-500 rounded opacity-80"></div>
-              <div className="absolute bottom-3 right-2 w-2 h-4 bg-red-500 rounded opacity-80"></div>
-            </div>
-            
-            {/* Ruedas */}
-            <div className="absolute -bottom-2 left-8 w-8 h-8 bg-gray-800 rounded-full border-2 border-gray-600">
-              <div className="absolute inset-1 bg-gray-700 rounded-full"></div>
-            </div>
-            <div className="absolute -bottom-2 right-8 w-8 h-8 bg-gray-800 rounded-full border-2 border-gray-600">
-              <div className="absolute inset-1 bg-gray-700 rounded-full"></div>
-            </div>
-          </div>
+        {/* Carousel de Vistas del Vehículo */}
+        <div className="flex items-center justify-center h-full relative px-16">
+          <Carousel className="w-full max-w-xs">
+            <CarouselContent>
+              {/* Vista Exterior */}
+              <CarouselItem>
+                <Card className="bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 border-gray-600">
+                  <CardHeader className="text-center pb-2">
+                    <Badge variant="outline" className="mx-auto w-fit text-blue-400 border-blue-400">
+                      Vista Exterior
+                    </Badge>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="relative w-full h-48 flex items-center justify-center">
+                      {/* Carrocería del vehículo */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-slate-400 via-slate-500 to-slate-700 rounded-[2.5rem] shadow-2xl transform rotate-6">
+                        <div className="absolute top-3 left-6 right-6 h-12 bg-gradient-to-b from-slate-200 to-slate-400 rounded-xl opacity-60"></div>
+                        <div className="absolute top-4 left-2 w-8 h-10 bg-gradient-to-r from-slate-300 to-slate-500 rounded-lg opacity-50"></div>
+                        <div className="absolute top-4 right-2 w-8 h-10 bg-gradient-to-l from-slate-300 to-slate-500 rounded-lg opacity-50"></div>
+                        <div className="absolute top-8 left-1 w-3 h-6 bg-white rounded-lg opacity-90"></div>
+                        <div className="absolute top-8 right-1 w-3 h-6 bg-white rounded-lg opacity-90"></div>
+                        <div className="absolute bottom-3 left-2 w-2 h-4 bg-red-500 rounded opacity-80"></div>
+                        <div className="absolute bottom-3 right-2 w-2 h-4 bg-red-500 rounded opacity-80"></div>
+                      </div>
+                      
+                      {/* Ruedas */}
+                      <div className="absolute -bottom-2 left-8 w-8 h-8 bg-gray-800 rounded-full border-2 border-gray-600">
+                        <div className="absolute inset-1 bg-gray-700 rounded-full"></div>
+                      </div>
+                      <div className="absolute -bottom-2 right-8 w-8 h-8 bg-gray-800 rounded-full border-2 border-gray-600">
+                        <div className="absolute inset-1 bg-gray-700 rounded-full"></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="pt-0 justify-center">
+                    <Badge className="bg-blue-600">Trophy Truck 2025</Badge>
+                  </CardFooter>
+                </Card>
+              </CarouselItem>
+              
+              {/* Vista Dashboard */}
+              <CarouselItem>
+                <Card className="bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-cyan-900/20 border-blue-500/50">
+                  <CardHeader className="text-center pb-2">
+                    <Badge variant="outline" className="mx-auto w-fit text-cyan-400 border-cyan-400">
+                      Dashboard Virtual
+                    </Badge>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="relative w-full h-48 bg-gray-900 rounded-lg border border-gray-600 overflow-hidden">
+                      {/* Pantalla del dashboard */}
+                      <div className="absolute inset-2 bg-gradient-to-b from-blue-950 to-gray-950 rounded">
+                        <div className="p-4 space-y-3">
+                          <div className="flex justify-between items-center">
+                            <Monitor className="w-6 h-6 text-blue-400" />
+                            <span className="text-blue-400 text-sm">HUD Activo</span>
+                          </div>
+                          
+                          <div className="grid grid-cols-3 gap-2 text-xs">
+                            <div className="text-center">
+                              <div className="text-green-400 font-bold">{speed[0]}</div>
+                              <div className="text-gray-400">km/h</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-cyan-400 font-bold">78%</div>
+                              <div className="text-gray-400">Batería</div>
+                            </div>
+                            <div className="text-center">
+                              <div className="text-orange-400 font-bold">22°C</div>
+                              <div className="text-gray-400">Temp</div>
+                            </div>
+                          </div>
+                          
+                          <div className="flex justify-center space-x-1">
+                            <div className="w-1 h-8 bg-green-400 rounded"></div>
+                            <div className="w-1 h-6 bg-blue-400 rounded"></div>
+                            <div className="w-1 h-10 bg-cyan-400 rounded"></div>
+                            <div className="w-1 h-4 bg-purple-400 rounded"></div>
+                            <div className="w-1 h-7 bg-green-400 rounded"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="pt-0 justify-center">
+                    <Badge className="bg-cyan-600">Modo {selectedMode}</Badge>
+                  </CardFooter>
+                </Card>
+              </CarouselItem>
+
+              {/* Vista Sistemas */}
+              <CarouselItem>
+                <Card className="bg-gradient-to-br from-green-900/20 via-emerald-900/20 to-teal-900/20 border-green-500/50">
+                  <CardHeader className="text-center pb-2">
+                    <Badge variant="outline" className="mx-auto w-fit text-green-400 border-green-400">
+                      Sistemas Activos
+                    </Badge>
+                  </CardHeader>
+                  <CardContent className="p-4">
+                    <div className="relative w-full h-48 bg-gray-900 rounded-lg border border-gray-600 p-4">
+                      <div className="grid grid-cols-2 gap-3 h-full">
+                        {[
+                          { name: 'Visión 360°', status: true, icon: Eye },
+                          { name: 'Seguridad', status: true, icon: Shield },
+                          { name: 'GPS', status: true, icon: Navigation },
+                          { name: 'Energía', status: true, icon: Battery },
+                          { name: 'Clima', status: false, icon: Thermometer },
+                          { name: 'Audio', status: true, icon: Volume2 }
+                        ].map((system, i) => (
+                          <div key={i} className="flex items-center gap-2 text-xs">
+                            <system.icon 
+                              size={14} 
+                              className={system.status ? 'text-green-400' : 'text-gray-500'}
+                            />
+                            <span className={system.status ? 'text-green-300' : 'text-gray-400'}>
+                              {system.name}
+                            </span>
+                            <div className={`w-2 h-2 rounded-full ml-auto ${
+                              system.status ? 'bg-green-400' : 'bg-gray-500'
+                            }`} />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="pt-0 justify-center">
+                    <Badge className="bg-green-600">5/6 Sistemas OK</Badge>
+                  </CardFooter>
+                </Card>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious className="text-white border-gray-600 hover:bg-gray-700" />
+            <CarouselNext className="text-white border-gray-600 hover:bg-gray-700" />
+          </Carousel>
         </div>
 
         {/* Controles inferiores del vehículo */}
