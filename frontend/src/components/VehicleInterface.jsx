@@ -646,6 +646,9 @@ const VehicleInterface = () => {
           {activeSection === 'geocercas' && (
             <GeocercasSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
+          {activeSection === 'aerodinamica' && (
+            <AerodinamicaSystem vehicleData={vehicleData} disabled={hibernationMode} />
+          )}
           {activeSection === 'tires' && (
             <TireSystem vehicleData={vehicleData} disabled={hibernationMode} />
           )}
