@@ -139,20 +139,67 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
-      {/* Panel Derecho */}
-      <div className="w-20 bg-gray-800 border-l border-gray-700 flex flex-col items-center py-4 space-y-6">
-        <div className="text-xs font-bold transform rotate-90 whitespace-nowrap mb-8">Control Touch</div>
+      {/* Panel Derecho Expandido */}
+      <div className="w-64 bg-gray-800 border-l border-gray-700 flex flex-col py-4">
+        <div className="px-4 mb-6">
+          <h2 className="text-lg font-bold text-white">Control Touch</h2>
+          <p className="text-xs text-gray-400">Sistemas Avanzados</p>
+        </div>
         
-        {[Eye, Shield, Battery, Activity, Settings, Navigation].map((Icon, i) => (
-          <button key={i} onClick={() => setActiveControl(i)} className={`p-3 rounded-lg transition-colors ${activeControl === i ? 'bg-cyan-600' : 'hover:bg-gray-700'}`}>
-            <Icon size={20} />
-          </button>
-        ))}
+        <div className="px-4 mb-6">
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="systems" className="border-gray-600">
+              <AccordionTrigger className="text-white hover:text-cyan-400">
+                Sistemas del Vehículo
+              </AccordionTrigger>
+              <AccordionContent>
+                <div className="space-y-2">
+                  {[
+                    { icon: Eye, name: 'Visión 360°', status: 'Activo' },
+                    { icon: Shield, name: 'Seguridad', status: 'Protegido' },
+                    { icon: Battery, name: 'Energía', status: '78%' },
+                    { icon: Activity, name: 'Diagnóstico', status: 'OK' },
+                    { icon: Settings, name: 'Config', status: 'Manual' },
+                    { icon: Navigation, name: 'GPS', status: 'Conectado' }
+                  ].map((system, i) => (
+                    <button 
+                      key={i} 
+                      onClick={() => setActiveControl(i)} 
+                      className={`w-full p-3 rounded-lg transition-colors flex items-center justify-between ${
+                        activeControl === i ? 'bg-cyan-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <system.icon size={16} />
+                        <span className="text-sm font-medium">{system.name}</span>
+                      </div>
+                      <span className="text-xs px-2 py-1 bg-gray-600 rounded">{system.status}</span>
+                    </button>
+                  ))}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        <div className="px-4 mb-6">
+          <Alert className="bg-green-900/30 border-green-500/50 text-green-100">
+            <CheckCircle className="h-4 w-4" />
+            <AlertTitle>Sistema OK</AlertTitle>
+            <AlertDescription>Todos los sistemas funcionan correctamente</AlertDescription>
+          </Alert>
+        </div>
 
         <div className="flex-1" />
-        <div className="text-center space-y-2">
-          <div className="text-xs">Batería</div>
-          <div className="text-sm font-bold text-green-400">78%</div>
+        <div className="px-4 space-y-3">
+          <div className="bg-gray-700 rounded-lg p-3 text-center">
+            <div className="text-lg font-bold text-green-400">78%</div>
+            <div className="text-xs text-gray-400">Batería Principal</div>
+          </div>
+          <div className="bg-gray-700 rounded-lg p-3 text-center">
+            <div className="text-lg font-bold text-cyan-400">{speed[0]}</div>
+            <div className="text-xs text-gray-400">km/h</div>
+          </div>
         </div>
       </div>
 
