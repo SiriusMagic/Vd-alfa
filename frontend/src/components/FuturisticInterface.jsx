@@ -450,8 +450,8 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
-      {/* Panel Derecho Expandido */}
-      <div className="w-64 bg-gray-800 border-l border-gray-700 flex flex-col py-4">
+        {/* Panel Derecho Expandido */}
+        <div className="w-64 bg-gray-800 border-l border-gray-700 flex flex-col py-4 overflow-y-auto z-20">
         <div className="px-4 mb-6">
           <h2 className="text-lg font-bold text-white">Control Touch</h2>
           <p className="text-xs text-gray-400">Sistemas Avanzados</p>
