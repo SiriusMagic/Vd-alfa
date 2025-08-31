@@ -182,7 +182,7 @@ const FuturisticInterface = () => {
       case "awareness":
         return <SituationalAwareness {...common} />;
       case "diagnostics":
-        return <AdvancedDiagnostics {...common} />;
+        return <AdvancedDiagnostics {...common} motorControls={motorControls} />;
       case "transmission":
         return (
           <VirtualTransmission
