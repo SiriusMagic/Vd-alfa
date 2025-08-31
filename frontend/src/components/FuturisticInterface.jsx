@@ -1,238 +1,215 @@
-import React, { useState } from 'react';
-import { Slider } from './ui/slider';
-import { Alert, AlertTitle, AlertDescription } from './ui/alert';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './ui/accordion';
-import { Badge } from './ui/badge';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from './ui/card';
-import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext } from './ui/carousel';
-import { Checkbox } from './ui/checkbox';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from './ui/dialog';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, DropdownMenuSeparator, DropdownMenuLabel } from './ui/dropdown-menu';
-import { Button } from './ui/button';
-import { 
-  Car, Leaf, User, Zap, Settings, Trophy, Thermometer, Wind, Navigation, Shield, Eye, 
-  Battery, Activity, Wifi, Phone, Camera, Lock, Lightbulb, MapPin, Wrench, Volume2, Gauge,
-  AlertTriangle, CheckCircle, Info, Cpu, Signal, Bluetooth, Clock, RotateCcw, Maximize2,
-  Monitor, Smartphone, Tablet, Video, MoreHorizontal, Sliders, Save, Download, Upload, 
-  RefreshCw, Palette, X
-} from 'lucide-react';
+import React, { useEffect, useMemo, useState } from "react";
+import {
+  Eye,
+  Shield,
+  Move,
+  MapPin,
+  Wind,
+  CircleDot,
+  Target,
+  ArrowUp,
+  Sparkles,
+  Activity,
+  AlertTriangle,
+  Leaf,
+  Battery,
+  ArrowLeftRight,
+  Settings,
+  Car,
+  Heart,
+  Mountain,
+  Radar,
+  Gauge,
+  RotateCcw,
+  Smartphone
+} from "lucide-react";
+
+// Sistemas (24) - excluimos VehicleInterface y FuturisticInterface
+import ReconnaissanceSystem from "./ReconnaissanceSystem";
+import SecuritySystem from "./SecuritySystem";
+import CrabModeSystem from "./CrabModeSystem";
+import VidenSystem from "./VidenSystem";
+import GeocercasSystem from "./GeocercasSystem";
+import AerodinamicaSystem from "./AerodinamicaSystem";
+import TireSystem from "./TireSystem";
+import EnhancedTireSystem from "./EnhancedTireSystem";
+import CompressorSystem from "./CompressorSystem";
+import UVHygienizationSystem from "./UVHygienizationSystem";
+import ParameterMonitoringSystem from "./ParameterMonitoringSystem";
+import CodesSystem from "./CodesSystem";
+import TreeRSystem from "./TreeRSystem";
+import AutonomyControl from "./AutonomyControl";
+import TractionControl from "./TractionControl";
+import SmartVehicleControl from "./SmartVehicleControl";
+import ComfortSystems from "./ComfortSystems";
+import AdvancedDriving from "./AdvancedDriving";
+import PowerControlSystem from "./PowerControlSystem";
+import BionicCooling from "./BionicCooling";
+import SuspensionControl from "./SuspensionControl";
+import SituationalAwareness from "./SituationalAwareness";
+import AdvancedDiagnostics from "./AdvancedDiagnostics";
+import VirtualTransmission from "./VirtualTransmission"; // para completar 24
 
 const FuturisticInterface = () => {
-  const [selectedMode, setSelectedMode] = useState('Individual');
-  const [activeControl, setActiveControl] = useState(null);
-  const [temperature, setTemperature] = useState([21]);
-  const [fanSpeed, setFanSpeed] = useState([3]);
-  const [climateMode, setClimateMode] = useState('Auto');
-  const [vehicleControls, setVehicleControls] = useState({
-    alarm: false,
-    security: true,
-    suspension: 'Sport',
-    lights: true,
-    eco: false
-  });
-  const [systemStatus, setSystemStatus] = useState({
-    battery: 78,
-    range: 456,
-    temperature: 21,
-    connectivity: true
-  });
-  const [speed, setSpeed] = useState([85]);
-  const [advancedSettings, setAdvancedSettings] = useState({
-    nightVision: true,
-    parkingAssist: true,
-    autoClimate: true,
-    adaptiveSuspension: false,
-    ecoAssist: false,
-    performanceMode: true
-  });
+  // Forzar paisaje (landscape) con overlay bloqueante
+  const [isLandscape, setIsLandscape] = useState(() => window.innerWidth > window.innerHeight);
 
-  const modes = [
-    { id: 'Individual', name: 'Individual', desc: 'Personalizado', icon: User },
-    { id: 'Eco', name: 'Eco', desc: 'Eficiencia', icon: Leaf },
-    { id: 'Sport', name: 'Sport', desc: 'Deportivo', icon: Zap },
-    { id: 'Comfort', name: 'Comfort', desc: 'Confort', icon: Car }
-  ];
+  useEffect(() => {
+    const onResize = () => setIsLandscape(window.innerWidth > window.innerHeight);
+    window.addEventListener("resize", onResize);
+    window.addEventListener("orientationchange", onResize);
+    return () => {
+      window.removeEventListener("resize", onResize);
+      window.removeEventListener("orientationchange", onResize);
+    };
+  }, []);
 
-  const alerts = [
-    { id: 1, desc: 'Sistema de navegación' },
-    { id: 2, desc: 'Control de tracción' },
-    { id: 3, desc: 'Asistente de parking' }
-  ];
+  // Definir 24 secciones (icono + nombre)
+  const sections = useMemo(
+    () => [
+      { id: "reconnaissance", name: "Reconocimiento", icon: Eye },
+      { id: "security", name: "Seguridad", icon: Shield },
+      { id: "crab-mode", name: "Modo Cangrejo", icon: Move },
+      { id: "viden", name: "Viden", icon: Shield },
+      { id: "geocercas", name: "Geocercas", icon: MapPin },
+      { id: "aerodinamica", name: "Aerodinámica", icon: Wind },
+      { id: "tires", name: "Neumáticos", icon: CircleDot },
+      { id: "enhanced-tires", name: "Neumáticos Pro", icon: Target },
+      { id: "compressor", name: "Compresor", icon: ArrowUp },
+      { id: "uv-hygiene", name: "Higienización UV", icon: Sparkles },
+      { id: "monitoring", name: "Monitoreo", icon: Activity },
+      { id: "codes", name: "Códigos", icon: AlertTriangle },
+      { id: "treer", name: "TreeR", icon: Leaf },
+      { id: "autonomy", name: "Autonomía", icon: Battery },
+      { id: "traction", name: "Tracción", icon: ArrowLeftRight },
+      { id: "smart", name: "Inteligente", icon: Sparkles },
+      { id: "comfort", name: "Confort", icon: Settings },
+      { id: "driving", name: "Conducción", icon: Car },
+      { id: "power", name: "Potencia", icon: Battery },
+      { id: "cooling", name: "Criogénico", icon: Heart },
+      { id: "suspension", name: "Suspensión", icon: Mountain },
+      { id: "awareness", name: "Sensores", icon: Radar },
+      { id: "diagnostics", name: "Diagnósticos", icon: Activity },
+      { id: "transmission", name: "Transmisión", icon: Gauge } // para completar 24
+    ],
+    []
+  );
 
-  const leftControls = [
-    { id: 'modo', name: 'Modo de conducción', icon: Car, active: true },
-    { id: 'alarm', name: 'Alarma', icon: Shield, active: vehicleControls.alarm },
-    { id: 'modo2', name: 'Modo', icon: Settings, active: false },
-    { id: 'individual', name: 'Individual', icon: User, active: true },
-    { id: 'deporte', name: 'Deporte', icon: Zap, active: false },
-    { id: 'eco', name: 'Eco', icon: Leaf, active: vehicleControls.eco }
-  ];
+  const [activeSection, setActiveSection] = useState(sections[0].id);
 
-  const rightControls = [
-    { id: 'control-fresco', name: 'Control Fresco', icon: Thermometer, active: true },
-    { id: 'volume', name: 'Volume', icon: Volume2, active: true },
-    { id: 'suspen', name: 'Suspen', icon: Settings, active: true },
-    { id: 'hud', name: 'HUD', icon: Monitor, active: true },
-    { id: 'energy', name: 'Energy', icon: Battery, active: true }
-  ];
-
-  const bottomOptions = [
-    'Navegación', 'Asiento', 'Luces', 'Puertas y ventanas', 'Cargo', 
-    'ISOFIX/AO', 'Seguridad', 'Conectividad', 'Solución y notificaciones', 
-    'Voz', 'Visualización', 'Personalización'
-  ];
+  const renderActive = () => {
+    switch (activeSection) {
+      case "reconnaissance":
+        return <ReconnaissanceSystem />;
+      case "security":
+        return <SecuritySystem />;
+      case "crab-mode":
+        return <CrabModeSystem />;
+      case "viden":
+        return <VidenSystem />;
+      case "geocercas":
+        return <GeocercasSystem />;
+      case "aerodinamica":
+        return <AerodinamicaSystem />;
+      case "tires":
+        return <TireSystem />;
+      case "enhanced-tires":
+        return <EnhancedTireSystem />;
+      case "compressor":
+        return <CompressorSystem />;
+      case "uv-hygiene":
+        return <UVHygienizationSystem />;
+      case "monitoring":
+        return <ParameterMonitoringSystem />;
+      case "codes":
+        return <CodesSystem />;
+      case "treer":
+        return <TreeRSystem />;
+      case "autonomy":
+        return <AutonomyControl />;
+      case "traction":
+        return <TractionControl />;
+      case "smart":
+        return <SmartVehicleControl />;
+      case "comfort":
+        return <ComfortSystems />;
+      case "driving":
+        return <AdvancedDriving />;
+      case "power":
+        return <PowerControlSystem />;
+      case "cooling":
+        return <BionicCooling />;
+      case "suspension":
+        return <SuspensionControl />;
+      case "awareness":
+        return <SituationalAwareness />;
+      case "diagnostics":
+        return <AdvancedDiagnostics />;
+      case "transmission":
+        return <VirtualTransmission />;
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="h-screen bg-black text-white flex flex-col overflow-hidden">
-      {/* Header Horizontal Superior */}
-      <div className="h-12 sm:h-16 bg-gray-900 flex items-center justify-between px-4 sm:px-6 z-30">
-        <div className="flex items-center gap-2 sm:gap-4">
-          <span className="text-sm sm:text-base font-bold text-white">BMW 2024</span>
-          <Badge className="bg-blue-600 text-xs">Trophy</Badge>
-        </div>
-        
-        <div className="flex items-center gap-2 sm:gap-3">
-          <Wifi size={14} className="text-blue-400" />
-          <Bluetooth size={14} className="text-blue-400" />
-          <span className="text-xs sm:text-sm text-white">{systemStatus.battery}%</span>
-        </div>
-      </div>
-
-      {/* Controles Horizontales Superiores */}
-      <div className="h-12 bg-gray-800 flex items-center justify-center gap-2 sm:gap-4 px-4 overflow-x-auto">
-        {leftControls.map((control, i) => (
-          <button
-            key={control.id}
-            onClick={() => setActiveControl(control.id)}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs transition-all ${
-              control.active 
-                ? 'bg-blue-600 text-white' 
-                : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
-            }`}
-          >
-            <control.icon size={14} className="mr-1 inline" />
-            {control.name}
-          </button>
-        ))}
-      </div>
-
-      {/* Área Central del Vehículo - Optimizada para Móvil */}
-      <div className="flex-1 flex flex-col sm:flex-row relative">
-        {/* Vehículo y Stats */}
-        <div className="flex-1 flex items-center justify-center p-4">
-          <div className="relative w-full max-w-sm">
-            {/* Vehículo 3D Responsivo */}
-            <div className="w-full aspect-[4/3] max-w-80 mx-auto relative">
-              {/* Carrocería principal con vista superior */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-300 via-slate-400 to-slate-600 rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
-                {/* Techo/Parabrisas */}
-                <div className="absolute top-2 sm:top-4 left-4 sm:left-8 right-4 sm:right-8 h-8 sm:h-16 bg-gradient-to-b from-slate-100 to-slate-300 rounded-lg sm:rounded-2xl opacity-70"></div>
-                
-                {/* Ventanas laterales */}
-                <div className="absolute top-3 sm:top-6 left-1 sm:left-3 w-3 sm:w-6 h-6 sm:h-12 bg-gradient-to-r from-slate-200 to-slate-400 rounded opacity-60"></div>
-                <div className="absolute top-3 sm:top-6 right-1 sm:right-3 w-3 sm:w-6 h-6 sm:h-12 bg-gradient-to-l from-slate-200 to-slate-400 rounded opacity-60"></div>
-                
-                {/* Luces delanteras */}
-                <div className="absolute top-1 sm:top-2 left-2 sm:left-4 w-2 sm:w-4 h-4 sm:h-8 bg-white rounded shadow-lg"></div>
-                <div className="absolute top-1 sm:top-2 right-2 sm:right-4 w-2 sm:w-4 h-4 sm:h-8 bg-white rounded shadow-lg"></div>
-                
-                {/* Luces traseras */}
-                <div className="absolute bottom-1 sm:bottom-2 left-3 sm:left-6 w-2 sm:w-3 h-3 sm:h-6 bg-red-500 rounded opacity-90"></div>
-                <div className="absolute bottom-1 sm:bottom-2 right-3 sm:right-6 w-2 sm:w-3 h-3 sm:h-6 bg-red-500 rounded opacity-90"></div>
-              </div>
-              
-              {/* Ruedas Responsivas */}
-              <div className="absolute -bottom-1 sm:-bottom-3 left-6 sm:left-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -bottom-1 sm:-bottom-3 right-6 sm:right-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -top-1 sm:-top-3 left-6 sm:left-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -top-1 sm:-top-3 right-6 sm:right-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-            </div>
-
-            {/* Stats Overlay */}
-            <div className="absolute -top-2 -right-2 bg-gray-800 rounded-lg p-2 text-xs">
-              <div className="text-blue-400 font-bold">{systemStatus.battery}%</div>
-              <div className="text-gray-400">BAT</div>
-            </div>
-            
-            <div className="absolute -bottom-2 -left-2 bg-gray-800 rounded-lg p-2 text-xs">
-              <div className="text-green-400 font-bold">{temperature[0]}°C</div>
-              <div className="text-gray-400">EXT</div>
-            </div>
+    <div className="h-screen w-screen bg-slate-950 text-white overflow-hidden">
+      {/* Overlay para forzar orientación horizontal */}
+      {!isLandscape && (
+        <div className="fixed inset-0 z-50 bg-black/95 flex flex-col items-center justify-center text-center p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <RotateCcw className="w-6 h-6 text-cyan-400" />
+            <span className="text-xl font-semibold">Gira tu dispositivo</span>
+          </div>
+          <div className="text-slate-300 mb-6">
+            Esta experiencia funciona solo en orientación horizontal (landscape)
+          </div>
+          <div className="flex items-center gap-2 text-slate-400 text-sm">
+            <Smartphone className="w-4 h-4" />
+            Bloqueo activo hasta girar a horizontal
           </div>
         </div>
+      )}
 
-        {/* Panel Lateral de Controles */}
-        <div className="w-full sm:w-20 bg-gray-900 p-2">
-          <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-x-visible overflow-y-auto">
-            {rightControls.map((control, i) => (
-              <button
-                key={control.id}
-                onClick={() => setActiveControl(control.id)}
-                className={`flex-shrink-0 w-12 sm:w-16 h-12 sm:h-16 rounded-lg flex flex-col items-center justify-center transition-all ${
-                  control.active 
-                    ? 'bg-cyan-600 text-white shadow-lg' 
-                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-                }`}
-              >
-                <control.icon size={16} />
-                <span className="text-xs mt-1 leading-none">{control.name.split(' ')[0]}</span>
-              </button>
-            ))}
+      {/* Layout principal: Menú izquierdo + Contenido */}
+      <div className="h-full w-full flex">
+        {/* Menú lateral izquierdo */}
+        <aside className="w-64 bg-slate-900/80 border-r border-slate-800 h-full flex flex-col">
+          <div className="px-4 py-3 border-b border-slate-800">
+            <div className="text-lg font-bold">Trophy Truck</div>
+            <div className="text-xs text-slate-400">Panel de Sistemas</div>
           </div>
-        </div>
-      </div>
 
-      {/* Barra Inferior - Funciones Rápidas */}
-      <div className="h-16 sm:h-20 bg-gray-900 border-t border-gray-700 px-2 sm:px-4 py-2">
-        <div className="flex justify-between items-center mb-2">
-          <div className="text-xs sm:text-sm font-medium text-white">Funciones</div>
-          <div className="text-xs text-gray-400">{climateMode}</div>
-        </div>
-        
-        <div className="flex gap-1 sm:gap-2 overflow-x-auto">
-          {bottomOptions.slice(0, 8).map((option, i) => (
-            <button 
-              key={i}
-              className="flex-shrink-0 flex flex-col items-center justify-center w-12 sm:w-16 h-8 sm:h-12 text-xs hover:text-blue-400 transition-colors text-gray-400 bg-gray-800 rounded"
-            >
-              <div className="mb-1">
-                {i === 0 && <Navigation size={12} />}
-                {i === 1 && <User size={12} />}
-                {i === 2 && <Lightbulb size={12} />}
-                {i === 3 && <Wind size={12} />}
-                {i === 4 && <Car size={12} />}
-                {i === 5 && <Shield size={12} />}
-                {i === 6 && <Eye size={12} />}
-                {i === 7 && <Wifi size={12} />}
-              </div>
-              <span className="text-xs leading-none">{option.split(' ')[0]}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+          <nav className="flex-1 overflow-y-auto p-2 space-y-1">
+            {sections.map((s) => {
+              const Icon = s.icon;
+              const active = s.id === activeSection;
+              return (
+                <button
+                  key={s.id}
+                  onClick={() => setActiveSection(s.id)}
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors ${
+                    active
+                      ? "bg-cyan-600 text-white"
+                      : "text-slate-300 hover:bg-slate-800"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  <span className="truncate">{s.name}</span>
+                </button>
+              );
+            })}
+          </nav>
 
-      {/* Control de Temperatura - Horizontal en móvil */}
-      <div className="sm:absolute sm:left-4 sm:top-1/2 sm:transform sm:-translate-y-1/2 h-12 sm:h-auto bg-gray-800 sm:bg-transparent px-4 sm:px-0 flex sm:block items-center justify-between sm:justify-start">
-        <span className="text-xs text-gray-400 sm:mb-2 sm:block">TEMP</span>
-        <div className="w-32 sm:w-4 sm:transform sm:-rotate-90">
-          <Slider
-            value={temperature}
-            onValueChange={setTemperature}
-            min={16}
-            max={30}
-            step={1}
-            className="w-full"
-          />
-        </div>
-        <span className="text-xs text-white sm:mt-2 sm:block">{temperature[0]}°C</span>
+          <div className="px-3 py-2 text-xs text-slate-500 border-t border-slate-800">
+            Modo: Horizontal obligatorio
+          </div>
+        </aside>
+
+        {/* Área de contenido */}
+        <main className="flex-1 h-full overflow-y-auto">
+          <div className="h-full p-4">{renderActive()}</div>
+        </main>
       </div>
     </div>
   );
