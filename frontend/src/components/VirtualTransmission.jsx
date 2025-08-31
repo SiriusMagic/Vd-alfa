@@ -114,7 +114,6 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
 
       {/* Motor Control within Gear Limits */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
         {/* Rear Motor */}
         <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
           <CardContent className="p-6">
@@ -132,15 +131,14 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                 Reset
               </Button>
             </div>
-            
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-300">Voltaje</span>
-                  <span className="text-red-400 font-bold">{motorControls.rear.voltage}V</span>
+                  <span className="text-red-400 font-bold">{mc.rear.voltage}V</span>
                 </div>
                 <Slider
-                  value={[motorControls.rear.voltage]}
+                  value={[mc.rear.voltage]}
                   onValueChange={(value) => handleMotorControlChange('rear', 'voltage', value)}
                   min={gearConfig.voltageRange[0]}
                   max={gearConfig.voltageRange[1]}
@@ -153,14 +151,13 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                   <span>Max: {gearConfig.voltageRange[1]}V</span>
                 </div>
               </div>
-              
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-300">Amperaje</span>
-                  <span className="text-red-400 font-bold">{motorControls.rear.amperage}A</span>
+                  <span className="text-red-400 font-bold">{mc.rear.amperage}A</span>
                 </div>
                 <Slider
-                  value={[motorControls.rear.amperage]}
+                  value={[mc.rear.amperage]}
                   onValueChange={(value) => handleMotorControlChange('rear', 'amperage', value)}
                   min={gearConfig.amperageRange[0]}
                   max={gearConfig.amperageRange[1]}
@@ -173,20 +170,19 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                   <span>Max: {gearConfig.amperageRange[1]}A</span>
                 </div>
               </div>
-              
               <div className="grid grid-cols-2 gap-4 p-3 bg-slate-800/50 rounded-lg">
                 <div className="text-center">
                   <Gauge className="w-5 h-5 mx-auto mb-1 text-blue-400" />
                   <div className="text-xs text-slate-400">Velocidad Est.</div>
                   <div className="text-sm font-bold text-blue-400">
-                    {Math.round(motorControls.rear.voltage * 0.25)} km/h
+                    {Math.round(mc.rear.voltage * 0.25)} km/h
                   </div>
                 </div>
                 <div className="text-center">
                   <Zap className="w-5 h-5 mx-auto mb-1 text-yellow-400" />
                   <div className="text-xs text-slate-400">Torque Est.</div>
                   <div className="text-sm font-bold text-yellow-400">
-                    {Math.round(motorControls.rear.amperage * 1.2)} Nm
+                    {Math.round(mc.rear.amperage * 1.2)} Nm
                   </div>
                 </div>
               </div>
