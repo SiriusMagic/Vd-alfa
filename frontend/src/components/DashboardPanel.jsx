@@ -2,11 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { Progress } from "./ui/progress";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./ui/dialog";
 import { Wifi, Bluetooth, Battery, Gauge, Thermometer } from "lucide-react";
 
 const DashboardPanel = () => {
   const [temperature] = useState([21]);
-  const [systemStatus] = useState({ battery: 78, range: 456, connectivity: true });
+  const [systemStatus] = useState({ battery: 78, range: 456, connectivity: true, health: 97, cycles: 1247 });
+  const [showBattery, setShowBattery] = useState(false);
   const iframeRef = useRef(null);
 
   // HTML de la escena 3D (Three.js + GSAP) incrustada en un iframe
@@ -101,11 +103,33 @@ const DashboardPanel = () => {
     }
     wheel(-1.6,  1.05); wheel(-1.6, -1.05); wheel( 1.8,  1.05); wheel( 1.8, -1.05);
 
+    // Motor
     const engine = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.6, 0.8),
       new THREE.MeshPhysicalMaterial({ color:0x7efcff, roughness:0.1, transmission:0.6,
         opacity:0.6, transparent:true, blending:THREE.AdditiveBlending })
     );
     engine.position.set(-2.0, 1.1, 0); engine.name = 'motor'; car.add(engine); addEdges(engine, 0xffffff, 1.4);
+
+    // Batería (grupo clickeable)
+    const batteryGroup = new THREE.Group();
+    batteryGroup.name = 'battery';
+    const batteryBody = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.9, 0.9), new THREE.MeshPhysicalMaterial({ color:0x7CFC00, roughness:0.2, transmission:0.55, opacity:0.5, transparent:true }));
+    const batteryCap = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.12, 0.25, 24), new THREE.MeshPhysicalMaterial({ color:0xb5ff6b, roughness:0.2, transmission:0.6, opacity:0.6, transparent:true }));
+    batteryCap.rotation.z = Math.PI/2; batteryCap.position.set(0.95, 0.35, 0);
+    batteryGroup.add(batteryBody); batteryGroup.add(batteryCap);
+    batteryGroup.position.set(0.6, 1.1, -0.9);
+    car.add(batteryGroup); addEdges(batteryBody, 0x9cff8a, 1.2);
+
+    // HUD de texto sobre la batería (leve brillo)
+    const spriteCanvas = document.createElement('canvas');
+    spriteCanvas.width = 256; spriteCanvas.height = 128;
+    const ctx = spriteCanvas.getContext('2d');
+    ctx.fillStyle = 'rgba(0,0,0,0)'; ctx.fillRect(0,0,256,128);
+    ctx.fillStyle = '#a7ffb5'; ctx.font = '24px monospace'; ctx.fillText('BAT', 100, 70);
+    const tex = new THREE.CanvasTexture(spriteCanvas);
+    const sprMat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.85 });
+    const spr = new THREE.Sprite(sprMat); spr.scale.set(1.3, 0.6, 1); spr.position.set(0, 0.9, 0);
+    batteryGroup.add(spr);
 
     const grid = new THREE.GridHelper(40, 40, 0x123744, 0x0c2a33);
     scene.add(grid);
@@ -117,7 +141,7 @@ const DashboardPanel = () => {
     let focusedPart = null;
     const initialCamPos = camera.position.clone();
     const initialTarget = controls.target.clone();
-    const clickableParts = [engine];
+    const clickableParts = [engine, batteryGroup];
 
     function focusOn(part){
       if(focusedPart) return;
@@ -140,7 +164,15 @@ const DashboardPanel = () => {
     addEventListener('click', () => {
       raycaster.setFromCamera(mouse, camera);
       const hits = raycaster.intersectObjects(clickableParts, true);
-      if(hits.length > 0 && !focusedPart){ focusOn(hits[0].object); }
+      if(hits.length > 0 && !focusedPart){
+        const obj = hits[0].object;
+        const root = (obj.name === 'battery' ? obj : obj.parent?.name === 'battery' ? obj.parent : obj);
+        focusOn(root);
+        if(root.name === 'battery') {
+          // Notificar al dashboard en React
+          parent.postMessage({ type: 'battery_click' }, '*');
+        }
+      }
     });
     addEventListener('dblclick', resetView);
 
@@ -152,6 +184,7 @@ const DashboardPanel = () => {
 </body>
 </html>`;
 
+  // Inyectar la escena en el iframe
   useEffect(() => {
     const iframe = iframeRef.current;
     if (!iframe) return;
@@ -161,18 +194,30 @@ const DashboardPanel = () => {
     doc.write(sceneHTML);
     doc.close();
     return () => {
-      // Al desmontar, limpiar el iframe
       if (iframe && iframe.contentWindow) {
         iframe.src = 'about:blank';
       }
     };
   }, [sceneHTML]);
 
+  // Escuchar eventos desde el iframe para abrir el panel de batería
+  useEffect(() => {
+    const onMsg = (ev) => {
+      if (ev?.data?.type === 'battery_click') {
+        setShowBattery(true);
+      }
+    };
+    window.addEventListener('message', onMsg);
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
   const bottomOptions = [
     "Navegación", "Asiento", "Luces", "Ventanas", "Carga",
     "ISOFIX", "Seguridad", "Conexión", "Notificaciones",
     "Voz", "Pantalla", "Personalización"
   ];
+
+  const autonomyKm = Math.round(systemStatus.battery * 7.5); // ejemplo 7.5 km por %
 
   return (
     <div className="flex flex-col h-full">
@@ -216,8 +261,8 @@ const DashboardPanel = () => {
                 <Battery className="w-5 h-5 text-green-400" />
                 <Badge variant="outline" className="text-green-400 border-green-400">Batería</Badge>
               </div>
-              <div className="text-2xl font-bold text-green-400 mb-1">78%</div>
-              <Progress value={78} className="h-2" />
+              <div className="text-2xl font-bold text-green-400 mb-1">{systemStatus.battery}%</div>
+              <Progress value={systemStatus.battery} className="h-2" />
             </CardContent>
           </Card>
           <Card className="bg-slate-900/50 border-slate-700">
@@ -243,6 +288,46 @@ const DashboardPanel = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal de datos de Batería (abre al clic sobre la batería 3D) */}
+      <Dialog open={showBattery} onOpenChange={setShowBattery}>
+        <DialogContent className="bg-slate-900 border-slate-700 text-white">
+          <DialogHeader>
+            <DialogTitle>Estado de Batería</DialogTitle>
+            <DialogDescription>Detalle de carga, autonomía y salud</DialogDescription>
+          </DialogHeader>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 py-2">
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-sm text-slate-400 mb-1">Nivel</div>
+                <div className="text-3xl font-bold text-green-400 mb-2">{systemStatus.battery}%</div>
+                <Progress value={systemStatus.battery} className="h-2" />
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-sm text-slate-400 mb-1">Autonomía Estimada</div>
+                <div className="text-3xl font-bold text-cyan-400 mb-2">{autonomyKm} km</div>
+                <div className="text-xs text-slate-500">≈ 7.5 km por % de carga</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-sm text-slate-400 mb-1">Salud</div>
+                <div className="text-3xl font-bold text-blue-400 mb-2">{systemStatus.health}%</div>
+                <div className="text-xs text-slate-500">Ciclos: {systemStatus.cycles}</div>
+              </CardContent>
+            </Card>
+            <Card className="bg-slate-800/50 border-slate-600">
+              <CardContent className="p-4 text-center">
+                <div className="text-sm text-slate-400 mb-1">Tiempo a 100%</div>
+                <div className="text-3xl font-bold text-yellow-400 mb-2">{Math.max(0, 100 - systemStatus.battery)} min</div>
+                <div className="text-xs text-slate-500">Carga rápida 1%/min (sim)</div>
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
