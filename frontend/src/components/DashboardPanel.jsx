@@ -1,16 +1,176 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { Progress } from "./ui/progress";
-import { Wifi, Bluetooth, Battery, Gauge, Thermometer, Navigation, Lightbulb, Wind, Shield, Eye, Car } from "lucide-react";
+import { Wifi, Bluetooth, Battery, Gauge, Thermometer } from "lucide-react";
 
 const DashboardPanel = () => {
-  const [temperature, setTemperature] = useState([21]);
+  const [temperature] = useState([21]);
   const [systemStatus] = useState({ battery: 78, range: 456, connectivity: true });
+  const iframeRef = useRef(null);
+
+  // HTML de la escena 3D (Three.js + GSAP) incrustada en un iframe
+  const sceneHTML = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  html,body { height:100%; margin:0; background:#060a0f; overflow:hidden; }
+  #app { position:absolute; inset:0; }
+  .hud { position: absolute; left: 12px; top: 10px; color:#7efcff;
+    font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; opacity:.85; letter-spacing:.5px }
+</style>
+<!-- Import map con Three.js -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+}}
+</script>
+</head>
+<body>
+  <div id="app"></div>
+  <div class="hud">clic = focus · doble clic = reset</div>
+  <!-- GSAP para animaciones -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const app = document.getElementById('app');
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x02060b, 0.06);
+
+    const camera = new THREE.PerspectiveCamera(55, innerWidth/innerHeight, 0.1, 1000);
+    camera.position.set(7, 4, 8);
+
+    const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    app.appendChild(renderer.domElement);
+
+    const hemi = new THREE.HemisphereLight(0x9cfaff, 0x0a1e2a, 0.9);
+    scene.add(hemi);
+    const dir = new THREE.DirectionalLight(0x7ff8ff, 1.2);
+    dir.position.set(5,10,7);
+    scene.add(dir);
+
+    const cyan = new THREE.Color('#4ef3ff');
+    const holo = new THREE.MeshPhysicalMaterial({
+      color: cyan, metalness: 0.1, roughness: 0.15, transmission: 0.85, thickness: 0.4,
+      transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, envMapIntensity: 0.6
+    });
+
+    function addEdges(mesh, color=cyan, strength=1){
+      const edges = new THREE.EdgesGeometry(mesh.geometry, 35);
+      const line = new THREE.LineSegments(
+        edges,
+        new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.9 * strength })
+      );
+      line.position.copy(mesh.position);
+      line.rotation.copy(mesh.rotation);
+      line.scale.copy(mesh.scale);
+      mesh.add(line);
+      return line;
+    }
+
+    const car = new THREE.Group();
+    scene.add(car);
+
+    const body = new THREE.Mesh(new THREE.BoxGeometry(5.2, 1.0, 2.2), holo);
+    body.position.y = 1.2; car.add(body); addEdges(body);
+
+    const cabin = new THREE.Mesh(new THREE.BoxGeometry(2.2, 1.0, 2.1), holo);
+    cabin.position.set(-0.8, 1.8, 0); car.add(cabin); addEdges(cabin);
+
+    const bed = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.0, 2.15), holo);
+    bed.position.set(1.2, 1.5, 0); car.add(bed); addEdges(bed);
+
+    const glass = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.8, 1.9), holo);
+    glass.rotation.z = THREE.MathUtils.degToRad(-65);
+    glass.position.set(0.4, 2.0, 0); car.add(glass); addEdges(glass, 0x9cfaff, 1.2);
+
+    function wheel(x,z){
+      const t = new THREE.TorusGeometry(0.65, 0.18, 12, 48);
+      const m = new THREE.Mesh(t, holo);
+      m.rotation.x = Math.PI/2;
+      m.position.set(x, 0.65, z);
+      addEdges(m); car.add(m); return m;
+    }
+    wheel(-1.6,  1.05); wheel(-1.6, -1.05); wheel( 1.8,  1.05); wheel( 1.8, -1.05);
+
+    const engine = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.6, 0.8),
+      new THREE.MeshPhysicalMaterial({ color:0x7efcff, roughness:0.1, transmission:0.6,
+        opacity:0.6, transparent:true, blending:THREE.AdditiveBlending })
+    );
+    engine.position.set(-2.0, 1.1, 0); engine.name = 'motor'; car.add(engine); addEdges(engine, 0xffffff, 1.4);
+
+    const grid = new THREE.GridHelper(40, 40, 0x123744, 0x0c2a33);
+    scene.add(grid);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true; controls.dampingFactor = 0.05; controls.target.set(0,1.2,0);
+
+    const raycaster = new THREE.Raycaster(); const mouse = new THREE.Vector2();
+    let focusedPart = null;
+    const initialCamPos = camera.position.clone();
+    const initialTarget = controls.target.clone();
+    const clickableParts = [engine];
+
+    function focusOn(part){
+      if(focusedPart) return;
+      car.children.forEach(c => { if(c !== part) c.visible = false; });
+      grid.visible = false;
+      gsap.to(camera.position, { duration: 1.2, x: part.position.x + 2, y: part.position.y + 1.5, z: part.position.z + 2, onUpdate: ()=> camera.lookAt(part.position) });
+      gsap.to(controls.target, { duration:1.2, x: part.position.x, y: part.position.y, z: part.position.z });
+      focusedPart = part;
+    }
+
+    function resetView(){
+      if(!focusedPart) return;
+      car.children.forEach(c => c.visible = true); grid.visible = true;
+      gsap.to(camera.position, { duration: 1.2, x: initialCamPos.x, y: initialCamPos.y, z: initialCamPos.z, onUpdate: ()=> camera.lookAt(initialTarget) });
+      gsap.to(controls.target, { duration:1.2, x: initialTarget.x, y: initialTarget.y, z: initialTarget.z });
+      focusedPart = null;
+    }
+
+    addEventListener('mousemove', e=>{ mouse.x =  (e.clientX / innerWidth)  * 2 - 1; mouse.y = -(e.clientY / innerHeight) * 2 + 1; });
+    addEventListener('click', () => {
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(clickableParts, true);
+      if(hits.length > 0 && !focusedPart){ focusOn(hits[0].object); }
+    });
+    addEventListener('dblclick', resetView);
+
+    function animate(){ requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
+    animate();
+
+    addEventListener('resize', ()=>{ camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+  </script>
+</body>
+</html>`;
+
+  useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) return;
+    doc.open();
+    doc.write(sceneHTML);
+    doc.close();
+    return () => {
+      // Al desmontar, limpiar el iframe
+      if (iframe && iframe.contentWindow) {
+        iframe.src = 'about:blank';
+      }
+    };
+  }, [sceneHTML]);
 
   const bottomOptions = [
-    "Navegación", "Asiento", "Luces", "Ventanas", "Carga", 
-    "ISOFIX", "Seguridad", "Conexión", "Notificaciones", 
+    "Navegación", "Asiento", "Luces", "Ventanas", "Carga",
+    "ISOFIX", "Seguridad", "Conexión", "Notificaciones",
     "Voz", "Pantalla", "Personalización"
   ];
 
@@ -31,47 +191,10 @@ const DashboardPanel = () => {
 
       {/* Main area */}
       <div className="flex-1 flex flex-col sm:flex-row gap-4 py-4">
-        {/* Vehicle visual */}
-        <div className="flex-1 flex items-center justify-center p-2">
-          <div className="relative w-full max-w-md">
-            <div className="w-full aspect-[4/3] max-w-80 mx-auto relative">
-              {/* Body */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-300 via-slate-400 to-slate-600 rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
-                {/* Roof/Windshield */}
-                <div className="absolute top-3 sm:top-4 left-6 sm:left-10 right-6 sm:right-10 h-8 sm:h-14 bg-gradient-to-b from-slate-100 to-slate-300 rounded-lg sm:rounded-2xl opacity-70"></div>
-                {/* Side windows */}
-                <div className="absolute top-4 sm:top-6 left-3 sm:left-5 w-4 sm:w-8 h-6 sm:h-10 bg-gradient-to-r from-slate-200 to-slate-400 rounded opacity-60"></div>
-                <div className="absolute top-4 sm:top-6 right-3 sm:right-5 w-4 sm:w-8 h-6 sm:h-10 bg-gradient-to-l from-slate-200 to-slate-400 rounded opacity-60"></div>
-                {/* Headlights */}
-                <div className="absolute top-1 sm:top-2 left-3 sm:left-5 w-3 sm:w-5 h-4 sm:h-7 bg-white rounded shadow-lg"></div>
-                <div className="absolute top-1 sm:top-2 right-3 sm:right-5 w-3 sm:w-5 h-4 sm:h-7 bg-white rounded shadow-lg"></div>
-                {/* Tail lights */}
-                <div className="absolute bottom-1 sm:bottom-2 left-4 sm:left-7 w-2 sm:w-3 h-3 sm:h-5 bg-red-500 rounded opacity-90"></div>
-                <div className="absolute bottom-1 sm:bottom-2 right-4 sm:right-7 w-2 sm:w-3 h-3 sm:h-5 bg-red-500 rounded opacity-90"></div>
-              </div>
-              {/* Wheels */}
-              <div className="absolute -bottom-1 sm:-bottom-3 left-10 sm:left-16 w-5 sm:w-10 h-5 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-1 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -bottom-1 sm:-bottom-3 right-10 sm:right-16 w-5 sm:w-10 h-5 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-1 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -top-1 sm:-top-3 left-10 sm:left-16 w-5 sm:w-10 h-5 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-1 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-              <div className="absolute -top-1 sm:-top-3 right-10 sm:right-16 w-5 sm:w-10 h-5 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
-                <div className="absolute inset-1 sm:inset-2 bg-gray-800 rounded-full"></div>
-              </div>
-            </div>
-            {/* Overlays */}
-            <div className="absolute -top-2 -right-2 bg-gray-800 rounded-lg p-2 text-xs">
-              <div className="text-blue-400 font-bold">{systemStatus.battery}%</div>
-              <div className="text-gray-400">BAT</div>
-            </div>
-            <div className="absolute -bottom-2 -left-2 bg-gray-800 rounded-lg p-2 text-xs">
-              <div className="text-green-400 font-bold">{temperature[0]}°C</div>
-              <div className="text-gray-400">EXT</div>
-            </div>
+        {/* Vehicle 3D */}
+        <div className="flex-1 flex items-center justify-center p-0 sm:p-2 min-h-[360px]">
+          <div className="relative w-full h-[380px] sm:h-[460px] rounded-md overflow-hidden border border-slate-800">
+            <iframe ref={iframeRef} title="HoloTruck3D" style={{ width: '100%', height: '100%', border: '0' }} />
           </div>
         </div>
 
@@ -115,14 +238,6 @@ const DashboardPanel = () => {
         <div className="flex gap-1 sm:gap-2 overflow-x-auto">
           {bottomOptions.map((option, i) => (
             <div key={i} className="flex-shrink-0 flex flex-col items-center justify-center w-14 sm:w-16 h-10 sm:h-12 text-xs text-gray-300 bg-gray-800 rounded">
-              <div className="mb-1">
-                {i === 0 && <Navigation size={12} />} 
-                {i === 2 && <Lightbulb size={12} />} 
-                {i === 3 && <Wind size={12} />} 
-                {i === 6 && <Shield size={12} />} 
-                {i === 10 && <Eye size={12} />} 
-                {i !== 0 && i !== 2 && i !== 3 && i !== 6 && i !== 10 && <Car size={12} />}
-              </div>
               <span className="text-[10px] leading-none">{option.split(" ")[0]}</span>
             </div>
           ))}
