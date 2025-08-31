@@ -68,7 +68,6 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
 
   return (
     <div className="space-y-6">
-      
       {/* Gear Selection */}
       <Card className="bg-slate-900/50 border-slate-700 backdrop-blur-sm">
         <CardContent className="p-6">
@@ -80,7 +79,6 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
               MARCHA: {currentGear > 0 ? currentGear : 'R'}
             </Badge>
           </div>
-          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
             <Button
               variant={currentGear === -1 ? "destructive" : "outline"}
@@ -91,7 +89,6 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
               <RotateCcw className="w-6 h-6 mb-2" />
               R
             </Button>
-            
             {[1, 2, 3].map((gear) => (
               <Button
                 key={gear}
@@ -108,7 +105,6 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
               </Button>
             ))}
           </div>
-          
           <div className="bg-slate-800/50 p-4 rounded-lg">
             <h4 className="font-semibold text-purple-300 mb-2">{gearConfig.name}</h4>
             <p className="text-sm text-slate-400">{gearConfig.description}</p>
