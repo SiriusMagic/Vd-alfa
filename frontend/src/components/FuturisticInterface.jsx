@@ -50,6 +50,7 @@ import SituationalAwareness from "./SituationalAwareness";
 import AdvancedDiagnostics from "./AdvancedDiagnostics";
 import VirtualTransmission from "./VirtualTransmission"; // para completar 24
 import { mockData } from "../data/mockData";
+import DashboardPanel from "./DashboardPanel";
 
 const FuturisticInterface = () => {
   // Forzar paisaje (landscape) con overlay bloqueante
@@ -113,11 +114,13 @@ const FuturisticInterface = () => {
     []
   );
 
-  const [activeSection, setActiveSection] = useState(sections[0].id);
+  // null = Dashboard principal; una id del array = sección
+  const [activeSection, setActiveSection] = useState(null);
 
   const disabled = !isLandscape; // bloquea interacciones detrás del overlay
 
   const renderActive = () => {
+    if (!activeSection) return <DashboardPanel />;
     const common = { vehicleData, disabled };
     switch (activeSection) {
       case "reconnaissance":
@@ -218,9 +221,10 @@ const FuturisticInterface = () => {
       <div className="h-full w-full flex">
         {/* Menú lateral izquierdo */}
         <aside className="w-64 bg-slate-900/80 border-r border-slate-800 h-full flex flex-col">
-          <div className="px-4 py-3 border-b border-slate-800">
+          <div className="px-4 py-3 border-b border-slate-800 cursor-pointer" onClick={() => setActiveSection(null)}>
             <div className="text-lg font-bold">Trophy Truck</div>
             <div className="text-xs text-slate-400">Panel de Sistemas</div>
+            <div className="text-[10px] text-cyan-400 mt-1">Click para Dashboard</div>
           </div>
 
           <nav className="flex-1 overflow-y-auto p-2 space-y-1">
