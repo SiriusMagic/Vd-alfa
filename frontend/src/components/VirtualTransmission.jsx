@@ -267,53 +267,48 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
           <h3 className="text-lg font-semibold text-green-400 mb-4">
             Rendimiento Combinado - Marcha {currentGear > 0 ? currentGear : 'R'}
           </h3>
-          
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div className="text-center">
               <div className="text-2xl font-bold text-cyan-400 mb-1">
-                {Math.round((motorControls.rear.voltage + motorControls.front.voltage) / 2)} V
+                {Math.round((mc.rear.voltage + mc.front.voltage) / 2)} V
               </div>
               <div className="text-sm text-slate-400">Voltaje Promedio</div>
               <Progress 
-                value={((motorControls.rear.voltage + motorControls.front.voltage) / 2) / 6} 
+                value={((mc.rear.voltage + mc.front.voltage) / 2) / 6} 
                 className="h-2 mt-2" 
               />
             </div>
-            
             <div className="text-center">
               <div className="text-2xl font-bold text-yellow-400 mb-1">
-                {Math.round(motorControls.rear.amperage + motorControls.front.amperage)} A
+                {Math.round(mc.rear.amperage + mc.front.amperage)} A
               </div>
               <div className="text-sm text-slate-400">Amperaje Total</div>
               <Progress 
-                value={(motorControls.rear.amperage + motorControls.front.amperage) / 6} 
+                value={(mc.rear.amperage + mc.front.amperage) / 6} 
                 className="h-2 mt-2" 
               />
             </div>
-            
             <div className="text-center">
               <div className="text-2xl font-bold text-purple-400 mb-1">
-                {Math.round(((motorControls.rear.voltage + motorControls.front.voltage) / 2) * 0.25)} km/h
+                {Math.round(((mc.rear.voltage + mc.front.voltage) / 2) * 0.25)} km/h
               </div>
               <div className="text-sm text-slate-400">Velocidad Máxima Est.</div>
               <Progress 
-                value={((motorControls.rear.voltage + motorControls.front.voltage) / 2) * 0.25 / 2} 
+                value={((mc.rear.voltage + mc.front.voltage) / 2) * 0.25 / 2} 
                 className="h-2 mt-2" 
               />
             </div>
-            
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-400 mb-1">
-                {Math.round((motorControls.rear.amperage + motorControls.front.amperage) * 1.2)} Nm
+                {Math.round((mc.rear.amperage + mc.front.amperage) * 1.2)} Nm
               </div>
               <div className="text-sm text-slate-400">Torque Total Est.</div>
               <Progress 
-                value={(motorControls.rear.amperage + motorControls.front.amperage) * 1.2 / 6} 
+                value={(mc.rear.amperage + mc.front.amperage) * 1.2 / 6} 
                 className="h-2 mt-2" 
               />
             </div>
           </div>
-          
           <div className="mt-6 p-4 bg-slate-800/50 rounded-lg">
             <div className="text-center text-sm text-slate-400">
               <strong>Recomendación para Marcha {currentGear > 0 ? currentGear : 'R'}:</strong>
