@@ -245,8 +245,8 @@ const AdvancedDiagnostics = ({ vehicleData, motorControls, disabled }) => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div className="text-center">
                   <div className="text-2xl font-bold text-cyan-400 mb-1">
-                    {((motorControls.rear.voltage * motorControls.rear.amperage + 
-                       motorControls.front.voltage * motorControls.front.amperage) / 1000).toFixed(1)} kW
+                    {((mc.rear.voltage * mc.rear.amperage + 
+                       mc.front.voltage * mc.front.amperage) / 1000).toFixed(1)} kW
                   </div>
                   <div className="text-sm text-slate-400">Potencia Total</div>
                   <Progress 
