@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { Progress } from "./ui/progress";
@@ -11,7 +11,9 @@ const DashboardPanel = () => {
   const [sceneReady, setSceneReady] = useState(false);
   const [sceneError, setSceneError] = useState(null);
 
-  const sceneHTML = useMemo(() => `<!DOCTYPE html>
+  // Escena 3D: versión robusta sin importmap ni type=module, con fallback a UMD
+  const sceneHTML = useMemo(
+    () => `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8" />
@@ -50,14 +52,11 @@ const DashboardPanel = () => {
           const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true });
           renderer.setSize(innerWidth, innerHeight);
           renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-          renderer.outputColorSpace = (THREE.SRGBColorSpace || (THREE.WebGLColorSpace && THREE.WebGLColorSpace.SRGB)) || undefined;
+          if (THREE.SRGBColorSpace) renderer.outputColorSpace = THREE.SRGBColorSpace;
           app.appendChild(renderer.domElement);
 
-          const hemi = new THREE.HemisphereLight(0x9cfaff, 0x0a1e2a, 0.9);
-          scene.add(hemi);
-          const dir = new THREE.DirectionalLight(0x7ff8ff, 1.2);
-          dir.position.set(5,10,7);
-          scene.add(dir);
+          const hemi = new THREE.HemisphereLight(0x9cfaff, 0x0a1e2a, 0.9); scene.add(hemi);
+          const dir = new THREE.DirectionalLight(0x7ff8ff, 1.2); dir.position.set(5,10,7); scene.add(dir);
 
           const cyan = new THREE.Color('#4ef3ff');
           const holo = new THREE.MeshPhysicalMaterial({ color: cyan, metalness: 0.1, roughness: 0.15, transmission: 0.85, thickness: 0.4, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, envMapIntensity: 0.6 });
@@ -76,13 +75,10 @@ const DashboardPanel = () => {
           const bed = new THREE.Mesh(new THREE.BoxGeometry(2.6, 1.0, 2.15), holo); bed.position.set(1.2, 1.5, 0); car.add(bed); addEdges(bed);
 
           const glass = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.8, 1.9), holo);
-          glass.rotation.z = (THREE.MathUtils||Math).degToRad ? (THREE.MathUtils).degToRad(-65) : -65*Math.PI/180;
-          glass.position.set(0.4, 2.0, 0); car.add(glass); addEdges(glass, 0x9cfaff, 1.2);
+          const degToRad = (THREE.MathUtils && THREE.MathUtils.degToRad) ? THREE.MathUtils.degToRad : (d)=>d*Math.PI/180;
+          glass.rotation.z = degToRad(-65); glass.position.set(0.4, 2.0, 0); car.add(glass); addEdges(glass, 0x9cfaff, 1.2);
 
-          function wheel(x,z){
-            const t = new THREE.TorusGeometry(0.65, 0.18, 12, 48);
-            const m = new THREE.Mesh(t, holo); m.rotation.x = Math.PI/2; m.position.set(x, 0.65, z); addEdges(m); car.add(m); return m;
-          }
+          function wheel(x,z){ const t = new THREE.TorusGeometry(0.65, 0.18, 12, 48); const m = new THREE.Mesh(t, holo); m.rotation.x = Math.PI/2; m.position.set(x, 0.65, z); addEdges(m); car.add(m); return m; }
           wheel(-1.6,  1.05); wheel(-1.6, -1.05); wheel( 1.8,  1.05); wheel( 1.8, -1.05);
 
           const engine = new THREE.Mesh(new THREE.BoxGeometry(1.2, 0.6, 0.8), new THREE.MeshPhysicalMaterial({ color:0x7efcff, roughness:0.1, transmission:0.6, opacity:0.6, transparent:true, blending:THREE.AdditiveBlending }));
@@ -102,17 +98,11 @@ const DashboardPanel = () => {
           const initialCamPos = camera.position.clone(); const initialTarget = controls.target.clone();
           const clickableParts = [engine, batteryGroup];
 
-          function focusOn(part){ if(focusedPart) return; car.children.forEach(c => { if(c !== part) c.visible = false; }); grid.visible = false;
-            gsap.to(camera.position, { duration: 1.2, x: part.position.x + 2, y: part.position.y + 1.5, z: part.position.z + 2, onUpdate: ()=> camera.lookAt(part.position) });
-            gsap.to(controls.target, { duration:1.2, x: part.position.x, y: part.position.y, z: part.position.z }); focusedPart = part; }
-          function resetView(){ if(!focusedPart) return; car.children.forEach(c => c.visible = true); grid.visible = true;
-            gsap.to(camera.position, { duration: 1.2, x: initialCamPos.x, y: initialCamPos.y, z: initialCamPos.z, onUpdate: ()=> camera.lookAt(initialTarget) });
-            gsap.to(controls.target, { duration:1.2, x: initialTarget.x, y: initialTarget.y, z: initialTarget.z }); focusedPart = null; }
+          function focusOn(part){ if(focusedPart) return; car.children.forEach(c => { if(c !== part) c.visible = false; }); grid.visible = false; gsap.to(camera.position, { duration: 1.2, x: part.position.x + 2, y: part.position.y + 1.5, z: part.position.z + 2, onUpdate: ()=> camera.lookAt(part.position) }); gsap.to(controls.target, { duration:1.2, x: part.position.x, y: part.position.y, z: part.position.z }); focusedPart = part; }
+          function resetView(){ if(!focusedPart) return; car.children.forEach(c => c.visible = true); grid.visible = true; gsap.to(camera.position, { duration: 1.2, x: initialCamPos.x, y: initialCamPos.y, z: initialCamPos.z, onUpdate: ()=> camera.lookAt(initialTarget) }); gsap.to(controls.target, { duration:1.2, x: initialTarget.x, y: initialTarget.y, z: initialTarget.z }); focusedPart = null; }
 
           addEventListener('mousemove', e=>{ mouse.x =  (e.clientX / innerWidth)  * 2 - 1; mouse.y = -(e.clientY / innerHeight) * 2 + 1; });
-          addEventListener('click', () => { raycaster.setFromCamera(mouse, camera); const hits = raycaster.intersectObjects(clickableParts, true);
-            if(hits.length > 0 && !focusedPart){ const obj = hits[0].object; const root = (obj.name === 'battery' ? obj : obj.parent?.name === 'battery' ? obj.parent : obj);
-              focusOn(root); if(root.name === 'battery') { parent.postMessage({ type: 'battery_click' }, '*'); } } });
+          addEventListener('click', () => { raycaster.setFromCamera(mouse, camera); const hits = raycaster.intersectObjects(clickableParts, true); if(hits.length > 0 && !focusedPart){ const obj = hits[0].object; const root = (obj.name === 'battery' ? obj : obj.parent?.name === 'battery' ? obj.parent : obj); focusOn(root); if(root.name === 'battery') { parent.postMessage({ type: 'battery_click' }, '*'); } } });
           addEventListener('dblclick', resetView);
 
           function animate(){ requestAnimationFrame(animate); controls.update(); renderer.render(scene, camera); }
@@ -140,7 +130,9 @@ const DashboardPanel = () => {
     })();
   </script>
 </body>
-</html>`, []);
+</html>`,
+    []
+  );
 
   useEffect(() => {
     const onMsg = (ev) => {
@@ -223,9 +215,9 @@ const DashboardPanel = () => {
 
       <div className="h-16 sm:h-20 bg-gray-900 border-t border-gray-700 px-2 sm:px-4 py-2 rounded-md">
         <div className="flex gap-1 sm:gap-2 overflow-x-auto">
-          {bottomOptions.map((option, i) => (
+          {['Navegación','Asiento','Luces','Ventanas','Carga','ISOFIX','Seguridad','Conexión','Notificaciones','Voz','Pantalla','Personalización'].map((option, i) => (
             <div key={i} className="flex-shrink-0 flex flex-col items-center justify-center w-14 sm:w-16 h-10 sm:h-12 text-xs text-gray-300 bg-gray-800 rounded">
-              <span className="text-[10px] leading-none">{option.split(" ")[0]}</span>
+              <span className="text-[10px] leading-none">{option.split(' ')[0]}</span>
             </div>
           ))}
         </div>
