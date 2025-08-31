@@ -41,8 +41,8 @@ const AdvancedDiagnostics = ({ vehicleData, motorControls, disabled }) => {
             front: vehicleData.motorHealth?.front?.temperature || 45,
             rear: vehicleData.motorHealth?.rear?.temperature || 48
           },
-          powerPeak: motorControls.rear.voltage * motorControls.rear.amperage + 
-                     motorControls.front.voltage * motorControls.front.amperage
+          powerPeak: mc.rear.voltage * mc.rear.amperage + 
+                     mc.front.voltage * mc.front.amperage
         };
 
         setDiagnosticHistory(prev => 
