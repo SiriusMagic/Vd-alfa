@@ -116,124 +116,76 @@ const FuturisticInterface = () => {
         ))}
       </div>
 
-      {/* Área Central del Vehículo */}
-      <div className="flex-1 flex flex-col">
-        {/* Header Superior */}
-        <div className="h-16 flex items-center justify-between px-8">
-          <div className="flex space-x-4">
-            <div className="bg-gray-800 rounded-full px-4 py-2 text-sm text-white">
-              Calentado
-            </div>
-            <div className="bg-gray-800 rounded-full px-4 py-2 text-sm text-white">
-              Cancela
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Wifi size={16} className="text-blue-400" />
-            <Bluetooth size={16} className="text-blue-400" />
-            <span className="text-white">{systemStatus.battery}%</span>
-          </div>
-        </div>
-
-        {/* Vehículo Central */}
-        <div className="flex-1 flex items-center justify-center relative">
-          <div className="relative">
-            {/* Vehículo 3D Realista */}
-            <div className="w-80 h-48 relative">
+      {/* Área Central del Vehículo - Optimizada para Móvil */}
+      <div className="flex-1 flex flex-col sm:flex-row relative">
+        {/* Vehículo y Stats */}
+        <div className="flex-1 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-sm">
+            {/* Vehículo 3D Responsivo */}
+            <div className="w-full aspect-[4/3] max-w-80 mx-auto relative">
               {/* Carrocería principal con vista superior */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-300 via-slate-400 to-slate-600 rounded-[3rem] shadow-2xl">
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-300 via-slate-400 to-slate-600 rounded-[2rem] sm:rounded-[3rem] shadow-2xl">
                 {/* Techo/Parabrisas */}
-                <div className="absolute top-4 left-8 right-8 h-16 bg-gradient-to-b from-slate-100 to-slate-300 rounded-2xl opacity-70"></div>
+                <div className="absolute top-2 sm:top-4 left-4 sm:left-8 right-4 sm:right-8 h-8 sm:h-16 bg-gradient-to-b from-slate-100 to-slate-300 rounded-lg sm:rounded-2xl opacity-70"></div>
                 
                 {/* Ventanas laterales */}
-                <div className="absolute top-6 left-3 w-6 h-12 bg-gradient-to-r from-slate-200 to-slate-400 rounded-lg opacity-60"></div>
-                <div className="absolute top-6 right-3 w-6 h-12 bg-gradient-to-l from-slate-200 to-slate-400 rounded-lg opacity-60"></div>
+                <div className="absolute top-3 sm:top-6 left-1 sm:left-3 w-3 sm:w-6 h-6 sm:h-12 bg-gradient-to-r from-slate-200 to-slate-400 rounded opacity-60"></div>
+                <div className="absolute top-3 sm:top-6 right-1 sm:right-3 w-3 sm:w-6 h-6 sm:h-12 bg-gradient-to-l from-slate-200 to-slate-400 rounded opacity-60"></div>
                 
                 {/* Luces delanteras */}
-                <div className="absolute top-2 left-4 w-4 h-8 bg-white rounded-lg shadow-lg"></div>
-                <div className="absolute top-2 right-4 w-4 h-8 bg-white rounded-lg shadow-lg"></div>
+                <div className="absolute top-1 sm:top-2 left-2 sm:left-4 w-2 sm:w-4 h-4 sm:h-8 bg-white rounded shadow-lg"></div>
+                <div className="absolute top-1 sm:top-2 right-2 sm:right-4 w-2 sm:w-4 h-4 sm:h-8 bg-white rounded shadow-lg"></div>
                 
                 {/* Luces traseras */}
-                <div className="absolute bottom-2 left-6 w-3 h-6 bg-red-500 rounded opacity-90"></div>
-                <div className="absolute bottom-2 right-6 w-3 h-6 bg-red-500 rounded opacity-90"></div>
-                
-                {/* Detalles del capó y maletero */}
-                <div className="absolute top-12 left-6 right-6 h-1 bg-slate-500 opacity-30"></div>
-                <div className="absolute bottom-12 left-6 right-6 h-1 bg-slate-500 opacity-30"></div>
+                <div className="absolute bottom-1 sm:bottom-2 left-3 sm:left-6 w-2 sm:w-3 h-3 sm:h-6 bg-red-500 rounded opacity-90"></div>
+                <div className="absolute bottom-1 sm:bottom-2 right-3 sm:right-6 w-2 sm:w-3 h-3 sm:h-6 bg-red-500 rounded opacity-90"></div>
               </div>
               
-              {/* Ruedas */}
-              <div className="absolute -bottom-3 left-12 w-10 h-10 bg-gray-900 rounded-full border-3 border-gray-700">
-                <div className="absolute inset-2 bg-gray-800 rounded-full"></div>
-                <div className="absolute inset-3 bg-gray-600 rounded-full"></div>
+              {/* Ruedas Responsivas */}
+              <div className="absolute -bottom-1 sm:-bottom-3 left-6 sm:left-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
+                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
               </div>
-              <div className="absolute -bottom-3 right-12 w-10 h-10 bg-gray-900 rounded-full border-3 border-gray-700">
-                <div className="absolute inset-2 bg-gray-800 rounded-full"></div>
-                <div className="absolute inset-3 bg-gray-600 rounded-full"></div>
+              <div className="absolute -bottom-1 sm:-bottom-3 right-6 sm:right-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
+                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
               </div>
-              <div className="absolute -top-3 left-12 w-10 h-10 bg-gray-900 rounded-full border-3 border-gray-700">
-                <div className="absolute inset-2 bg-gray-800 rounded-full"></div>
-                <div className="absolute inset-3 bg-gray-600 rounded-full"></div>
+              <div className="absolute -top-1 sm:-top-3 left-6 sm:left-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
+                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
               </div>
-              <div className="absolute -top-3 right-12 w-10 h-10 bg-gray-900 rounded-full border-3 border-gray-700">
-                <div className="absolute inset-2 bg-gray-800 rounded-full"></div>
-                <div className="absolute inset-3 bg-gray-600 rounded-full"></div>
+              <div className="absolute -top-1 sm:-top-3 right-6 sm:right-12 w-4 sm:w-10 h-4 sm:h-10 bg-gray-900 rounded-full border border-gray-700">
+                <div className="absolute inset-0.5 sm:inset-2 bg-gray-800 rounded-full"></div>
               </div>
             </div>
 
-            {/* Controles flotantes alrededor del vehículo */}
-            <div className="absolute -top-16 left-1/2 transform -translate-x-1/2">
-              <button className="bg-gray-800 rounded-full p-3 border border-gray-600 hover:bg-gray-700 transition-colors">
-                <Thermometer size={16} className="text-blue-400" />
-              </button>
+            {/* Stats Overlay */}
+            <div className="absolute -top-2 -right-2 bg-gray-800 rounded-lg p-2 text-xs">
+              <div className="text-blue-400 font-bold">{systemStatus.battery}%</div>
+              <div className="text-gray-400">BAT</div>
             </div>
             
-            <div className="absolute top-1/2 -left-20 transform -translate-y-1/2">
-              <button className="bg-gray-800 rounded-full p-3 border border-gray-600 hover:bg-gray-700 transition-colors">
-                <Wind size={16} className="text-cyan-400" />
-              </button>
-            </div>
-            
-            <div className="absolute top-1/2 -right-20 transform -translate-y-1/2">
-              <button className="bg-gray-800 rounded-full p-3 border border-gray-600 hover:bg-gray-700 transition-colors">
-                <Eye size={16} className="text-green-400" />
-              </button>
-            </div>
-            
-            <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2">
-              <button className="bg-gray-800 rounded-full p-3 border border-gray-600 hover:bg-gray-700 transition-colors">
-                <Settings size={16} className="text-purple-400" />
-              </button>
+            <div className="absolute -bottom-2 -left-2 bg-gray-800 rounded-lg p-2 text-xs">
+              <div className="text-green-400 font-bold">{temperature[0]}°C</div>
+              <div className="text-gray-400">EXT</div>
             </div>
           </div>
         </div>
 
-        {/* Controles Inferiores de Clima */}
-        <div className="h-24 bg-gray-900 border-t border-gray-700 px-8 py-4">
-          <div className="flex justify-between items-center mb-4">
-            <div className="text-sm font-medium text-white">Modo {climateMode}</div>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-400">Muy alto</span>
-              <div className="w-16 h-1 bg-gray-600 rounded-full">
-                <div className="w-12 h-1 bg-blue-400 rounded-full"></div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-6">
-              <button className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-white">
-                <User size={16} />
+        {/* Panel Lateral de Controles */}
+        <div className="w-full sm:w-20 bg-gray-900 p-2">
+          <div className="flex sm:flex-col gap-2 overflow-x-auto sm:overflow-x-visible overflow-y-auto">
+            {rightControls.map((control, i) => (
+              <button
+                key={control.id}
+                onClick={() => setActiveControl(control.id)}
+                className={`flex-shrink-0 w-12 sm:w-16 h-12 sm:h-16 rounded-lg flex flex-col items-center justify-center transition-all ${
+                  control.active 
+                    ? 'bg-cyan-600 text-white shadow-lg' 
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                <control.icon size={16} />
+                <span className="text-xs mt-1 leading-none">{control.name.split(' ')[0]}</span>
               </button>
-              <span className="text-sm text-gray-300">Alto</span>
-              <span className="text-sm text-gray-300">Estándar</span>
-              <span className="text-sm text-gray-300">Bajo</span>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-400">Conc.de estacionamiento</span>
-              <Checkbox defaultChecked className="border-blue-500 data-[state=checked]:bg-blue-600" />
-            </div>
+            ))}
           </div>
         </div>
       </div>
