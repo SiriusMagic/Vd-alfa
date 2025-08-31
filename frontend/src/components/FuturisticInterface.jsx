@@ -82,6 +82,14 @@ const FuturisticInterface = () => {
   });
   const [aiPowerActive, setAiPowerActive] = useState(false);
   const [currentGear, setCurrentGear] = useState(2);
+  const [bionicCooling, setBionicCooling] = useState({
+    active: true,
+    temperature: -15,
+    pulseRate: 72,
+    arterialPressure: 85,
+    venousReturn: 92,
+    cryoFluidLevel: 94
+  });
 
   // Definir 24 secciones (icono + nombre)
   const sections = useMemo(
