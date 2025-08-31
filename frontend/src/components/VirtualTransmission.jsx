@@ -201,15 +201,14 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                 SECUNDARIO
               </Badge>
             </div>
-            
             <div className="space-y-6">
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-300">Voltaje</span>
-                  <span className="text-blue-400 font-bold">{motorControls.front.voltage}V</span>
+                  <span className="text-blue-400 font-bold">{mc.front.voltage}V</span>
                 </div>
                 <Slider
-                  value={[motorControls.front.voltage]}
+                  value={[mc.front.voltage]}
                   onValueChange={(value) => handleMotorControlChange('front', 'voltage', value)}
                   min={gearConfig.voltageRange[0]}
                   max={gearConfig.voltageRange[1]}
@@ -222,14 +221,13 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                   <span>Max: {gearConfig.voltageRange[1]}V</span>
                 </div>
               </div>
-              
               <div>
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-slate-300">Amperaje</span>
-                  <span className="text-blue-400 font-bold">{motorControls.front.amperage}A</span>
+                  <span className="text-blue-400 font-bold">{mc.front.amperage}A</span>
                 </div>
                 <Slider
-                  value={[motorControls.front.amperage]}
+                  value={[mc.front.amperage]}
                   onValueChange={(value) => handleMotorControlChange('front', 'amperage', value)}
                   min={gearConfig.amperageRange[0]}
                   max={gearConfig.amperageRange[1]}
@@ -242,20 +240,19 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
                   <span>Max: {gearConfig.amperageRange[1]}A</span>
                 </div>
               </div>
-              
               <div className="grid grid-cols-2 gap-4 p-3 bg-slate-800/50 rounded-lg">
                 <div className="text-center">
                   <Gauge className="w-5 h-5 mx-auto mb-1 text-blue-400" />
                   <div className="text-xs text-slate-400">Velocidad Est.</div>
                   <div className="text-sm font-bold text-blue-400">
-                    {Math.round(motorControls.front.voltage * 0.25)} km/h
+                    {Math.round(mc.front.voltage * 0.25)} km/h
                   </div>
                 </div>
                 <div className="text-center">
                   <Zap className="w-5 h-5 mx-auto mb-1 text-yellow-400" />
                   <div className="text-xs text-slate-400">Torque Est.</div>
                   <div className="text-sm font-bold text-yellow-400">
-                    {Math.round(motorControls.front.amperage * 1.2)} Nm
+                    {Math.round(mc.front.amperage * 1.2)} Nm
                   </div>
                 </div>
               </div>
