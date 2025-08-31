@@ -49,6 +49,7 @@ import SuspensionControl from "./SuspensionControl";
 import SituationalAwareness from "./SituationalAwareness";
 import AdvancedDiagnostics from "./AdvancedDiagnostics";
 import VirtualTransmission from "./VirtualTransmission"; // para completar 24
+import { mockData } from "../data/mockData";
 
 const FuturisticInterface = () => {
   // Forzar paisaje (landscape) con overlay bloqueante
@@ -63,6 +64,23 @@ const FuturisticInterface = () => {
       window.removeEventListener("orientationchange", onResize);
     };
   }, []);
+
+  // Estado base compartido para sistemas que lo requieren
+  const [vehicleData, setVehicleData] = useState(mockData);
+  const [powerControlMode, setPowerControlMode] = useState("axle"); // 'axle' | 'individual' | 'ai'
+  const [powerDistribution, setPowerDistribution] = useState([60, 40]);
+  const [motorControls, setMotorControls] = useState({
+    rear: { voltage: 400, amperage: 150 },
+    front: { voltage: 380, amperage: 120 }
+  });
+  const [individualMotorControls, setIndividualMotorControls] = useState({
+    rearLeft: { voltage: 400, amperage: 150 },
+    rearRight: { voltage: 400, amperage: 150 },
+    frontLeft: { voltage: 380, amperage: 120 },
+    frontRight: { voltage: 380, amperage: 120 }
+  });
+  const [aiPowerActive, setAiPowerActive] = useState(false);
+  const [currentGear, setCurrentGear] = useState(2);
 
   // Definir 24 secciones (icono + nombre)
   const sections = useMemo(
@@ -97,14 +115,17 @@ const FuturisticInterface = () => {
 
   const [activeSection, setActiveSection] = useState(sections[0].id);
 
+  const disabled = !isLandscape; // bloquea interacciones detrás del overlay
+
   const renderActive = () => {
+    const common = { vehicleData, disabled };
     switch (activeSection) {
       case "reconnaissance":
-        return <ReconnaissanceSystem />;
+        return <ReconnaissanceSystem {...common} />;
       case "security":
-        return <SecuritySystem />;
+        return <SecuritySystem {...common} />;
       case "crab-mode":
-        return <CrabModeSystem />;
+        return <CrabModeSystem {...common} />;
       case "viden":
         return <VidenSystem />;
       case "geocercas":
@@ -112,41 +133,63 @@ const FuturisticInterface = () => {
       case "aerodinamica":
         return <AerodinamicaSystem />;
       case "tires":
-        return <TireSystem />;
+        return <TireSystem {...common} />;
       case "enhanced-tires":
-        return <EnhancedTireSystem />;
+        return <EnhancedTireSystem {...common} />;
       case "compressor":
-        return <CompressorSystem />;
+        return <CompressorSystem {...common} />;
       case "uv-hygiene":
-        return <UVHygienizationSystem />;
+        return <UVHygienizationSystem {...common} />;
       case "monitoring":
-        return <ParameterMonitoringSystem />;
+        return <ParameterMonitoringSystem {...common} />;
       case "codes":
-        return <CodesSystem />;
+        return <CodesSystem {...common} />;
       case "treer":
         return <TreeRSystem />;
       case "autonomy":
-        return <AutonomyControl />;
+        return <AutonomyControl {...common} />;
       case "traction":
-        return <TractionControl />;
+        return <TractionControl {...common} />;
       case "smart":
-        return <SmartVehicleControl />;
+        return <SmartVehicleControl {...common} />;
       case "comfort":
-        return <ComfortSystems />;
+        return <ComfortSystems {...common} />;
       case "driving":
-        return <AdvancedDriving />;
+        return <AdvancedDriving {...common} />;
       case "power":
-        return <PowerControlSystem />;
+        return (
+          <PowerControlSystem
+            powerControlMode={powerControlMode}
+            setPowerControlMode={setPowerControlMode}
+            powerDistribution={powerDistribution}
+            setPowerDistribution={setPowerDistribution}
+            motorControls={motorControls}
+            setMotorControls={setMotorControls}
+            individualMotorControls={individualMotorControls}
+            setIndividualMotorControls={setIndividualMotorControls}
+            aiPowerActive={aiPowerActive}
+            setAiPowerActive={() => setAiPowerActive(v => !v)}
+            disabled={disabled}
+          />
+        );
       case "cooling":
         return <BionicCooling />;
       case "suspension":
-        return <SuspensionControl />;
+        return <SuspensionControl {...common} />;
       case "awareness":
-        return <SituationalAwareness />;
+        return <SituationalAwareness {...common} />;
       case "diagnostics":
-        return <AdvancedDiagnostics />;
+        return <AdvancedDiagnostics {...common} />;
       case "transmission":
-        return <VirtualTransmission />;
+        return (
+          <VirtualTransmission
+            currentGear={currentGear}
+            setCurrentGear={setCurrentGear}
+            motorControls={motorControls}
+            setMotorControls={setMotorControls}
+            disabled={disabled}
+          />
+        );
       default:
         return null;
     }
