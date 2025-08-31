@@ -18,15 +18,18 @@ import { useToast } from '../hooks/use-toast';
 const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMotorControls, disabled }) => {
   const { toast } = useToast();
 
+  // Fallbacks para evitar crashes si el padre no provee props
+  const defaultControls = { rear: { voltage: 400, amperage: 150 }, front: { voltage: 380, amperage: 120 } };
+  const mc = motorControls ?? defaultControls;
+  const setMC = setMotorControls ?? (() => {});
+
   const handleGearChange = (newGear) => {
     if (newGear === currentGear) return;
-    
+    if (!setCurrentGear) return;
     setCurrentGear(newGear);
     const gearConfig = virtualGears.find(g => g.gear === newGear);
-    
-    if (gearConfig) {
-      setMotorControls(gearConfig.defaultSettings);
-      
+    if (gearConfig && setMC) {
+      setMC(gearConfig.defaultSettings);
       toast({
         title: `Marcha ${newGear > 0 ? newGear : 'R'} engranada`,
         description: gearConfig.description,
@@ -42,11 +45,11 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
     const gearConfig = getCurrentGearConfig();
     const range = type === 'voltage' ? gearConfig.voltageRange : gearConfig.amperageRange;
     const clampedValue = Math.max(range[0], Math.min(range[1], value[0]));
-    
-    setMotorControls(prev => ({
-      ...prev,
+    if (!setMC) return;
+    setMC(prev => ({
+      ...(prev ?? defaultControls),
       [motor]: {
-        ...prev[motor],
+        ...((prev ?? defaultControls)[motor]),
         [type]: clampedValue
       }
     }));
@@ -54,8 +57,7 @@ const VirtualTransmission = ({ currentGear, setCurrentGear, motorControls, setMo
 
   const resetToDefault = () => {
     const gearConfig = getCurrentGearConfig();
-    setMotorControls(gearConfig.defaultSettings);
-    
+    if (setMC) setMC(gearConfig.defaultSettings);
     toast({
       title: "Configuración restaurada",
       description: `Valores por defecto para marcha ${currentGear > 0 ? currentGear : 'R'}`,
