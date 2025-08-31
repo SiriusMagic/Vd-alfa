@@ -156,7 +156,7 @@ const FuturisticInterface = () => {
       case "codes":
         return <CodesSystem {...common} />;
       case "treer":
-        return <TreeRSystem />;
+        return <TreeRSystem {...common} />;
       case "autonomy":
         return <AutonomyControl {...common} />;
       case "traction":
