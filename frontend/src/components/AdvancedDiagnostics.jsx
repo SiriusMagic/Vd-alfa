@@ -23,6 +23,10 @@ const AdvancedDiagnostics = ({ vehicleData, motorControls, disabled }) => {
   const [activeAlerts, setActiveAlerts] = useState([]);
   const { toast } = useToast();
 
+  // Fallback seguro para evitar errores cuando no se recibe motorControls
+  const defaultControls = { rear: { voltage: 400, amperage: 150 }, front: { voltage: 380, amperage: 120 } };
+  const mc = motorControls ?? defaultControls;
+
   // Simulate diagnostic updates
   useEffect(() => {
     const interval = setInterval(() => {
