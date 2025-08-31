@@ -190,67 +190,20 @@ const FuturisticInterface = () => {
         </div>
       </div>
 
-      {/* Panel Derecho Vertical */}
-      <div className="w-20 bg-gray-900 flex flex-col items-center py-4 z-20">
-        {/* Título rotado */}
-        <div className="text-xs text-white transform rotate-90 whitespace-nowrap mb-8 font-bold">
-          Central Touch
+      {/* Barra Inferior - Funciones Rápidas */}
+      <div className="h-16 sm:h-20 bg-gray-900 border-t border-gray-700 px-2 sm:px-4 py-2">
+        <div className="flex justify-between items-center mb-2">
+          <div className="text-xs sm:text-sm font-medium text-white">Funciones</div>
+          <div className="text-xs text-gray-400">{climateMode}</div>
         </div>
         
-        {/* Controles */}
-        <div className="space-y-4">
-          {rightControls.map((control, i) => (
-            <button
-              key={control.id}
-              onClick={() => setActiveControl(control.id)}
-              className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all ${
-                control.active 
-                  ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-600/30' 
-                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
-              }`}
-            >
-              <control.icon size={18} />
-            </button>
-          ))}
-        </div>
-
-        <div className="flex-1" />
-
-        {/* Controles de volumen */}
-        <div className="flex flex-col items-center space-y-4">
-          <button className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400">
-            <Volume2 size={16} />
-          </button>
-          
-          <div className="flex flex-col items-center space-y-2">
-            <div className="text-xs text-gray-400">Volume</div>
-            <div className="w-1 h-16 bg-gray-700 rounded-full relative">
-              <div className="w-1 h-10 bg-blue-400 rounded-full absolute bottom-0"></div>
-            </div>
-          </div>
-          
-          <button className="p-2 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400">
-            <Settings size={16} />
-          </button>
-          
-          <div className="flex flex-col items-center space-y-2 mt-4">
-            <div className="text-xs text-gray-400">HUD</div>
-            <button className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600">
-              <Eye size={16} className="text-cyan-400" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Barra Inferior */}
-      <div className="absolute bottom-0 left-16 right-20 h-20 bg-black border-t border-gray-800 px-6 py-3 z-30">
-        <div className="grid grid-cols-6 gap-4 h-full">
-          {bottomOptions.slice(0, 12).map((option, i) => (
+        <div className="flex gap-1 sm:gap-2 overflow-x-auto">
+          {bottomOptions.slice(0, 8).map((option, i) => (
             <button 
               key={i}
-              className="flex flex-col items-center justify-center space-y-1 text-xs hover:text-blue-400 transition-colors text-gray-400"
+              className="flex-shrink-0 flex flex-col items-center justify-center w-12 sm:w-16 h-8 sm:h-12 text-xs hover:text-blue-400 transition-colors text-gray-400 bg-gray-800 rounded"
             >
-              <div className="w-6 h-6 bg-gray-700 rounded flex items-center justify-center">
+              <div className="mb-1">
                 {i === 0 && <Navigation size={12} />}
                 {i === 1 && <User size={12} />}
                 {i === 2 && <Lightbulb size={12} />}
@@ -259,20 +212,17 @@ const FuturisticInterface = () => {
                 {i === 5 && <Shield size={12} />}
                 {i === 6 && <Eye size={12} />}
                 {i === 7 && <Wifi size={12} />}
-                {i === 8 && <Settings size={12} />}
-                {i === 9 && <Volume2 size={12} />}
-                {i === 10 && <Monitor size={12} />}
-                {i === 11 && <Wrench size={12} />}
               </div>
-              <span>{option}</span>
+              <span className="text-xs leading-none">{option.split(' ')[0]}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Slider de Temperatura */}
-      <div className="absolute left-20 top-1/2 transform -translate-y-1/2 -rotate-90">
-        <div className="w-32 px-4">
+      {/* Control de Temperatura - Horizontal en móvil */}
+      <div className="sm:absolute sm:left-4 sm:top-1/2 sm:transform sm:-translate-y-1/2 h-12 sm:h-auto bg-gray-800 sm:bg-transparent px-4 sm:px-0 flex sm:block items-center justify-between sm:justify-start">
+        <span className="text-xs text-gray-400 sm:mb-2 sm:block">TEMP</span>
+        <div className="w-32 sm:w-4 sm:transform sm:-rotate-90">
           <Slider
             value={temperature}
             onValueChange={setTemperature}
@@ -282,6 +232,7 @@ const FuturisticInterface = () => {
             className="w-full"
           />
         </div>
+        <span className="text-xs text-white sm:mt-2 sm:block">{temperature[0]}°C</span>
       </div>
     </div>
   );
