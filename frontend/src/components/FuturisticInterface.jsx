@@ -184,7 +184,7 @@ const FuturisticInterface = () => {
           />
         );
       case "cooling":
-        return <BionicCooling />;
+        return <BionicCooling bionicCooling={bionicCooling} setBionicCooling={setBionicCooling} vehicleData={vehicleData} disabled={disabled} />;
       case "suspension":
         return <SuspensionControl {...common} />;
       case "awareness":
