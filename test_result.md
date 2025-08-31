@@ -277,15 +277,18 @@ frontend:
 
   - task: "Left menu with 24 sections + enforce landscape"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/components/FuturisticInterface.jsx"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: true
     status_history:
       - working: true
         agent: "main"
         comment: "Added left sidebar with exactly 24 sections (icon + name) and central area renders section content (no sliding panels). Implemented blocking overlay on portrait orientation requiring device rotation to proceed."
+      - working: false
+        agent: "user"
+        comment: "Runtime error en Transmisión Virtual: Cannot read properties of undefined (reading 'rear')"
 
 backend:
   - task: "FastAPI Backend Server"
