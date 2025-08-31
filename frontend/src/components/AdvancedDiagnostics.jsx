@@ -258,8 +258,8 @@ const AdvancedDiagnostics = ({ vehicleData, motorControls, disabled }) => {
                 
                 <div className="text-center">
                   <div className="text-2xl font-bold text-yellow-400 mb-1">
-                    {((motorControls.rear.voltage * motorControls.rear.amperage + 
-                       motorControls.front.voltage * motorControls.front.amperage) / 
+                    {((mc.rear.voltage * mc.rear.amperage + 
+                       mc.front.voltage * mc.front.amperage) / 
                       vehicleData.batteryLevel * 100).toFixed(1)}%
                   </div>
                   <div className="text-sm text-slate-400">Eficiencia</div>
